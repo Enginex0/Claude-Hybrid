@@ -276,3 +276,51 @@ POST-HANDOFF (Claude Code reads):
 | Session persistence | Per-agent memory (80KB) |
 
 ---
+
+### Claude-MPM Memory & Hooks - COMPREHENDED
+
+**Document:** `/home/president/bmad-systems/claude-mpm-complete-analysis/06-MEMORY-HOOKS.md`
+
+**Memory System:**
+- Storage: `.claude-mpm/memories/{agent_id}_memories.md`
+- Per agent: 80KB limit (~20k tokens)
+- Truncation: FIFO (oldest first)
+- Now with file locking + atomic writes (fixed)
+
+**Memory Flow:**
+- P20 Hook (Pre-Delegation): Load memories → Inject into context
+- Agent executes with memory context
+- P80 Hook (Post-Delegation): Extract learnings → Validate → Store
+
+**8 Allowed Memory Types:**
+pattern, architecture, guideline, mistake, strategy, integration, performance, context
+
+**Hook Enforcement:**
+- Only PreToolUse can block/modify!
+- CB#1 (Implementation) & CB#2 (Investigation) enforced via PreToolUse hook
+- Dashboard: 45 active Socket.IO handlers, 49 EVENT_MAPPINGS
+
+---
+
+## SESSION 1 PAUSE POINT
+
+**Context:** ~67% used (134k/200k tokens)
+**Status:** Compacting for next session
+
+**Completed in Session 1:**
+1. ✅ Created Claude-Hybrid repo
+2. ✅ Documented core vision
+3. ✅ Read Personal BMAD Architecture
+4. ✅ Read Claude-MPM Executive Summary
+5. ✅ Read Claude-MPM Architecture Core
+6. ✅ Read Claude-MPM SDK Integration
+7. ✅ Read Claude-MPM Memory & Hooks
+
+**Remaining for Next Session:**
+- Claude-MPM: 04-DI-CONFIG, 05-AGENTS-SKILLS, 07-MCP-TICKETING, 08-CACHE-CLI, 09-ERROR-HANDLING, 10-TECHNICAL-DEBT
+- Claude Code Architecture (9 files)
+- BMAD Method Complete Analysis (22 files)
+- Begin brainstorming session
+- Setup workflow tracker
+
+---
