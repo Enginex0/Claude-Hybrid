@@ -11,7 +11,7 @@
 
 | Question | Status | Answer |
 |----------|--------|--------|
-| Q1 | PENDING | - |
+| Q1 | **DECIDED** | **Option E: Hybrid-Optimized (SessionStart + PreToolUse + Stop)** |
 | Q2 | PENDING | - |
 | Q3 | PENDING | - |
 | Q4 | PENDING | - |
