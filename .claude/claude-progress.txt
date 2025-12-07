@@ -369,6 +369,85 @@ Project config: .claude-mpm/config.yaml (highest priority)
 4. ✅ Read Claude-MPM 05-AGENTS-SKILLS.md
 5. ✅ Read Claude-MPM 07-MCP-TICKETING.md
 6. ✅ Read Claude-MPM 08-CACHE-CLI.md
+7. ✅ Read Claude-MPM 09-ERROR-HANDLING.md
+8. ✅ Read Claude-MPM 10-TECHNICAL-DEBT.md
+9. ✅ **CLAUDE-MPM ANALYSIS COMPLETE**
+
+---
+
+### Claude-MPM Error Handling - COMPREHENDED
+
+**Document:** `/home/president/bmad-systems/claude-mpm-complete-analysis/09-ERROR-HANDLING.md`
+
+**FOUR Independent Error Systems (No Cross-Imports!):**
+| System | Location | Decision Model |
+|--------|----------|----------------|
+| ErrorHandler | core/error_handler.py | CALLER-DETERMINED |
+| ErrorHandlingStrategy | services/unified/... | AUTO-CATEGORIZATION |
+| RecoveryManager | services/recovery_manager.py | HEALTH-BASED |
+| utils error_handler | utils/error_handler.py | DECORATORS |
+
+**6 ErrorStrategies:**
+- IGNORE (log+continue), RETRY (exponential backoff), FALLBACK (default value)
+- ESCALATE (re-raise, DEFAULT), RECOVER (registered handler), TERMINATE (sys.exit)
+
+**81 Exception Classes Total** - 7 DUPLICATE CLASS NAMES (HIGH RISK):
+MPMError, ValidationError, ConfigurationError, ServiceNotFoundError, CircularDependencyError, GitOperationError, PortConflictError
+
+**7 Circuit Breakers - CB#1 & CB#2 HOOK ENFORCED:**
+| # | Name | Enforcement |
+|---|------|-------------|
+| 1 | Implementation | ✅ HOOK (blocks Edit/Write/Bash) |
+| 2 | Investigation | ✅ HOOK (95% effective after PR #104) |
+| 3-7 | Others | Instructional only |
+
+---
+
+### Claude-MPM Technical Debt - COMPREHENDED
+
+**Document:** `/home/president/bmad-systems/claude-mpm-complete-analysis/10-TECHNICAL-DEBT.md`
+
+**Status: ✅ ALL P0-P2 ISSUES FIXED**
+
+| Priority | Issues Fixed |
+|----------|--------------|
+| P0 | Duplicate MPMError, info command parser, boolean config bug |
+| P1 | Session race condition, memory file locking, git-sync backup |
+| P2 | AgentSkillsInjector removed, _deep_merge consolidated, CacheManager renamed |
+
+**Remaining Technical Debt:**
+- 4 parallel config systems (UnifiedConfig now active)
+- 4 independent error systems (future consolidation)
+- Legacy ETag JSON cleanup (low priority)
+
+**Verification Statistics:**
+- 115 subagent invocations, 11 rounds, 87 gaps filled
+- **96% Feynman-Complete understanding**
+- 4% SDK black boxes (agent discovery, skill matching, token counting, prompt caching)
+
+**Relevance to Claude-Hybrid:**
+- Avoid 4 parallel error systems - consolidate from start
+- Use unique exception names - duplicates cause confusion
+- Hook enforcement (PreToolUse) is the ONLY blocking mechanism
+- File locking essential for concurrent access
+- Clean up technical debt early
+
+---
+
+## CLAUDE-MPM ANALYSIS COMPLETE
+
+**Total Files Read:** 10 (01-EXECUTIVE through 10-TECHNICAL-DEBT, excluding 00-INDEX)
+**Key Takeaways for Claude-Hybrid:**
+
+1. **Configuration Deployer Pattern** - MPM deploys to ~/.claude/, then os.execvpe() replaces itself
+2. **7 Circuit Breakers** - CB#1 & CB#2 hook-enforced, others instructional
+3. **PreToolUse Hook** - ONLY hook that can block/modify tool calls
+4. **3-Level Progressive Disclosure** - L1 metadata → L2 entry → L3 refs = 50-80% token savings
+5. **Task Tool = Filename Stem Matching** - Claude Code native behavior
+6. **Configuration Cascade** - System → User → Project (higher priority)
+7. **Memory System** - 80KB/agent, P20/P80 hooks, 8 allowed types
+8. **Template Externalization** - 48.1% token reduction via file references
+9. **Avoid Technical Debt** - Consolidate error systems, unique exception names
 
 ---
 
