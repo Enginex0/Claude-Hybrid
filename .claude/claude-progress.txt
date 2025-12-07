@@ -696,6 +696,162 @@ Tier 3 (BUNDLED): src/claude_mpm/skills/     - 40 original → 329 via remote sy
 
 ---
 
+## SESSION 3 - 2025-12-07
+
+### Claude Code Architecture - COMPLETE
+
+**All 9 files read (~3,650 lines):**
+
+#### 02-CORE-TOOLS.md - COMPREHENDED
+
+**19 Built-in Tools with Parameters:**
+| Category | Tools |
+|----------|-------|
+| File Operations | Read (file_path, offset, limit), Write (file_path, content), Edit (file_path, old_string, new_string, replace_all), NotebookEdit |
+| Search | Glob (pattern, path), Grep (pattern, path, output_mode, glob, type, context flags) |
+| Execution | Bash (command, description, timeout, run_in_background), BashOutput, KillShell |
+| Web | WebFetch (url, prompt), WebSearch (query, allowed_domains, blocked_domains) |
+| Orchestration | Task (prompt, description, subagent_type, model, run_in_background, resume), AgentOutputTool, Skill, SlashCommand |
+| Planning | TodoWrite (todos array), AskUserQuestion (questions array), EnterPlanMode, ExitPlanMode |
+
+**Git Commit Protocol:** HEREDOC format with emoji + Co-Authored-By line
+
+---
+
+#### 04-MCP-INTEGRATION.md - COMPREHENDED
+
+**MCP Aggregator Architecture:**
+- 26 MCP servers, 332 tools via single aggregator
+- Tool namespacing: `mcp__<server>__<tool>`
+- Configured in `~/.claude/mcp-aggregator/config.json`
+- Spawns servers on-demand with server-specific timeouts
+
+**Server Categories:**
+| Category | Servers | Tools |
+|----------|---------|-------|
+| Code Analysis | serena, tree-sitter, code-graph-rag, ast-grep, vector-search, ripgrep | 97 |
+| Browser & Web | playwright, browsermcp, deepresearch, exa, fetch | 40 |
+| File & Git | gitlab, git, filesystem | 73 |
+| Database & Memory | memory, sqlite, kuzu-memory | 20 |
+| IDE Integration | jetbrains, ide | 17 |
+| Testing & Security | semgrep, test-runner, sequential-thinking | 9 |
+| Productivity | mcp-ticketer (66!), wcgw, context7, ref | 76 |
+
+**Tool Discovery:** `mcp__aggregator__list_servers()`, `mcp__aggregator__get_tools()`, `mcp__aggregator__call_tool()`
+
+---
+
+#### 05-CONFIGURATION.md - COMPREHENDED
+
+**Configuration Hierarchy:**
+```
+Project .claude/ (highest priority)
+    ↓
+Global ~/.claude/
+    ↓
+Built-in defaults (lowest priority)
+```
+
+**settings.json Schema:**
+```json
+{
+  "mcpServers": {...},          // MCP server definitions
+  "permissions": {"defaultMode": "default|bypassPermissions"},
+  "hooks": {"EventName": [{matcher, hooks}]},
+  "enabledPlugins": {"plugin@marketplace": true},
+  "alwaysThinkingEnabled": boolean,
+  "autoCompact": boolean
+}
+```
+
+**CLAUDE.md Loading Order:**
+1. Global: `~/.claude/CLAUDE.md`
+2. Project root: `CLAUDE.md`
+3. Project hidden: `.claude/CLAUDE.md`
+All concatenated and injected into context.
+
+**Permission Modes:**
+- `default` - prompts for dangerous operations
+- `bypassPermissions` - auto-approves all (can set in agent frontmatter)
+
+---
+
+#### 07-CUSTOM-EXTENSIONS.md - COMPREHENDED
+
+**Three Local Plugins:**
+
+| Plugin | Components | Purpose |
+|--------|------------|---------|
+| harness | 2 commands | Session continuity (/init-harness, /save-progress) |
+| mcp-tools | 5 skills, 1 command | MCP utilities (sequential-thinking, mcp-use, codebase-analysis, semgrep-mcp, setting-up-mcp-aggregator, /Auto-save) |
+| claude-code-dev | 8 skills | Plugin development (claude-sdk, claude-setup, hook-development, skill-development, configured-agent, command-name, subagent-name, rule-identifier) |
+
+**harness Files Created:**
+- `claude-progress.txt` - chronological log
+- `feature_list.json` - feature tracking
+- `session-roundup.md` - handoff context
+- `init.sh` - environment setup
+
+**Three-Tier Persistence (/Auto-save):**
+1. Git - commit code changes
+2. Memory MCP - fresh session state (CLEAR → WRITE)
+3. SQLite - permanent historical log (APPEND)
+
+---
+
+#### 00-INDEX.md & ARCHITECTURE-COMPLETE.md - COMPREHENDED
+
+**Key Numbers Validated:**
+| Metric | Count |
+|--------|-------|
+| Built-in Tools | 19 |
+| Hook Events | 8 (2 blocking) |
+| MCP Servers | 26 |
+| MCP Tools | 332 |
+| Custom Plugins | 3 (16 components) |
+
+**Tool Invocation Flow:**
+```
+User Prompt
+    ↓
+UserPromptSubmit Hook ──► (can block)
+    ↓
+Claude Decides Tool
+    ↓
+PreToolUse Hook ──► (can block/modify)
+    ↓
+Native Tool OR MCP Aggregator
+    ↓
+PostToolUse Hook ──► (observe/log)
+    ↓
+Display Result
+```
+
+**Component Interconnection:**
+- Hook Layer intercepts all tool calls
+- Task tool delegates to agents (filename stem matching)
+- Skill tool activates skills (progressive disclosure)
+- MCP Aggregator proxies 26 servers
+- Configuration layer provides settings
+
+---
+
+## CLAUDE CODE ARCHITECTURE COMPLETE
+
+**Total Files Read:** 9 (~3,650 lines)
+**Key Takeaways for Claude-Hybrid:**
+
+1. **19 Built-in Tools** - Well-defined parameters, use specialized tools over Bash
+2. **2 Blocking Hooks** - UserPromptSubmit (prompts) + PreToolUse (tools)
+3. **MCP Aggregator** - Proxy pattern for 26 servers, 332 tools
+4. **Configuration Cascade** - Project > Global > Defaults
+5. **Plugin Architecture** - .claude-plugin/plugin.json + agents/ + skills/ + commands/
+6. **Progressive Disclosure** - L1/L2/L3 for skills, essential for context management
+7. **harness Pattern** - Session continuity with progress/feature/roundup files
+8. **Three-Tier Persistence** - Git + Memory MCP + SQLite for /Auto-save
+
+---
+
 ## SESSION 1 PAUSE POINT
 
 **Context:** ~67% used (134k/200k tokens)
