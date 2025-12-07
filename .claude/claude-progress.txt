@@ -302,6 +302,73 @@ pattern, architecture, guideline, mistake, strategy, integration, performance, c
 
 ---
 
+### Claude-MPM DI Containers & Config - COMPREHENDED
+
+**Document:** `/home/president/bmad-systems/claude-mpm-complete-analysis/04-DI-CONFIG.md`
+
+**THREE DI Containers (Not Two!):**
+
+| Container | Location | Purpose |
+|-----------|----------|---------|
+| DIContainer | `core/container.py:148` | Application services (16+) |
+| ServiceContainer | `services/core/service_container.py:95` | Infrastructure services (4) |
+| MCPServiceRegistry | `services/mcp_gateway/registry/service_registry.py:27` | MCP Gateway services |
+
+**CRITICAL: NO Cross-Communication between containers** - intentional layer separation
+
+**DIContainer Services (16+):**
+- Layer 0 (No deps): Config, CacheManager, SessionManager, AgentSessionManager, AgentCapabilitiesService
+- Layer 1 (Single dep): PathResolver, HookService, SystemInstructionsService, SubprocessLauncherService
+- Layer 2 (Multi-dep): MemoryManager, MemoryHookService, RunnerConfigurationService, AgentDeploymentService, SharedPromptCache
+- Lifetimes: SINGLETON, TRANSIENT, SCOPED
+- Thread-safe with RLock()
+
+**FOUR Config Systems (Unified Migration Complete as of 2025-12-06):**
+1. Legacy Config (`core/config.py`) - Used by CLI
+2. UnifiedConfig (Pydantic) - NOW ACTIVE
+3. UnifiedConfigManager - Registered in DI
+4. UnifiedConfigService - NOW ACTIVE
+
+**Configuration Cascade:**
+```
+System defaults (lowest priority)
+    ↓
+User config: ~/.config/claude-mpm/config.yaml
+    ↓
+Project config: .claude-mpm/config.yaml (highest priority)
+```
+
+**Config Merge Semantics - CALLER DEPENDENT!**
+- `config_manager.merge_configs()` = LAST WINS
+- `agent_config._merge_configs()` = FIRST WINS (intentional for ENV precedence)
+
+**Technical Debt Identified:**
+- ~30% code duplication between containers (~197 LOC)
+- 5 duplicate `_deep_merge()` implementations
+- Boolean bug FIXED (commit 3f10c4a6)
+
+**Relevance to Claude-Hybrid:**
+- 3-container architecture with NO cross-imports = clean layer separation pattern
+- Configuration cascade (system → user → project) aligns with hybrid global/local model
+- Merge semantics (LAST WINS vs FIRST WINS) is critical detail for config handling
+- Avoid code duplication - consolidate utilities early
+
+---
+
+## SESSION 2 - 2025-12-07
+
+### Session 2 Start
+
+**Resumed from:** Session 1 handoff, commit 707a349
+**Repository verified:** 7 commits present, branch clean
+
+**Session 2 Progress:**
+1. ✅ Sequential thinking memory refresh (20 thoughts)
+2. ✅ Repository state verification
+3. ✅ Read Claude-MPM 04-DI-CONFIG.md
+
+---
+
 ## SESSION 1 PAUSE POINT
 
 **Context:** ~67% used (134k/200k tokens)
