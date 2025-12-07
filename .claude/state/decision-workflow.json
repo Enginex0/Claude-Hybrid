@@ -1,0 +1,180 @@
+{
+  "version": "1.1",
+  "description": "Tracks decision workflow state to enforce MANDATORY pattern compliance",
+  "enforcement_type": "workflow_state_tracking",
+
+  "current_session": {
+    "session_number": 15,
+    "date": "2025-12-07",
+    "current_decision": "D2",
+    "current_question": "Q12"
+  },
+
+  "mandatory_pattern": {
+    "steps": [
+      {
+        "step_number": 1,
+        "name": "EXPLORE_DEEP_DIVE",
+        "description": "Deploy Explore subagent with ENFORCED sequence: docs FIRST, then source code",
+        "verification": "Subagent must return findings before proceeding",
+        "enforced_sequence": {
+          "phase_1": {
+            "name": "READ_ANALYSIS_DOCS",
+            "action": "Read relevant analysis shards from docs/analysis/",
+            "required": true
+          },
+          "phase_2": {
+            "name": "READ_SOURCE_CODE",
+            "action": "Read actual source code for verification",
+            "required": true
+          }
+        },
+        "sequence_rule": "DOCS_FIRST_THEN_CODE"
+      },
+      {
+        "step_number": 2,
+        "name": "REPORT_FINDINGS",
+        "description": "Explicitly report deep-dive findings to President",
+        "verification": "Findings must be visible in conversation"
+      },
+      {
+        "step_number": 3,
+        "name": "ULTRATHINK_SYNTHESIS",
+        "description": "Trigger /ultrathink:ultrathink for 4-specialist analysis",
+        "verification": "Only after Steps 1-2 complete"
+      },
+      {
+        "step_number": 4,
+        "name": "RECOMMENDATION",
+        "description": "BMad Master provides recommendation with evidence",
+        "verification": "Must reference deep-dive findings"
+      },
+      {
+        "step_number": 5,
+        "name": "PRESIDENT_DECIDES",
+        "description": "President makes final decision",
+        "verification": "Decision recorded in checkpoint file"
+      }
+    ]
+  },
+
+  "workflow_state": {
+    "D2-Q5": {
+      "status": "completed",
+      "steps_completed": ["EXPLORE_DEEP_DIVE", "REPORT_FINDINGS", "ULTRATHINK_SYNTHESIS", "RECOMMENDATION", "PRESIDENT_DECIDES"],
+      "can_present_decision": true,
+      "started_at": "2025-12-07T16:00:00Z",
+      "completed_at": "2025-12-07T16:30:00Z",
+      "decision": "Option C+D: Circuit-Breaker with Graceful Degradation"
+    },
+    "D2-Q6": {
+      "status": "completed",
+      "steps_completed": ["EXPLORE_DEEP_DIVE", "REPORT_FINDINGS", "ULTRATHINK_SYNTHESIS", "RECOMMENDATION", "PRESIDENT_DECIDES"],
+      "can_present_decision": true,
+      "started_at": "2025-12-07T17:00:00Z",
+      "completed_at": "2025-12-07T17:45:00Z",
+      "decision": "Option D: Hook-enforced for critical only with instructional fallback"
+    },
+    "D2-Q7": {
+      "status": "completed",
+      "steps_completed": ["EXPLORE_DEEP_DIVE", "REPORT_FINDINGS", "ULTRATHINK_SYNTHESIS", "RECOMMENDATION", "PRESIDENT_DECIDES"],
+      "can_present_decision": true,
+      "started_at": "2025-12-07T18:00:00Z",
+      "completed_at": "2025-12-07T18:45:00Z",
+      "decision": "Option F: Extended D2-Q3 Schema + Translator Compliance (add 'ask' to internal schema, translator converts to Claude Code format)"
+    },
+    "D2-Q8": {
+      "status": "completed",
+      "steps_completed": ["EXPLORE_DEEP_DIVE", "REPORT_FINDINGS", "ULTRATHINK_SYNTHESIS", "RECOMMENDATION", "PRESIDENT_DECIDES"],
+      "can_present_decision": true,
+      "started_at": "2025-12-07T19:00:00Z",
+      "completed_at": "2025-12-07T19:30:00Z",
+      "decision": "Option D+C: Two-Tier System with Monitoring (Hard=95% hooks, Soft=measurable instructions, ~40 LOC persistence)",
+      "docs_first_then_code_followed": true
+    },
+    "D2-Q9": {
+      "status": "completed",
+      "steps_completed": ["EXPLORE_DEEP_DIVE", "REPORT_FINDINGS", "ULTRATHINK_SYNTHESIS", "RECOMMENDATION", "PRESIDENT_DECIDES"],
+      "can_present_decision": true,
+      "started_at": "2025-12-07T20:00:00Z",
+      "completed_at": "2025-12-07T20:45:00Z",
+      "decision": "Option D+B: Separate + Logging + Selective Hooks Influence (A foundation, D for observability ~100 LOC, B opt-in ~200 LOC)",
+      "docs_first_then_code_followed": true
+    },
+    "D2-Q10": {
+      "status": "completed",
+      "steps_completed": ["EXPLORE_DEEP_DIVE", "REPORT_FINDINGS", "ULTRATHINK_SYNTHESIS", "RECOMMENDATION", "PRESIDENT_DECIDES"],
+      "can_present_decision": true,
+      "started_at": "2025-12-07T21:00:00Z",
+      "completed_at": "2025-12-07T21:30:00Z",
+      "decision": "Option B: Unified Exception Hierarchy (single source of truth, 95% testable, universal industry pattern)",
+      "docs_first_then_code_followed": true
+    },
+    "D2-Q11": {
+      "status": "completed",
+      "steps_completed": ["EXPLORE_DEEP_DIVE", "REPORT_FINDINGS", "ULTRATHINK_SYNTHESIS", "RECOMMENDATION", "PRESIDENT_DECIDES"],
+      "can_present_decision": true,
+      "started_at": "2025-12-07T22:00:00Z",
+      "completed_at": "2025-12-07T22:30:00Z",
+      "decision": "Option E (Synthesized): SessionStart + PreToolUse + Stop for enforcement (confirms D2-Q1, industry-validated pattern)",
+      "docs_first_then_code_followed": true,
+      "special_note": "Question identified as redundant with D2-Q1 by all 4 Ultrathink specialists - synthesized Option E to confirm prior decision"
+    },
+    "D2-Q12": {
+      "status": "completed",
+      "steps_completed": ["EXPLORE_DEEP_DIVE", "REPORT_FINDINGS", "ULTRATHINK_SYNTHESIS", "RECOMMENDATION", "PRESIDENT_DECIDES"],
+      "can_present_decision": true,
+      "started_at": "2025-12-07T23:00:00Z",
+      "completed_at": "2025-12-07T23:45:00Z",
+      "decision": "Option D: Combined Approach (reason for hard blocks via permissionDecisionReason, additionalContext for soft warnings)",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "4/4 unanimous (Architect, Research, Coder, Tester)"
+    },
+    "D2-Q13": {
+      "status": "pending",
+      "steps_completed": [],
+      "can_present_decision": false,
+      "started_at": null,
+      "completed_at": null
+    }
+  },
+
+  "deviation_log": [
+    {
+      "question": "D2-Q4",
+      "deviation": "Skipped EXPLORE_DEEP_DIVE step, went directly to ULTRATHINK_SYNTHESIS",
+      "timestamp": "2025-12-07",
+      "lesson": "Instructional rules alone are insufficient - this state file now enforces the pattern"
+    }
+  ],
+
+  "self_audit_checklist": {
+    "before_explore_deep_dive": [
+      "Which analysis docs are relevant for this question?",
+      "Have I identified source code files to verify?"
+    ],
+    "during_explore_deep_dive": [
+      "Did Explore read ANALYSIS DOCS first?",
+      "Did Explore read SOURCE CODE second?",
+      "Was DOCS_FIRST_THEN_CODE sequence followed?"
+    ],
+    "before_ultrathink": [
+      "Did I deploy Explore subagent?",
+      "Did I receive and report findings?",
+      "Is steps_completed array updated?"
+    ],
+    "before_presenting_decision": [
+      "Are all 5 steps complete?",
+      "Is can_present_decision true?"
+    ]
+  },
+
+  "process_improvement_log": [
+    {
+      "session": 11,
+      "improvement": "Added DOCS_FIRST_THEN_CODE enforced sequence to Step 1",
+      "reason": "President identified gap - internal sequence within EXPLORE_DEEP_DIVE was instructional, not enforced",
+      "decision": "Option B - Define Formal Sequence"
+    }
+  ]
+}

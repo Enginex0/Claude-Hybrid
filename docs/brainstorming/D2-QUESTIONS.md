@@ -14,15 +14,15 @@
 | Q1 | **DECIDED** | **Option E: Hybrid-Optimized (SessionStart + PreToolUse + Stop)** |
 | Q2 | **DECIDED** | **Option C: Orchestrator Semantic Grouping (P10/P20/P50/P80/P90 internal)** |
 | Q3 | **DECIDED** | **Option B: Block/Allow/Modify Schema (decision + reason + updatedInput + systemMessage)** |
-| Q4 | PENDING | - |
-| Q5 | PENDING | - |
-| Q6 | PENDING | - |
-| Q7 | PENDING | - |
-| Q8 | PENDING | - |
-| Q9 | PENDING | - |
-| Q10 | PENDING | - |
-| Q11 | PENDING | - |
-| Q12 | PENDING | - |
+| Q4 | **DECIDED** | **Option C: Hybrid Approach (CC for blocking, MPM for complex rules)** |
+| Q5 | **DECIDED** | **Option C+D: Circuit-Breaker with Graceful Degradation** |
+| Q6 | **DECIDED** | **Option D: Hook-enforced for critical (CB#1,2,6) + State-tracked (CB#4) + Instructions (CB#3,5,7) + Monitoring** |
+| Q7 | **DECIDED** | **Option F: Extended D2-Q3 Schema + Translator Compliance (add 'ask', use D2-Q4 translator layer)** |
+| Q8 | **DECIDED** | **Option D+C: Two-Tier System with Monitoring (Hard/Soft classification + violation persistence for measurability)** |
+| Q9 | **DECIDED** | **Option D+B: Separate + Logging + Selective Hooks Influence (A foundation, D observability ~100 LOC, B opt-in ~200 LOC)** |
+| Q10 | **DECIDED** | **Option B: Unified Exception Hierarchy (single source of truth, 95% testable, universal industry pattern)** |
+| Q11 | **DECIDED** | **Option E (Synthesized): SessionStart + PreToolUse + Stop for enforcement (confirms D2-Q1, industry-validated pattern)** |
+| Q12 | **DECIDED** | **Option D: Combined Approach (reason for hard blocks, additionalContext for soft warnings)** |
 | Q13 | PENDING | - |
 | Q14 | PENDING | - |
 | Q15 | PENDING | - |
