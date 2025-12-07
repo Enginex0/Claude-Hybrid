@@ -367,6 +367,62 @@ Project config: .claude-mpm/config.yaml (highest priority)
 2. ✅ Repository state verification
 3. ✅ Read Claude-MPM 04-DI-CONFIG.md
 4. ✅ Read Claude-MPM 05-AGENTS-SKILLS.md
+5. ✅ Read Claude-MPM 07-MCP-TICKETING.md
+
+---
+
+### Claude-MPM MCP & Ticketing - COMPREHENDED
+
+**Document:** `/home/president/bmad-systems/claude-mpm-complete-analysis/07-MCP-TICKETING.md`
+
+**MCP Aggregator Environment:**
+- 26 MCP servers, 317 tools via aggregator
+- Access pattern: `mcp__aggregator__call_tool`
+
+**TWO Separate MCP Systems:**
+1. **MCP Gateway (Built into MPM):**
+   - JSON-RPC 2.0 over stdio
+   - Internal tools (echo, calculator, system_info, etc.)
+   - NO aggregator pattern - direct dispatch
+2. **External MCP Servers:**
+   - Configured in .claude.json
+   - Managed by Claude Code's native MCP client
+   - Examples: mcp-vector-search, mcp-ticketer, kuzu-memory
+
+**CRITICAL: Gateway Spawns AFTER Handoff:**
+```
+MPM Process (before execvpe)     Claude Code (after execvpe)
+├─ MCP Gateway code exists       ├─ All MPM state GONE
+├─ Writes to ~/.claude.json      ├─ Reads ~/.claude.json
+├─ os.execvpe("claude")          ├─ Spawns MCP servers from config
+└─ PROCESS REPLACED              └─ Manages MCP lifecycle itself
+```
+
+**MCP Warm-up DISABLED (Important for Claude-Hybrid):**
+- Pre-warming caused FD conflicts after os.execvpe()
+- Orphaned subprocess pipes inherited by Claude Code → protocol corruption
+- FIX: Disable warm-up, accept first-call delay (11.9s vector search)
+- Subsequent calls fast (server already running)
+
+**Ticketing System:**
+- 3-Layer: mcp-ticketer (MCP) → aitrackdown (CLI) → internal services
+- **CRUD Only, NO Workflow** - ticket_manager.py is a STUB
+- 9 subcommands: create, list, view, update, close, delete, search, comment, workflow
+- Classification is 100% AI judgment via natural language heuristics
+- 6 workflow states: todo → in_progress → ready → tested → done (+ blocked)
+- **CB#6:** PM must delegate ALL ticket operations to ticketing agent
+
+**TWO Vector Search Systems (Both Active):**
+| System | Size | Database | Purpose |
+|--------|------|----------|---------|
+| vectors.db | 70 MB | SQLite+VSS | Graph analysis (code-graph-rag) |
+| .mcp-vector-search/ | 370 MB | ChromaDB | Semantic search |
+
+**Relevance to Claude-Hybrid:**
+- MCP spawning AFTER handoff is critical for process replacement architecture
+- Warm-up disabled due to FD conflicts - design clean handoffs
+- Ticketing is CRUD + AI judgment - decide if we want code-based classification
+- Two vector systems for different purposes - choose appropriately
 
 ---
 
