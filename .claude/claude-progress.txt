@@ -852,25 +852,128 @@ Display Result
 
 ---
 
-## SESSION 1 PAUSE POINT
+## BMAD METHOD ANALYSIS - IN PROGRESS (52%)
 
-**Context:** ~67% used (134k/200k tokens)
-**Status:** Compacting for next session
+### Layer Diagrams (6/6 COMPLETE) - COMPREHENDED
 
-**Completed in Session 1:**
-1. ✅ Created Claude-Hybrid repo
-2. ✅ Documented core vision
-3. ✅ Read Personal BMAD Architecture
-4. ✅ Read Claude-MPM Executive Summary
-5. ✅ Read Claude-MPM Architecture Core
-6. ✅ Read Claude-MPM SDK Integration
-7. ✅ Read Claude-MPM Memory & Hooks
+**LAYER-1-DISTRIBUTION:**
+- npm registry (bmad-method@latest, @alpha)
+- npx wrapper preserves working directory
+- GitHub releases and web bundles as alternatives
 
-**Remaining for Next Session:**
-- Claude-MPM: 04-DI-CONFIG, 05-AGENTS-SKILLS, 07-MCP-TICKETING, 08-CACHE-CLI, 09-ERROR-HANDLING, 10-TECHNICAL-DEBT
-- Claude Code Architecture (9 files)
-- BMAD Method Complete Analysis (22 files)
-- Begin brainstorming session
-- Setup workflow tracker
+**LAYER-2-INSTALLATION:**
+- 8 CLI commands (install, agent-install, build, cleanup, list, status, uninstall, update)
+- 8-stage installation pipeline
+- 18 IDE handlers (claude-code, cursor, windsurf, etc.)
+- Dependency order: Core → CIS → BMM → BMB → BMGD
+
+**LAYER-3-COMPILATION:**
+- YAML to XML compilation pipeline
+- Agent analyzer detects: workflow, exec, tmpl, data, action, validate-wf
+- Deep merge for customization (objects: recursive, arrays: append)
+- Two outputs: IDE (markdown with YAML frontmatter) and Web (standalone XML)
+
+**LAYER-4-MODULES:**
+- 5 modules: Core (required), BMM, CIS, BMGD, BMB
+- Total: 22 agents, 58 workflows
+- BMB requires BMM
+
+**LAYER-5-RUNTIME:**
+- Agent activation → Menu routing → Workflow execution
+- 6 handler types: workflow, exec, tmpl, data, action, validate-workflow
+- Universal workflow executor (workflow.xml) - CROWN JEWEL
+- Party Mode for multi-agent collaboration
+- YOLO mode for auto-generation
+
+**LAYER-6-OUTPUTS:**
+- 6 manifest files in _cfg/
+- Generated documents (PRD, Architecture, Stories, UX)
+- IDE artifacts (.claude/commands/, .cursor/rules/, etc.)
+- 4-level variable resolution
+
+---
+
+### Key Shards (6/16 READ) - COMPREHENDED
+
+**04-AGENTS-SYSTEM:**
+- 22 agents across 5 modules (Core:2, BMM:9, CIS:6, BMGD:4, BMB:1)
+- Complete agent YAML schema: metadata, persona, critical_actions, menu, prompts
+- BMad Master (IDE) vs BMad Web Orchestrator (Web)
+- Agent manifest CSV with 10 columns for party mode
+
+**05-WORKFLOWS-SYSTEM:**
+- Step-file architecture (micro-file design with just-in-time loading)
+- 2 formats: Markdown (workflow.md) and YAML (workflow.yaml)
+- Frontmatter state management (stepsCompleted array)
+- 4 phases: Analysis → Planning → Solutioning → Implementation
+- **3 Tracks: Quick Flow / BMad Method / Enterprise**
+- 58 workflows total
+
+**10-PARTY-MODE:**
+- 2-3 agents selected per message based on domain/expertise
+- Cross-talk enabled between agents
+- TTS integration optional via bmad-speak.sh
+- Exit triggers: *exit, goodbye, end party, quit
+- **Key diff from claude-mpm:** Group discussion vs sequential delegation
+
+**13-SUB-AGENTS-SYSTEM:**
+- **16 specialized Task-tool delegates** (similar to claude-mpm pattern!)
+- 4 categories: bmad-analysis (4), bmad-planning (7), bmad-research (2), bmad-review (3)
+- Content injection system via injections.yaml
+- Invocation: Main agent → Task tool → Sub-agent → Returns structured analysis
+
+**09-CONFIGURATION:**
+- install-config.yaml schema with prompts, defaults, regex validation
+- **4-level variable resolution cascade:** System → Config → Context → Runtime
+- 6 manifest types: manifest.yaml, workflow/agent/task/tool/files manifests (CSV)
+- ManifestGenerator: 702 lines
+
+**15-CUSTOMIZATION-EXTENSION:**
+- Custom agents in custom/src/agents/
+- **Agent Sidecar Pattern** for extended knowledge
+- **Deep merge system:** Objects (recursive), Arrays (append), Scalars (override)
+- TTS integration via .claude/hooks/bmad-speak.sh
+
+---
+
+## BMAD CORE PATTERNS FOR CLAUDE-HYBRID
+
+| Pattern | Source | Description |
+|---------|--------|-------------|
+| **workflow.xml** | LAYER-5 | Universal workflow executor - crown jewel |
+| **Step-File Architecture** | 05-WORKFLOWS | Just-in-time loading, micro-files |
+| **16 Sub-Agents** | 13-SUB-AGENTS | Task tool delegation (like claude-mpm!) |
+| **Party Mode** | 10-PARTY-MODE | 2-3 agents discuss with cross-talk |
+| **Deep Merge** | 15-CUSTOMIZATION | Objects recursive, Arrays append |
+| **3 Tracks** | 05-WORKFLOWS | Quick Flow / BMad Method / Enterprise |
+| **Content Injection** | 13-SUB-AGENTS | Workflow hints based on selections |
+| **Sidecar Pattern** | 15-CUSTOMIZATION | Extended agent knowledge files |
+
+---
+
+## SESSION 3 PAUSE POINT
+
+**Context Usage:** High (compacting requested)
+**Status:** Save and compact for Session 4
+
+### Session 3 Accomplishments:
+1. ✅ Sequential thinking memory refresh (20 thoughts)
+2. ✅ **COMPLETE: Claude Code Architecture (9/9 files, 100%)**
+3. 🔄 BMAD Method Analysis (12/23 files, 52%)
+   - ✅ 6/6 Layer Diagrams
+   - ✅ 6/16 Key Shards (04, 05, 09, 10, 13, 15)
+
+### Session 4 TODO:
+1. Read remaining 10 BMAD shards (03, 06, 07, 08, 11, 12, 14 + index + complete)
+2. Begin brainstorming session for architectural decisions
+3. Create implementation plan
+
+### Key Numbers Summary:
+| Framework | Files | Coverage |
+|-----------|-------|----------|
+| Claude-MPM | 10/10 | **100%** |
+| Claude Code | 9/9 | **100%** |
+| BMAD Method | 12/23 | **52%** |
+| **Total** | 31/42 | **74%** |
 
 ---
