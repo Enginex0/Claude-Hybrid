@@ -78,5 +78,63 @@
 - Commit progress after each major step
 - Use sequential thinking for deep comprehension
 - Precision over speed
+- Give subagents TINY chunks of tasks
+
+---
+
+### Personal BMAD Architecture - COMPREHENDED
+
+**Document:** `/home/president/bmad-systems/personal bmad/BMAD-PERSONAL-ARCHITECTURE.md`
+
+**Core Design Decisions Captured:**
+
+1. **Hybrid Global/Local Model:**
+   - GLOBAL (~/.claude/) = Framework, agents, workflows, commands
+   - LOCAL ({project-root}/bmad/) = Outputs, epics, stories, analysis
+   - One installation → Unlimited projects → Instant propagation
+
+2. **11 Modules & 56 Agents:**
+   - core (3), bmm (8), cis (5), bmb (1), bmgd (4)
+   - android (4), hooking (4), security (6)
+   - claude-builtin (10), advanced (9), utils (2)
+
+3. **Two Invocation Methods:**
+   - Slash Commands → User EMBODIES persona (interactive, persistent session)
+   - Task Tool → Orchestrator DELEGATES (stateless, parallel execution)
+
+4. **Path Variable System (4 levels):**
+   - Level 1: System (home, project-root)
+   - Level 2: Framework (bmad-framework-root, etc.)
+   - Level 3: Project (output-root, project-docs, etc.)
+   - Level 4: Legacy (backward compatibility)
+
+5. **Safety Mechanisms:**
+   - Response Gate (5-step protocol before EVERY response)
+   - Uncertainty Classification (Blocking/Clarifying/Minor)
+   - Escalation Handler (human decision gateway)
+   - STOP Protocol (never proceed when blocked)
+
+6. **BMad Master Orchestration Rules:**
+   - NEVER use Read/Write/Edit/Bash/Grep/Glob directly
+   - ALWAYS delegate via Task tool
+   - ALWAYS escalate blocking decisions to human
+   - Maintain big picture in 200k context
+
+7. **Performance Target:**
+   - 99.4% faster agent deployment (<5 seconds vs 15 minutes)
+   - Instant framework update propagation
+   - Automatic project isolation
+
+**What Claude-Hybrid Must Integrate:**
+- Global/Local hybrid model (from Personal BMAD)
+- Plugin-based agent discovery (from Personal BMAD)
+- Two invocation methods (from Personal BMAD)
+- Response gates (from Personal BMAD)
+- Escalation protocol (from Personal BMAD)
+- Path variable system (from Personal BMAD)
+- 4-layer validation (from Claude-MPM - to be analyzed)
+- Proof-based execution (from Claude-MPM - to be analyzed)
+- Anti-hallucination enforcement (from Claude-MPM - to be analyzed)
+- Hook system for validation gates (from Claude-MPM - to be analyzed)
 
 ---
