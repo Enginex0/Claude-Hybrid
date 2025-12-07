@@ -12,8 +12,8 @@
 | Question | Status | Answer |
 |----------|--------|--------|
 | Q1 | **DECIDED** | **Option E: Hybrid-Optimized (SessionStart + PreToolUse + Stop)** |
-| Q2 | PENDING | - |
-| Q3 | PENDING | - |
+| Q2 | **DECIDED** | **Option C: Orchestrator Semantic Grouping (P10/P20/P50/P80/P90 internal)** |
+| Q3 | **DECIDED** | **Option B: Block/Allow/Modify Schema (decision + reason + updatedInput + systemMessage)** |
 | Q4 | PENDING | - |
 | Q5 | PENDING | - |
 | Q6 | PENDING | - |
