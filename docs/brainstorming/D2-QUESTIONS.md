@@ -25,7 +25,7 @@
 | Q12 | **DECIDED** | **Option D: Combined Approach (reason for hard blocks, additionalContext for soft warnings)** |
 | Q13 | **DECIDED** | **Option D: Layered (broad baseline `*` + specific exceptions `Edit|Write|MultiEdit`, `Grep|Glob`)** |
 | Q14 | **DECIDED** | **Option D: Scripts Delegate to Orchestrator (thin proxy → Python RuleEngine, 89% LOC reduction, industry-validated)** |
-| Q15 | PENDING | - |
+| Q15 | **DECIDED** | **Option E (Modified): 4-Phase Lifecycle (SessionStart init + PreToolUse enforce + PreCompact persist + Stop complete), 9/9 industry systems validated, 95% testable** |
 | Q16 | PENDING | - |
 | Q17 | PENDING | - |
 | Q18 | PENDING | - |
