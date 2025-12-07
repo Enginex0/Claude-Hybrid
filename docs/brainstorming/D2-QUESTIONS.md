@@ -23,7 +23,7 @@
 | Q10 | **DECIDED** | **Option B: Unified Exception Hierarchy (single source of truth, 95% testable, universal industry pattern)** |
 | Q11 | **DECIDED** | **Option E (Synthesized): SessionStart + PreToolUse + Stop for enforcement (confirms D2-Q1, industry-validated pattern)** |
 | Q12 | **DECIDED** | **Option D: Combined Approach (reason for hard blocks, additionalContext for soft warnings)** |
-| Q13 | PENDING | - |
+| Q13 | **DECIDED** | **Option D: Layered (broad baseline `*` + specific exceptions `Edit|Write|MultiEdit`, `Grep|Glob`)** |
 | Q14 | PENDING | - |
 | Q15 | PENDING | - |
 | Q16 | PENDING | - |
