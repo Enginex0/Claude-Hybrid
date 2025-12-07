@@ -451,6 +451,95 @@ MPMError, ValidationError, ConfigurationError, ServiceNotFoundError, CircularDep
 
 ---
 
+## CLAUDE CODE ARCHITECTURE - IN PROGRESS
+
+### Claude Code Executive Summary - COMPREHENDED
+
+**Document:** `/home/president/bmad-systems/claude-code-architecture/01-EXECUTIVE-SUMMARY.md`
+
+**19 Built-in Tools:**
+| Category | Tools | Count |
+|----------|-------|-------|
+| File Operations | Read, Write, Edit, NotebookEdit | 4 |
+| Search | Glob, Grep | 2 |
+| Execution | Bash, BashOutput, KillShell | 3 |
+| Web | WebFetch, WebSearch | 2 |
+| Orchestration | Task, AgentOutputTool, Skill, SlashCommand | 4 |
+| Planning | TodoWrite, AskUserQuestion, EnterPlanMode, ExitPlanMode | 4 |
+
+**8 Hook Events:**
+- **CAN BLOCK:** UserPromptSubmit, PreToolUse
+- **READ-ONLY:** SessionStart, PostToolUse, Stop, SubagentStop, Notification, PreCompact
+
+**Architecture Layers (5):**
+1. Configuration (settings.json, CLAUDE.md)
+2. Extension System (plugins with agents/skills/commands)
+3. Tool Execution (19 native + MCP tools)
+4. Hook Interception (8 lifecycle events)
+5. User Interaction (terminal I/O)
+
+---
+
+### Claude Code Hook System - COMPREHENDED
+
+**Document:** `/home/president/bmad-systems/claude-code-architecture/06-HOOK-SYSTEM.md`
+
+**Hook Response Formats:**
+- Plain text stdout → injected into context
+- `{"decision": "block", "reason": "..."}` → blocks action
+- `{"decision": "allow"}` → permits action
+- `{"systemMessage": "..."}` → injects system message
+
+**Configuration in settings.json:**
+```json
+{
+  "hooks": {
+    "EventName": [{
+      "matcher": "pattern",
+      "hooks": [{"type": "command", "command": "/path/script.sh"}]
+    }]
+  }
+}
+```
+
+**Matcher Patterns:** `*` (all), `Tool:Bash` (specific tool)
+
+---
+
+### Claude Code Extension System - COMPREHENDED
+
+**Document:** `/home/president/bmad-systems/claude-code-architecture/03-EXTENSION-SYSTEM.md`
+
+**Plugin Directory Structure:**
+```
+plugin-name/
+├── .claude-plugin/plugin.json  # {"name": "plugin-name"}
+├── agents/*.md                 # Task tool → subagent_type matching
+├── skills/*/SKILL.md          # Skill tool → progressive disclosure
+└── commands/*.md              # SlashCommand → dynamic injection
+```
+
+**Agent Frontmatter (YAML):**
+| Field | Required | Purpose |
+|-------|----------|---------|
+| name | Yes | Must match filename stem |
+| description | Yes | Shown in Task tool, triggers usage |
+| model | No | inherit/sonnet/opus/haiku |
+| permissionMode | No | bypassPermissions/default |
+| skills | No | Comma-separated auto-load |
+
+**Agent Characteristics:**
+- Stateless (no persistence between invocations)
+- Single response (returns one final message)
+- No user interaction (cannot use AskUserQuestion)
+
+**Command Dynamic Injection:**
+- `$ARGUMENTS` - command arguments
+- `$CLAUDE_PROJECT_DIR` - project directory
+- `!`git status`` - shell command output (with backticks)
+
+---
+
 ### Claude-MPM Cache & CLI - COMPREHENDED
 
 **Document:** `/home/president/bmad-systems/claude-mpm-complete-analysis/08-CACHE-CLI.md`
