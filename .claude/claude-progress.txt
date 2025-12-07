@@ -368,6 +368,50 @@ Project config: .claude-mpm/config.yaml (highest priority)
 3. ✅ Read Claude-MPM 04-DI-CONFIG.md
 4. ✅ Read Claude-MPM 05-AGENTS-SKILLS.md
 5. ✅ Read Claude-MPM 07-MCP-TICKETING.md
+6. ✅ Read Claude-MPM 08-CACHE-CLI.md
+
+---
+
+### Claude-MPM Cache & CLI - COMPREHENDED
+
+**Document:** `/home/president/bmad-systems/claude-mpm-complete-analysis/08-CACHE-CLI.md`
+
+**Cache System (11 Implementations!):**
+| Layer | Cache | Purpose |
+|-------|-------|---------|
+| 1 Foundation | FileSystemCache | LRU + TTL + pickle persistence |
+| 2 Framework | CacheManager | 4 specialized caches (capabilities/agents/meta/mem) |
+| 3 Subprocess | SharedPromptCache | Singleton, memory pressure aware |
+| 4 Specialized | InstructionCacheService | SHA-256 hash-based for PM instructions |
+| 4 Specialized | DependencyCache | 24h TTL, platform-aware |
+| 4 Specialized | ETagCache | HTTP caching for git sync |
+
+**Note:** TWO classes named `CacheManager` in different files - naming collision to avoid.
+
+**CLI Commands (29 Main, ~150+ Subcommands):**
+- Key commands: run, tickets (9), agents (22+), skills (16), memory (8), mcp (10), agent-manager (20)
+- Entry flow: `cli/__main__.py → cli/__init__.py:main() → create_parser()`
+
+**Git-Sync Mechanism:**
+- ETag + SHA-256 dual validation
+- Database: SQLite at `~/.config/claude-mpm/agent_sync.db`
+- Cache: `~/.claude-mpm/cache/remote-agents/`
+- 95%+ bandwidth reduction via HTTP conditional requests
+- Now creates backups before overwrite (fixed)
+
+**Token Optimization (48.1% Reduction):**
+| Metric | Before | After |
+|--------|--------|-------|
+| Tokens | 23,758 | 12,326 |
+| Lines | 1,684 | 1,210 |
+- Method: Template externalization (54 markdown files in templates/)
+- Reference pattern: `[Template Name](templates/filename.md)`
+
+**Relevance to Claude-Hybrid:**
+- 11 caches is complex - consolidate for simplicity
+- Layered cache architecture is good pattern
+- Template externalization for 48.1% token reduction is CRITICAL for 200k context
+- ETag + SHA-256 for efficient remote sync
 
 ---
 
