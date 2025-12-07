@@ -24,7 +24,7 @@
 | Q11 | **DECIDED** | **Option E (Synthesized): SessionStart + PreToolUse + Stop for enforcement (confirms D2-Q1, industry-validated pattern)** |
 | Q12 | **DECIDED** | **Option D: Combined Approach (reason for hard blocks, additionalContext for soft warnings)** |
 | Q13 | **DECIDED** | **Option D: Layered (broad baseline `*` + specific exceptions `Edit|Write|MultiEdit`, `Grep|Glob`)** |
-| Q14 | PENDING | - |
+| Q14 | **DECIDED** | **Option D: Scripts Delegate to Orchestrator (thin proxy → Python RuleEngine, 89% LOC reduction, industry-validated)** |
 | Q15 | PENDING | - |
 | Q16 | PENDING | - |
 | Q17 | PENDING | - |

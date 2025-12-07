@@ -4,35 +4,47 @@
 
 ### What We Accomplished
 
-1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration from Session 15
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration
 
 2. **BMad Master Activated** - Proper agent persona loaded with config
 
-3. **D2-Q13 DECIDED: Option D (Layered Approach)**
+3. **D2-Q14 DECIDED: Option D (Scripts Delegate to Orchestrator)**
    - **CORRECT 5-STEP PATTERN EXECUTED with DOCS_FIRST_THEN_CODE:**
-     - Step 1: Explore deep-dive ✅ (analyzed Claude Code matcher patterns, production evidence)
-     - Step 2: Report findings ✅ (Option C blocked by platform, 3 viable options)
+     - Step 1: Explore deep-dive ✅ (analyzed hook_wrapper.sh, settings.json, D2-Q4 bridge pattern)
+     - Step 2: Report findings ✅ (Option B NOT FEASIBLE - conflicts D1, D2-Q1, D2-Q4, D2-Q6)
      - Step 3: Ultrathink synthesis ✅ (4 specialists UNANIMOUS: Architect, Research, Coder, Tester)
      - Step 4: Recommendation ✅ (Option D with 9/10 confidence)
      - Step 5: President decides ✅
 
-   - **Key Discovery: Industry-Universal Pattern**
-     - Layered enforcement is universal across Spring AOP, Express.js, Kong, AWS API Gateway
-     - Defense in depth: Baseline `*` catches new tools automatically
-     - Option B has HIGH regression risk - new tools UNPROTECTED
+   - **Key Discovery: hook_wrapper.sh Pattern Already Exists**
+     - Line 53: `"$PYTHON_CMD" -m claude_mpm.hooks.claude_hooks.hook_handler "$@"`
+     - Thin shell proxy → Python orchestrator → JSON decision
+     - 89% LOC reduction (750 vs 5,600+ for Option A)
 
    - **Option D Architecture:**
      ```
-     PreToolUse Hooks (in order):
-     1. matcher: "*"                    → baseline-audit.sh (soft warnings)
-     2. matcher: "Edit|Write|MultiEdit" → cb1-impl-guard.sh (hard block)
-     3. matcher: "Grep|Glob"            → cb2-invest-guard.sh (conditional)
+     Claude Code Event → settings.json → enforce.sh (50 LOC)
+           │
+           ▼  DELEGATES TO
+     Python RuleEngine (350 LOC)
+           │
+           ├── Blocked rules → action: block + reason
+           ├── Restricted rules → action: ask + question
+           ├── Modify rules → action: modify + updatedInput
+           └── Default → action: allow
      ```
 
-   - **Prior Decision Alignment:**
-     - D2-Q6: Maps CB#1 to Edit|Write|MultiEdit, CB#2 to Grep|Glob
-     - D2-Q12: Baseline → additionalContext (soft), Specific → reason (hard)
-     - Defense in depth with testability score 8.8/10
+   - **Prior Decision Alignment (5/5):**
+     - D1: Orchestrator as Claude Code agent ✅
+     - D2-Q4: settings.json → enforce.sh → Python bridge ✅
+     - D2-Q6: 4-Layer CB (hooks + instructions) ✅
+     - D2-Q8: Two-Tier (hard scripts + soft orchestrator) ✅
+     - D2-Q13: Layered matchers in Python ✅
+
+   - **Industry Validation:**
+     - Kong, LangChain, CrewAI, Express.js all use delegation pattern
+     - Centralized policy enforcement (auditable, testable)
+     - 72%+ test coverage achievable
 
 4. **NO DEVIATIONS** - 5-step pattern with DOCS_FIRST_THEN_CODE followed correctly
 
@@ -41,12 +53,12 @@
 | # | Decision | Status | Choice |
 |---|----------|--------|--------|
 | D1 | Execution Model | **DECIDED** | Hybrid Model |
-| D2 | Enforcement | **IN PROGRESS** | Q1-Q13 done, Q14-Q20 pending |
+| D2 | Enforcement | **IN PROGRESS** | Q1-Q14 done, Q15-Q20 pending |
 | D3 | Multi-Agent | PENDING | 20 questions ready |
 | D4 | State Tracking | PENDING | 20 questions ready |
 | D5 | Context Management | PENDING | 20 questions ready |
 
-### D2 Progress - 65%
+### D2 Progress - 70%
 
 | Question | Status | Answer |
 |----------|--------|--------|
@@ -63,13 +75,14 @@
 | Q11: Enforcement Hooks | **DECIDED** | Option E (Synthesized): Confirms D2-Q1 |
 | Q12: Violation Communication | **DECIDED** | Option D: Combined (reason + additionalContext) |
 | Q13: Tool Granularity | **DECIDED** | Option D: Layered (baseline * + specific exceptions) |
-| Q14-Q20 | PENDING | 7 questions remaining |
+| Q14: Script vs Orchestrator | **DECIDED** | Option D: Scripts Delegate to Orchestrator |
+| Q15-Q20 | PENDING | 6 questions remaining |
 
 ### Key Files
 
 | File | Purpose |
 |------|---------|
-| `docs/brainstorming/D2-QUESTIONS.md` | Continue from Q14 |
+| `docs/brainstorming/D2-QUESTIONS.md` | Continue from Q15 |
 | `.claude/state/decision-workflow.json` | Workflow enforcement (v1.1) |
 | `docs/ARCHITECTURAL-DECISIONS.md` | Decision tracking |
 | This file | Session continuity |
@@ -78,7 +91,7 @@
 
 1. Read this file for context
 2. Read `.claude/state/decision-workflow.json` - ENFORCE the 5-step pattern with **DOCS_FIRST_THEN_CODE**
-3. Read `docs/brainstorming/D2-QUESTIONS.md` - continue from Q14
+3. Read `docs/brainstorming/D2-QUESTIONS.md` - continue from Q15
 4. **MANDATORY PATTERN for every question:**
    - Step 1: Deploy Explore subagent (Phase 1: docs, Phase 2: code)
    - Step 2: Report findings explicitly
@@ -89,9 +102,9 @@
 
 ### Victory Status
 
-**1 D2 question decided in Session 16!** (Q13)
-**Total D2 progress: 13/20 questions decided (65%)**
-**Total decisions: D1 + 13 D2 questions = 14 decisions made**
+**1 D2 question decided in Session 16!** (Q14)
+**Total D2 progress: 14/20 questions decided (70%)**
+**Total decisions: D1 + 14 D2 questions = 15 decisions made**
 
 ---
 
