@@ -366,6 +366,65 @@ Project config: .claude-mpm/config.yaml (highest priority)
 1. ✅ Sequential thinking memory refresh (20 thoughts)
 2. ✅ Repository state verification
 3. ✅ Read Claude-MPM 04-DI-CONFIG.md
+4. ✅ Read Claude-MPM 05-AGENTS-SKILLS.md
+
+---
+
+### Claude-MPM Agents & Skills - COMPREHENDED
+
+**Document:** `/home/president/bmad-systems/claude-mpm-complete-analysis/05-AGENTS-SKILLS.md`
+
+**Agent Templates (92 via Remote Sync):**
+- Originally 41 local → now 92 via remote sync
+- Deployed to: `~/.claude/agents/*.md`
+- Categories: Engineering, Operations, QA, Research, Infrastructure, Data, Product, Documentation
+
+**Task Tool Matching Algorithm (CRITICAL - Claude Code Native):**
+- Filename stem matching: `subagent_type="research"` → matches `research.md`
+- Pattern: `^[a-z][a-z0-9]*(-[a-z0-9]+)*$`
+- Discovery locations: `~/.claude/agents/*.md` (global) + `./.claude/agents/*.md` (project)
+- MPM deploys, Claude Code matches by stem
+
+**THREE-TIER Skill Loading:**
+```
+Priority: Project > User > Bundled (higher tiers override lower)
+
+Tier 1 (PROJECT): .claude/skills/*.md        - Project-specific
+Tier 2 (USER):    ~/.claude/skills/*.md      - User customizations
+Tier 3 (BUNDLED): src/claude_mpm/skills/     - 40 original → 329 via remote sync
+```
+
+**3-Level Progressive Disclosure (Critical for Context Management):**
+| Level | Content | When Loaded | Token Savings |
+|-------|---------|-------------|---------------|
+| L1 | YAML metadata (name, description, when_to_use) | Always | - |
+| L2 | SKILL.md body (overview, quick start) | On activation | 50-80% |
+| L3 | references/*.md (detailed workflows) | On demand | |
+
+**Skills = Claude Code Native Behavior:**
+- MPM deploys to ~/.claude/skills/
+- Claude Code discovers at startup (SDK BLACK BOX)
+- User invokes via Skill tool
+- Claude Code RESTART REQUIRED after deployment
+
+**Dead Code Cleanup:**
+- AgentSkillsInjector (324 lines) was DELETED (commit 8dca910e)
+- Was defined, exported, NEVER CALLED
+- Skills work via Claude Code native behavior, not code injection
+
+**Multi-Source Agent Discovery (4-Tier):**
+| Tier | Location | Priority |
+|------|----------|----------|
+| 1 | System | Lowest |
+| 2 | Project | Higher |
+| 3 | User | Higher |
+| 4 | Remote | Highest |
+
+**Relevance to Claude-Hybrid:**
+- Task matching by filename stem is SDK native - follow this pattern
+- THREE-TIER loading aligns perfectly with hybrid global/local model
+- 3-Level Progressive Disclosure is ESSENTIAL for 200k context management
+- Keep codebase clean - no dead code
 
 ---
 
