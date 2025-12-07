@@ -178,7 +178,6 @@ Claude-MPM is a CONFIGURATION DEPLOYER, not a runtime orchestrator!
 - Claude-Hybrid = MPM's deployment model + BMAD's orchestration + MPM's validation gates
 
 **Remaining to Read:**
-- 02-ARCHITECTURE-CORE.md
 - 03-SDK-INTEGRATION.md
 - 04-DI-CONFIG.md
 - 05-AGENTS-SKILLS.md
@@ -187,5 +186,51 @@ Claude-MPM is a CONFIGURATION DEPLOYER, not a runtime orchestrator!
 - 08-CACHE-CLI.md
 - 09-ERROR-HANDLING.md
 - 10-TECHNICAL-DEBT.md
+
+---
+
+### Claude-MPM Architecture Core - COMPREHENDED
+
+**Document:** `/home/president/bmad-systems/claude-mpm-complete-analysis/02-ARCHITECTURE-CORE.md`
+
+**Initialization: 12 main phases + 9 background sub-phases**
+- 8 unconditional phases always run
+- Background: project registry, MCP config, agent/skill sync
+
+**The Handoff (os.execvpe @ interactive_session.py:571):**
+- SAME PID - process replaced, not forked
+- All MPM state DIES after handoff
+- Claude Code starts fresh, reads files from disk
+
+**File Contract (Critical for Claude-Hybrid):**
+PRE-HANDOFF (MPM writes):
+- ~/.claude/agents/*.md (92 agents)
+- ~/.claude/skills/*.md (329 skills)
+- ~/.claude/settings.json (hooks config)
+- .claude.json (MCP servers)
+- .claude-mpm/PM_INSTRUCTIONS.md (~108KB)
+
+POST-HANDOFF (Claude Code reads):
+- All above files independently
+
+**PM_INSTRUCTIONS Assembly (10 sections in order):**
+1. PM_INSTRUCTIONS.md (core rules)
+2. Custom Instructions
+3. WORKFLOW.md
+4. MEMORY.md
+5. PM Memories
+6. Agent Memories
+7. Capabilities List
+8. Temporal Context
+9. BASE_PM.md
+10. Output Style
+
+**Subprocess vs Exec Mode:**
+- Subprocess: MPM parent, Claude child (debugging)
+- Exec: MPM replaced by Claude (production default)
+
+**What's NATIVE to Claude Code:**
+- Task tool, Hooks API, Agent/Skill/Command discovery, MCP client
+- MPM's role = DEPLOY + CONFIGURE, not provide features
 
 ---
