@@ -178,7 +178,6 @@ Claude-MPM is a CONFIGURATION DEPLOYER, not a runtime orchestrator!
 - Claude-Hybrid = MPM's deployment model + BMAD's orchestration + MPM's validation gates
 
 **Remaining to Read:**
-- 03-SDK-INTEGRATION.md
 - 04-DI-CONFIG.md
 - 05-AGENTS-SKILLS.md
 - 06-MEMORY-HOOKS.md
@@ -232,5 +231,48 @@ POST-HANDOFF (Claude Code reads):
 **What's NATIVE to Claude Code:**
 - Task tool, Hooks API, Agent/Skill/Command discovery, MCP client
 - MPM's role = DEPLOY + CONFIGURE, not provide features
+
+---
+
+### Claude-MPM SDK Integration - COMPREHENDED
+
+**Document:** `/home/president/bmad-systems/claude-mpm-complete-analysis/03-SDK-INTEGRATION.md`
+
+**Application Stack:**
+- Claude Agent SDK (Anthropic Official): 4 APIs, 16 tools, 8 hooks, 4 permission modes
+- Claude-MPM (Enhancement Layer): 92 agents, 329 skills, PM orchestration, circuit breakers
+
+**CRITICAL: NO SDK Dependencies!**
+- MPM uses subprocess/exec to launch `claude` binary
+- No anthropic, claude-agent-sdk packages in pyproject.toml
+
+**4 Primary SDK APIs:**
+1. query() - One-shot queries
+2. ClaudeSDKClient - Multi-turn sessions
+3. tool() - Custom tool definition
+4. createSdkMcpServer() - In-process MCP server
+
+**16 Built-in Tools:**
+- File Read: Read, Glob, Grep
+- File Write: Write, Edit
+- Execution: Bash, NotebookEdit
+- Web: WebFetch, WebSearch
+- Agent: Task, Skill
+- Planning: TodoWrite, ExitPlanMode
+- MCP: ListMcpResources, ReadMcpResource
+- Interaction: AskUserQuestion
+
+**8 Hook Events:**
+- PreToolUse - CAN BLOCK/MODIFY (only one!)
+- PostToolUse, UserPromptSubmit, SessionStart, Stop, SubagentStop, Notification, PreCompact - READ-ONLY
+
+**SDK-Native vs MPM-Adds:**
+| SDK Native | MPM Adds |
+|-----------|----------|
+| Programmatic agents | 92 pre-built templates |
+| 4 permission modes | 7 Circuit Breakers |
+| In-code hooks | Shell scripts in ~/.claude/hooks/ |
+| Task tool | PM_INSTRUCTIONS delegation rules |
+| Session persistence | Per-agent memory (80KB) |
 
 ---
