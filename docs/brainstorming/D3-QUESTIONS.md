@@ -11,7 +11,8 @@
 
 | Question | Status | Answer |
 |----------|--------|--------|
-| Q1-Q20 | PENDING | - |
+| Q1 | **DECIDED** | **Option E: Tiered Hybrid Selection (User→Scenario→Scoring→Rotation)** |
+| Q2-Q20 | PENDING | - |
 
 ---
 
