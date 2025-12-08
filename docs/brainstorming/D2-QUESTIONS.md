@@ -28,7 +28,7 @@
 | Q15 | **DECIDED** | **Option E (Modified): 4-Phase Lifecycle (SessionStart init + PreToolUse enforce + PreCompact persist + Stop complete), 9/9 industry systems validated, 95% testable** |
 | Q16 | **DECIDED** | **Option D: Hybrid Enforcement (mandates for LLM compliance + hooks for critical sequences), 6/6 industry systems validated, ~320 LOC** |
 | Q17 | **DECIDED** | **Option D: Configurable Enforcement Levels (per-checkpoint config, tiered HARD/SOFT, ~300 LOC, 6/6 industry systems)** |
-| Q18 | PENDING | - |
+| Q18 | **DECIDED** | **Option D: Dual-Layer Enforcement (Schema at load + Hook at invocation, ~300 LOC, 6/6 industry systems)** |
 | Q19 | PENDING | - |
 | Q20 | PENDING | - |
 
