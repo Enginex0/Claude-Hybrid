@@ -20,7 +20,8 @@
 | Q7 | **DECIDED** | **Option D: Tiered Role-Based Specialization (4-tier: Orchestrator→Phase Leads→Specialists→Sub-Agents, ~25-30 agents)** |
 | Q8 | **DECIDED** | **Option E: Tiered Output Architecture (Tier 1: Message primary 90-95%, Tier 2: File artifacts 5-10%, Tier 3: JSON metadata)** |
 | Q9 | **DECIDED** | **Option C: Hybrid Installation with Priority Resolution (Project > User > System)** |
-| Q10-Q20 | PENDING | - |
+| Q10 | **DECIDED** | **Option A: Hierarchical Single-Parent Delegation (Task tool returns to parent, cross-branch via Orchestrator)** |
+| Q11-Q20 | PENDING | - |
 
 ---
 
