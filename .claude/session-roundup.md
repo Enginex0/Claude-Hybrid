@@ -1,6 +1,6 @@
 # Session Roundup - Claude-Hybrid
 
-## Session 17: 2025-12-08
+## Session 17 (Continued): 2025-12-08
 
 ### What We Accomplished
 
@@ -8,7 +8,50 @@
 
 2. **BMad Master Activated** - Proper agent persona loaded with config
 
-3. **D2-Q15 DECIDED: Option E (Modified) - 4-Phase Lifecycle**
+3. **D2-Q16 DECIDED: Option D - Hybrid Enforcement**
+   - **CORRECT 5-STEP PATTERN EXECUTED with DOCS_FIRST_THEN_CODE:**
+     - Step 1: Explore deep-dive ✅ (analyzed BMAD workflow.xml, industry patterns)
+     - Step 2: Report findings ✅ (BMAD uses mandate-only ~90%, D2-Q4 deviation PROVES it fails)
+     - Step 3: Ultrathink synthesis ✅ (4 specialists: 3/4 favor D, 1/4 favor C)
+     - Step 4: Recommendation ✅ (Option D with 9/10 confidence)
+     - Step 5: President decides ✅
+
+   - **Key Discovery: Mandate-Only Empirically Disproven**
+     - D2-Q4 deviation in Session 8: Agent skipped step despite clear mandates
+     - 0/6 industry workflow systems use mandate-only
+     - LangGraph: "Unrealistic to expect LLMs to always make correct judgment"
+
+   - **Option D Architecture:**
+     ```
+     LAYER 1: MANDATES (Guidance)
+     ├── XML/YAML step ordering declarations
+     ├── LLM reads and aims to follow
+     └── ~90% compliance for non-critical steps
+
+     LAYER 2: HOOKS (Enforcement)
+     ├── PreToolUse checks critical step prerequisites
+     ├── BLOCK if out-of-order on critical sequence
+     └── 98%+ enforcement for critical paths
+     ```
+
+   - **Prior Decision Alignment (4/4):**
+     - D2-Q6: 4-Layer CB (hooks for critical, instructions for semantic) ✅
+     - D2-Q14: Scripts delegate to Python RuleEngine ✅
+     - D2-Q15: 4-Phase Lifecycle (SessionStart + PreToolUse + PreCompact + Stop) ✅
+     - D2-Q8: Two-Tier (hard hooks + soft instructions) ✅
+
+   - **Specialist Analysis:**
+     - Architect: Option D (9/10 alignment score, implements D2-Q6 directly)
+     - Research: Option D (6/6 industry systems validate structural+runtime)
+     - Coder: Option C (highest testability 9/10, but D acceptable at 7/10)
+     - Tester: Option D (defense in depth, 98%+ pass rate for critical paths)
+
+   - **Implementation Impact:**
+     - ~320 LOC for hybrid enforcement
+     - Extends D2-Q14 RuleEngine (~350 LOC base)
+     - 7/10 testability (critical paths: 9/10)
+
+4. **D2-Q15 DECIDED: Option E (Modified) - 4-Phase Lifecycle** (earlier in session)
    - **CORRECT 5-STEP PATTERN EXECUTED with DOCS_FIRST_THEN_CODE:**
      - Step 1: Explore deep-dive ✅ (analyzed hook capabilities, PreCompact, SubagentStop)
      - Step 2: Report findings ✅ (SubagentStop fires AFTER completion - cannot enforce, PreCompact for state persistence)
@@ -58,19 +101,19 @@
      - ~640 LOC total with D2-Q14 base
      - 95% testability
 
-4. **NO DEVIATIONS** - 5-step pattern with DOCS_FIRST_THEN_CODE followed correctly
+5. **NO DEVIATIONS** - 5-step pattern with DOCS_FIRST_THEN_CODE followed correctly for both Q15 and Q16
 
 ### Decision Status
 
 | # | Decision | Status | Choice |
 |---|----------|--------|--------|
 | D1 | Execution Model | **DECIDED** | Hybrid Model |
-| D2 | Enforcement | **IN PROGRESS** | Q1-Q15 done, Q16-Q20 pending |
+| D2 | Enforcement | **IN PROGRESS** | Q1-Q16 done, Q17-Q20 pending |
 | D3 | Multi-Agent | PENDING | 20 questions ready |
 | D4 | State Tracking | PENDING | 20 questions ready |
 | D5 | Context Management | PENDING | 20 questions ready |
 
-### D2 Progress - 75%
+### D2 Progress - 80%
 
 | Question | Status | Answer |
 |----------|--------|--------|
@@ -89,13 +132,14 @@
 | Q13: Tool Granularity | **DECIDED** | Option D: Layered (baseline * + specific exceptions) |
 | Q14: Script vs Orchestrator | **DECIDED** | Option D: Scripts Delegate to Orchestrator |
 | Q15: Multi-Step Workflows | **DECIDED** | Option E (Modified): 4-Phase Lifecycle |
-| Q16-Q20 | PENDING | 5 questions remaining |
+| Q16: Step Ordering | **DECIDED** | Option D: Hybrid Enforcement (mandates + hooks) |
+| Q17-Q20 | PENDING | 4 questions remaining |
 
 ### Key Files
 
 | File | Purpose |
 |------|---------|
-| `docs/brainstorming/D2-QUESTIONS.md` | Continue from Q16 |
+| `docs/brainstorming/D2-QUESTIONS.md` | Continue from Q17 |
 | `.claude/state/decision-workflow.json` | Workflow enforcement (v1.1) |
 | `docs/ARCHITECTURAL-DECISIONS.md` | Decision tracking |
 | This file | Session continuity |
@@ -104,7 +148,7 @@
 
 1. Read this file for context
 2. Read `.claude/state/decision-workflow.json` - ENFORCE the 5-step pattern with **DOCS_FIRST_THEN_CODE**
-3. Read `docs/brainstorming/D2-QUESTIONS.md` - continue from Q16
+3. Read `docs/brainstorming/D2-QUESTIONS.md` - continue from Q17
 4. **MANDATORY PATTERN for every question:**
    - Step 1: Deploy Explore subagent (Phase 1: docs, Phase 2: code)
    - Step 2: Report findings explicitly
@@ -115,9 +159,9 @@
 
 ### Victory Status
 
-**1 D2 question decided in Session 17!** (Q15)
-**Total D2 progress: 15/20 questions decided (75%)**
-**Total decisions: D1 + 15 D2 questions = 16 decisions made**
+**2 D2 questions decided in Session 17!** (Q15 + Q16)
+**Total D2 progress: 16/20 questions decided (80%)**
+**Total decisions: D1 + 16 D2 questions = 17 decisions made**
 
 ---
 
