@@ -13,7 +13,8 @@
 |----------|--------|--------|
 | Q1 | **DECIDED** | **Option E: Tiered Hybrid Selection (User→Scenario→Scoring→Rotation)** |
 | Q2 | **DECIDED** | **Option D: Contextual Hybrid Cross-Talk (Mode-based: A for brainstorm, C for implementation, B for structured)** |
-| Q3-Q20 | PENDING | - |
+| Q3 | **DECIDED** | **Option E: State-Managed with Mode-Tiered Mechanisms (D foundation + A triggers + C task completion)** |
+| Q4-Q20 | PENDING | - |
 
 ---
 
