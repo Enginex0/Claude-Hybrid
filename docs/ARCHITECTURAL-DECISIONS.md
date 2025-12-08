@@ -25,7 +25,7 @@
 | # | Decision | Status | Choice | Session |
 |---|----------|--------|--------|---------|
 | D1 | Execution Model | **DECIDED** | **Hybrid Model** | 5 |
-| D2 | Enforcement Mechanism | PENDING | - | - |
+| D2 | Enforcement Mechanism | **DECIDED** | **Hybrid Tiered Enforcement** | 6-21 |
 | D3 | Multi-Agent Strategy | PENDING | - | - |
 | D4 | State Tracking | PENDING | - | - |
 | D5 | Context Management | PENDING | - | - |
@@ -109,40 +109,109 @@ How does Claude-Hybrid execute? Does it deploy configuration and hand off (like 
 
 ## D2: Enforcement Mechanism
 
-**Status:** PENDING
+**Status:** DECIDED (20/20 questions complete)
 **Depends On:** D1 (Execution Model)
+**Sessions:** 6-21
 
 ### The Question
 
 How does Claude-Hybrid enforce rules and prevent violations? Through hooks that can block actions, or through instructional workflow rules?
 
-### Options
+### Decision Summary
 
-| Option | Source | Description |
-|--------|--------|-------------|
-| **A. Hook-Enforced** | Claude-MPM | Use PreToolUse hooks to block/modify tool calls. CB#1 & CB#2 are hook-enforced. Only PreToolUse and UserPromptSubmit can block. |
-| **B. Instructional** | BMAD | Workflow rules, agent personas with principles, menu-driven constraints. Relies on LLM compliance. |
-| **C. Hybrid** | Novel | Critical rules hook-enforced, lesser rules instructional. Tiered enforcement. |
+**Choice:** Hybrid Tiered Enforcement
 
-### Trade-offs
+Claude-Hybrid uses a **three-tier enforcement architecture** that combines programmatic hooks for critical operations with instructional guidance for soft operations:
 
-| Aspect | Hook-Enforced (A) | Instructional (B) | Hybrid (C) |
-|--------|-------------------|-------------------|------------|
-| **Reliability** | High - code blocks | Medium - LLM may ignore | High for critical |
-| **Flexibility** | Rigid | Flexible | Balanced |
-| **Overhead** | Shell scripts execute | No overhead | Selective overhead |
-| **Debuggability** | Clear block reasons | Harder to trace | Medium |
+```
+TIER 1: HOOK-ENFORCED (Critical) - 99.9%+ reliability
+├── Circuit breakers CB#1, CB#2, CB#6
+├── Config loading & variable resolution for System/Path variables
+├── Security boundaries, destructive actions
+└── PreToolUse blocks with fail-fast
 
-### Discussion Notes
+TIER 2: STRUCTURAL (Hard) - 95%+ reliability
+├── Workflow step ordering via mandates + hooks
+├── Menu handler routing (schema at load + hook at invocation)
+├── Config variable validation during agent activation
+└── Checkpoint enforcement with configurable levels
 
-*(To be captured during brainstorming)*
+TIER 3: INSTRUCTIONAL (Soft) - 70-90% reliability
+├── Communication style, user preferences
+├── Computed variables, soft fallbacks
+├── Non-critical workflow guidance
+└── Progress updates, quality checkpoints
+```
 
-### Decision
+### D2 Sub-Decisions (20 Questions)
 
-**Choice:** TBD
-**Rationale:** TBD
-**Date:** TBD
-**Session:** TBD
+| # | Topic | Decision |
+|---|-------|----------|
+| Q1 | Hook Events | Option E: Hybrid-Optimized (SessionStart + PreToolUse + Stop) |
+| Q2 | Hook Priority | Option C: Orchestrator Semantic Grouping (P10/P20/P50/P80/P90) |
+| Q3 | Response Schema | Option B: Block/Allow/Modify (decision + reason + updatedInput) |
+| Q4 | Hook Integration | Option C: Hybrid (Claude Code External + MPM Internal) |
+| Q5 | Failure Modes | Option C+D: Circuit-Breaker + Graceful Degradation |
+| Q6 | CB Enforcement | Option D: 4-Layer CB Architecture (hooks + state + instructions + monitoring) |
+| Q7 | Hook Blocking Return | Option F: Extended D2-Q3 + Translator Compliance |
+| Q8 | Effectiveness Gap | Option D+C: Two-Tier + Monitoring (Hard=95% hooks, Soft=measurable) |
+| Q9 | Error Recovery | Option D+B: Separate + Logging + Selective Hooks Influence |
+| Q10 | Exception Classes | Option B: Unified Exception Hierarchy |
+| Q11 | Enforcement Hooks | Option E: Confirms D2-Q1 (SessionStart + PreToolUse + Stop) |
+| Q12 | Violation Communication | Option D: Combined (reason + additionalContext) |
+| Q13 | Tool Granularity | Option D: Layered (baseline * + specific exceptions) |
+| Q14 | Script vs Orchestrator | Option D: Scripts Delegate to Orchestrator (thin proxy → Python RuleEngine) |
+| Q15 | Multi-Step Workflows | Option E: 4-Phase Lifecycle (SessionStart + PreToolUse + PreCompact + Stop) |
+| Q16 | Step Ordering | Option D: Hybrid Enforcement (mandates + hooks for critical) |
+| Q17 | User Checkpoints | Option D: Configurable Enforcement Levels (HARD/SOFT tiers) |
+| Q18 | Menu Handler Routing | Option D: Dual-Layer Enforcement (schema at load + hook at invocation) |
+| Q19 | Critical Actions | Option D: Tiered Criticality (hook for critical, instructional for soft) |
+| Q20 | Variable Resolution | Option C: Hybrid Resolution (hooks for System/Path, LLM for Config/User) |
+
+### Key Architectural Patterns
+
+1. **Scripts Delegate to Orchestrator** (D2-Q14)
+   - Thin shell proxy (~50 LOC) → Python RuleEngine (~350 LOC)
+   - 89% LOC reduction vs pure script approach
+   - Centralized policy enforcement
+
+2. **4-Phase Workflow Lifecycle** (D2-Q15)
+   - SessionStart: Load rules, restore state
+   - PreToolUse: Enforce, validate prerequisites
+   - PreCompact: Checkpoint state before compaction
+   - Stop: Validate completion, audit trail
+
+3. **Two-Tier Violation Handling** (D2-Q8, D2-Q12)
+   - HARD violations: Block + permissionDecisionReason
+   - SOFT violations: Allow + additionalContext warning
+
+4. **Variable Resolution Cascade** (D2-Q20)
+   - CRITICAL (System/Path): Hook-enforced, fail-fast
+   - HARD (Config): Structural validation, mandatory activation step
+   - SOFT (Computed): LLM with fallbacks
+
+### Industry Validation
+
+- 10/10 production systems use programmatic enforcement for critical operations
+- 0 counterexamples found using instructional-only
+- LangChain InjectedToolArg pattern validates D2-Q20 approach
+- Temporal, Airflow, Prefect, LangGraph, CrewAI all use tiered enforcement
+
+### Implementation Impact
+
+| Component | LOC Estimate |
+|-----------|-------------|
+| RuleEngine (D2-Q14 base) | ~350 |
+| 4-Phase Lifecycle (D2-Q15) | ~290 |
+| Hybrid Enforcement (D2-Q16) | ~320 |
+| Tiered Config (D2-Q17) | ~300 |
+| Dual-Layer Menu (D2-Q18) | ~300 |
+| Tiered Criticality (D2-Q19) | ~450 |
+| Variable Resolution (D2-Q20) | ~1300 |
+| **Total D2 Enforcement Layer** | **~3,310 LOC** |
+
+**Date:** 2025-12-08
+**Sessions:** 6-21 (16 sessions)
 
 ---
 
@@ -269,6 +338,22 @@ How does Claude-Hybrid manage the 200k context limit? What loading/unloading str
 |---------|------|----------------|-------|
 | 1-4 | 2025-12-07 | None | Documentation analysis, 100% coverage achieved |
 | 5 | 2025-12-07 | **D1: Hybrid Model** | Brainstorming methodology established, this file created, D1 decided |
+| 6 | 2025-12-07 | **D2-Q1** | Ultrathink pattern established, Option E (Hybrid-Optimized) |
+| 7 | 2025-12-07 | **D2-Q2, Q3** | Hook priority + Response schema decisions |
+| 8 | 2025-12-07 | **D2-Q4, Q5** | Workflow state file created for 5-step enforcement |
+| 9 | 2025-12-07 | **D2-Q6** | 4-Layer CB Architecture |
+| 10 | 2025-12-07 | **D2-Q7** | Extended D2-Q3 + Translator Compliance |
+| 11 | 2025-12-07 | **D2-Q8** | DOCS_FIRST_THEN_CODE enforcement added |
+| 12 | 2025-12-07 | **D2-Q9** | Error recovery with selective hooks |
+| 13 | 2025-12-07 | **D2-Q10** | 50% milestone - Unified Exception Hierarchy |
+| 14 | 2025-12-07 | **D2-Q11** | Question redundancy identified, confirms D2-Q1 |
+| 15 | 2025-12-07 | **D2-Q12** | Combined violation communication |
+| 16 | 2025-12-08 | **D2-Q13, Q14** | Layered matchers + Scripts delegate |
+| 17 | 2025-12-08 | **D2-Q15, Q16** | 4-Phase Lifecycle + Hybrid Enforcement |
+| 18 | 2025-12-08 | **D2-Q17** | Configurable Enforcement Levels |
+| 19 | 2025-12-08 | **D2-Q18** | Dual-Layer Menu Handler Routing |
+| 20 | 2025-12-08 | **D2-Q19** | Tiered Criticality |
+| 21 | 2025-12-08 | **D2-Q20 - D2 COMPLETE** | Variable Resolution Cascade - D2 100% complete! |
 
 ---
 
@@ -288,6 +373,7 @@ How does Claude-Hybrid manage the 200k context limit? What loading/unloading str
 | Date | Change | Reason |
 |------|--------|--------|
 | 2025-12-07 | Initial creation | Session 5 - brainstorming preparation |
+| 2025-12-08 | D2 COMPLETE | Session 21 - All 20 D2 questions decided |
 
 ---
 
