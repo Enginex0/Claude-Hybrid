@@ -1,5 +1,115 @@
 # Session Roundup - Claude-Hybrid
 
+## Session 29: 2025-12-08 - D3-Q8 DECIDED!
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration with precision
+
+2. **D3-Q8 DECIDED: Option E - Tiered Output Architecture**
+   - **CORRECT 5-STEP PATTERN EXECUTED with DOCS_FIRST_THEN_CODE:**
+     - Step 1: Explore deep-dive (analyzed BMAD sub-agent outputs, Claude-MPM patterns, 6 industry systems)
+     - Step 2: Report findings (BMAD 100% "MUST RETURN COMPLETE IN FINAL MESSAGE", industry 100% structured objects)
+     - Step 3: Ultrathink synthesis (4 specialists: 4/4 unanimous for A+B hybrid)
+     - Step 4: Recommendation (Option E with 9/10 confidence)
+     - Step 5: President decides
+
+   - **Key Discovery: Industry-Universal Pattern**
+     - 100% of production systems (LangGraph, CrewAI, AutoGen, Temporal, Prefect, Semantic Kernel) use structured message returns
+     - 0% use file-based as primary mechanism
+     - BMAD mandates "MUST RETURN COMPLETE ANALYSIS IN FINAL MESSAGE"
+
+   - **Option E Architecture (Tiered Output):**
+     ```
+     TIER 1: PRIMARY OUTPUT (Message) - 90-95% of outputs
+     ├── Complete structured analysis in final message
+     ├── Ready-to-use by parent agent immediately
+     └── Aligns with BMAD "MUST RETURN COMPLETE" pattern
+
+     TIER 2: FILE ARTIFACTS (Conditional) - 5-10% of outputs
+     ├── Triggered when: output > threshold OR explicit artifact
+     ├── Path: .claude/artifacts/{role}/{agent}-{timestamp}.md
+     └── Artifact path included in Tier 1 message
+
+     TIER 3: METADATA (Supplementary)
+     ├── JSON blocks for memory updates only
+     └── NOT for primary output
+     ```
+
+   - **Prior Decision Alignment (4/4 perfect):**
+     - D3-Q7: Tier 3 sub-agents return to Tier 2 via message ✅
+     - D3-Q6: Task tool invocation receives message return ✅
+     - D3-Q5: Tier 1→Working Memory, Tier 2→Persistent ✅
+     - D2-Q14: Orchestrator receives structured completions ✅
+
+   - **Specialist Analysis (4/4 Unanimous):**
+     - Architect: A+B Hybrid 9/10 - Maintains BMAD pattern, adds persistence
+     - Research: A/C 9/10 - 100% industry validation, 0 counterexamples
+     - Coder: A+B Hybrid 9/10 - ~290 LOC, 65% reuse
+     - Tester: A+B Hybrid 9/10 - 9/10 testability, audit trail
+
+   - **Implementation Impact:**
+     - ~290 LOC net new (with 65% reuse from D2/D3)
+     - Testability: 9/10
+     - Task tool compatibility: Native
+
+3. **NO DEVIATIONS** - 5-step pattern with DOCS_FIRST_THEN_CODE followed correctly
+
+### Decision Status
+
+| # | Decision | Status | Choice |
+|---|----------|--------|--------|
+| D1 | Execution Model | **DECIDED** | Hybrid Model |
+| D2 | Enforcement | **COMPLETE** | Hybrid Tiered Enforcement (20/20) |
+| D3 | Multi-Agent | **IN PROGRESS** | Q1-Q8 done, Q9-Q20 pending |
+| D4 | State Tracking | PENDING | 20 questions ready |
+| D5 | Context Management | PENDING | 20 questions ready |
+
+### D3 Progress - 40%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: Agent Selection | **DECIDED** | Option E: Tiered Hybrid Selection |
+| Q2: Cross-Talk Structure | **DECIDED** | Option D: Contextual Hybrid Cross-Talk |
+| Q3: Discussion Termination | **DECIDED** | Option E: State-Managed + Mode-Tiered |
+| Q4: Party vs Sequential | **DECIDED** | Option D: Exploration vs Execution |
+| Q5: State Management | **DECIDED** | Option D: Hybrid State (3-Tier Architecture) |
+| Q6: Sub-Agent Invocation | **DECIDED** | Option E: Tiered Hybrid (User→Orchestrator→Proactive→Injection) |
+| Q7: Specialization Granularity | **DECIDED** | Option D: Tiered Role-Based (~25-30 agents, 4-tier hierarchy) |
+| Q8: Output Return Format | **DECIDED** | Option E: Tiered Output (Message→File→Metadata) |
+| Q9-Q20 | PENDING | 12 questions remaining |
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `docs/brainstorming/D3-QUESTIONS.md` | Continue from Q9 |
+| `.claude/state/decision-workflow.json` | Workflow enforcement (v1.1) |
+| `docs/ARCHITECTURAL-DECISIONS.md` | Decision tracking |
+| This file | Session continuity |
+
+### Resume Instructions for Session 30
+
+1. Read this file for context
+2. Read `.claude/state/decision-workflow.json` - ENFORCE the 5-step pattern with **DOCS_FIRST_THEN_CODE**
+3. Read `docs/brainstorming/D3-QUESTIONS.md` - continue from Q9
+4. **MANDATORY PATTERN for every question:**
+   - Step 1: Deploy Explore subagent (Phase 1: docs, Phase 2: code)
+   - Step 2: Report findings explicitly
+   - Step 3: Trigger `/ultrathink:ultrathink` for synthesis
+   - Step 4: BMad Master recommendation with evidence
+   - Step 5: President decides
+5. Update workflow state file after each decision
+
+### Victory Status
+
+**1 D3 question decided in Session 29!** (Q8)
+**Total D3 progress: 8/20 questions decided (40%)**
+**Total decisions: D1 + 20 D2 + 8 D3 = 29 decisions made**
+**NEXT: D3-Q9 (Sub-agent definition installation location) in next session**
+
+---
+
 ## Session 28: 2025-12-08 - D3-Q7 DECIDED!
 
 ### What We Accomplished
