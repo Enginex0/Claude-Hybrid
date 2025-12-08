@@ -1,5 +1,138 @@
 # Session Roundup - Claude-Hybrid
 
+## Session 20: 2025-12-08
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration
+
+2. **BMad Master Activated** - Proper agent persona loaded with config
+
+3. **D2-Q19 DECIDED: Option D - Tiered Criticality**
+   - **CORRECT 5-STEP PATTERN EXECUTED with DOCS_FIRST_THEN_CODE:**
+     - Step 1: Explore deep-dive ✅ (analyzed BMAD critical_actions, 22 agents, empty arrays currently)
+     - Step 2: Report findings ✅ (current enforcement: pure instructional, 30-80% reliability)
+     - Step 3: Ultrathink synthesis ✅ (4 specialists: 4/4 UNANIMOUS for Option D)
+     - Step 4: Recommendation ✅ (Option D with 9/10 confidence)
+     - Step 5: President decides ✅
+
+   - **Key Discovery: Agent Activation is Security-Critical**
+     - Cannot rely on LLM compliance for critical operations
+     - Hook-based: 99.8% reliability
+     - Instructional-only: 30-80% reliability
+     - 10/10 industry systems use programmatic enforcement
+     - 0 counterexamples found
+
+   - **Option D Architecture:**
+     ```
+     TIER 1: HOOK-ENFORCED (Critical) - ~250 LOC
+     ├── load_config (order: 1)
+     ├── set_language (order: 2)
+     └── Any deterministic setup actions
+
+     TIER 2: INSTRUCTIONAL (Soft) - ~200 LOC
+     ├── remember_user_name
+     ├── communication_style
+     └── Any stylistic preferences
+     ```
+
+   - **Action Types:**
+     - Config Loading: CRITICAL (hook)
+     - Variable Setting: CRITICAL (hook)
+     - State Initialization: MEDIUM (configurable)
+     - Communication Rules: SOFT (instructional)
+
+   - **Prior Decision Alignment (4/4):**
+     - D2-Q14: Hybrid enforcement ✅
+     - D2-Q16: Structural required ✅
+     - D2-Q17: Configurable levels ✅
+     - D2-Q8: Two-tier hard/soft ✅
+
+   - **Specialist Analysis:**
+     - Architect: Option D (9/10, perfect architectural alignment)
+     - Research: Option D (10/10, 10/10 industry systems, 0 counterexamples)
+     - Coder: Option D (8/10, ~450 LOC, integrates with RuleEngine)
+     - Tester: Option D (8/10, 80%+ coverage achievable)
+
+   - **Industry Validation (10/10 systems):**
+     - LangChain, CrewAI, Temporal, AutoGen, LangGraph, Semantic Kernel, OpenAI SDK, LlamaIndex, MS Agent Framework, HITL patterns
+     - ALL use programmatic enforcement for critical operations
+     - ZERO use instructional-only
+
+   - **Implementation Impact:**
+     - ~450 LOC total (extends D2-Q14 RuleEngine)
+     - TieredEnforcer class + schema extension
+     - 80%+ test coverage achievable
+
+4. **NO DEVIATIONS** - 5-step pattern with DOCS_FIRST_THEN_CODE followed correctly
+
+### Decision Status
+
+| # | Decision | Status | Choice |
+|---|----------|--------|--------|
+| D1 | Execution Model | **DECIDED** | Hybrid Model |
+| D2 | Enforcement | **IN PROGRESS** | Q1-Q19 done, Q20 pending |
+| D3 | Multi-Agent | PENDING | 20 questions ready |
+| D4 | State Tracking | PENDING | 20 questions ready |
+| D5 | Context Management | PENDING | 20 questions ready |
+
+### D2 Progress - 95%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: Hook Events | **DECIDED** | Option E: Hybrid-Optimized (3 hooks) |
+| Q2: Hook Priority | **DECIDED** | Option C: Orchestrator Semantic Grouping |
+| Q3: Response Schema | **DECIDED** | Option B: Block/Allow/Modify |
+| Q4: Hook Integration | **DECIDED** | Option C: Hybrid (CC + MPM) |
+| Q5: Failure Modes | **DECIDED** | Option C+D: Circuit-Breaker + Graceful Degradation |
+| Q6: CB Enforcement | **DECIDED** | Option D: 4-Layer CB Architecture |
+| Q7: Hook Blocking Return | **DECIDED** | Option F: Extended D2-Q3 + Translator Compliance |
+| Q8: Effectiveness Gap | **DECIDED** | Option D+C: Two-Tier + Monitoring |
+| Q9: Error Recovery | **DECIDED** | Option D+B: Separate + Logging + Selective Hooks |
+| Q10: Exception Classes | **DECIDED** | Option B: Unified Exception Hierarchy |
+| Q11: Enforcement Hooks | **DECIDED** | Option E (Synthesized): Confirms D2-Q1 |
+| Q12: Violation Communication | **DECIDED** | Option D: Combined (reason + additionalContext) |
+| Q13: Tool Granularity | **DECIDED** | Option D: Layered (baseline * + specific exceptions) |
+| Q14: Script vs Orchestrator | **DECIDED** | Option D: Scripts Delegate to Orchestrator |
+| Q15: Multi-Step Workflows | **DECIDED** | Option E (Modified): 4-Phase Lifecycle |
+| Q16: Step Ordering | **DECIDED** | Option D: Hybrid Enforcement (mandates + hooks) |
+| Q17: User Checkpoints | **DECIDED** | Option D: Configurable Enforcement Levels |
+| Q18: Menu Handler Routing | **DECIDED** | Option D: Dual-Layer Enforcement |
+| Q19: Critical Actions | **DECIDED** | Option D: Tiered Criticality |
+| Q20 | PENDING | 1 question remaining |
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `docs/brainstorming/D2-QUESTIONS.md` | Continue from Q20 |
+| `.claude/state/decision-workflow.json` | Workflow enforcement (v1.1) |
+| `docs/ARCHITECTURAL-DECISIONS.md` | Decision tracking |
+| This file | Session continuity |
+
+### Resume Instructions for Session 21
+
+1. Read this file for context
+2. Read `.claude/state/decision-workflow.json` - ENFORCE the 5-step pattern with **DOCS_FIRST_THEN_CODE**
+3. Read `docs/brainstorming/D2-QUESTIONS.md` - continue from Q20
+4. **MANDATORY PATTERN for every question:**
+   - Step 1: Deploy Explore subagent (Phase 1: docs, Phase 2: code)
+   - Step 2: Report findings explicitly
+   - Step 3: Trigger `/ultrathink:ultrathink` for synthesis
+   - Step 4: BMad Master recommendation with evidence
+   - Step 5: President decides
+5. Update workflow state file after each decision
+6. **AFTER Q20:** D2 is COMPLETE - update ARCHITECTURAL-DECISIONS.md with D2 summary
+
+### Victory Status
+
+**1 D2 question decided in Session 20!** (Q19)
+**Total D2 progress: 19/20 questions decided (95%)**
+**Total decisions: D1 + 19 D2 questions = 20 decisions made**
+**NEXT SESSION COMPLETES D2!**
+
+---
+
 ## Session 19: 2025-12-08
 
 ### What We Accomplished

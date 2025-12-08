@@ -29,7 +29,7 @@
 | Q16 | **DECIDED** | **Option D: Hybrid Enforcement (mandates for LLM compliance + hooks for critical sequences), 6/6 industry systems validated, ~320 LOC** |
 | Q17 | **DECIDED** | **Option D: Configurable Enforcement Levels (per-checkpoint config, tiered HARD/SOFT, ~300 LOC, 6/6 industry systems)** |
 | Q18 | **DECIDED** | **Option D: Dual-Layer Enforcement (Schema at load + Hook at invocation, ~300 LOC, 6/6 industry systems)** |
-| Q19 | PENDING | - |
+| Q19 | **DECIDED** | **Option D: Tiered Criticality (hook for critical like config loading, instructional for soft like style, ~450 LOC, 4/4 specialists unanimous, 10/10 industry systems)** |
 | Q20 | PENDING | - |
 
 ---
