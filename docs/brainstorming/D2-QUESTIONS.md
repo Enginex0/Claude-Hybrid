@@ -27,7 +27,7 @@
 | Q14 | **DECIDED** | **Option D: Scripts Delegate to Orchestrator (thin proxy → Python RuleEngine, 89% LOC reduction, industry-validated)** |
 | Q15 | **DECIDED** | **Option E (Modified): 4-Phase Lifecycle (SessionStart init + PreToolUse enforce + PreCompact persist + Stop complete), 9/9 industry systems validated, 95% testable** |
 | Q16 | **DECIDED** | **Option D: Hybrid Enforcement (mandates for LLM compliance + hooks for critical sequences), 6/6 industry systems validated, ~320 LOC** |
-| Q17 | PENDING | - |
+| Q17 | **DECIDED** | **Option D: Configurable Enforcement Levels (per-checkpoint config, tiered HARD/SOFT, ~300 LOC, 6/6 industry systems)** |
 | Q18 | PENDING | - |
 | Q19 | PENDING | - |
 | Q20 | PENDING | - |
