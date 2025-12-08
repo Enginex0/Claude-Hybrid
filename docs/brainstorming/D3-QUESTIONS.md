@@ -17,7 +17,8 @@
 | Q4 | **DECIDED** | **Option D: Exploration vs Execution (Party Mode for exploration, Sequential Delegation for execution)** |
 | Q5 | **DECIDED** | **Option D: Hybrid State Management (Tier 1: Working Memory, Tier 2: Session/Frontmatter, Tier 3: Persistent/Tickets)** |
 | Q6 | **DECIDED** | **Option E: Tiered Hybrid Sub-Agent Invocation (User→Orchestrator→Proactive→Injection)** |
-| Q7-Q20 | PENDING | - |
+| Q7 | **DECIDED** | **Option D: Tiered Role-Based Specialization (4-tier: Orchestrator→Phase Leads→Specialists→Sub-Agents, ~25-30 agents)** |
+| Q8-Q20 | PENDING | - |
 
 ---
 
