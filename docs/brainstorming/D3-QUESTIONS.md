@@ -21,7 +21,8 @@
 | Q8 | **DECIDED** | **Option E: Tiered Output Architecture (Tier 1: Message primary 90-95%, Tier 2: File artifacts 5-10%, Tier 3: JSON metadata)** |
 | Q9 | **DECIDED** | **Option C: Hybrid Installation with Priority Resolution (Project > User > System)** |
 | Q10 | **DECIDED** | **Option A: Hierarchical Single-Parent Delegation (Task tool returns to parent, cross-branch via Orchestrator)** |
-| Q11-Q20 | PENDING | - |
+| Q11 | **DECIDED** | **Option B: Dual Orchestrator Pattern (BMad Master for IDE + BMad Web Orchestrator for Web)** |
+| Q12-Q20 | PENDING | - |
 
 ---
 
