@@ -24,7 +24,8 @@
 | Q11 | **DECIDED** | **Option B: Dual Orchestrator Pattern (BMad Master for IDE + BMad Web Orchestrator for Web)** |
 | Q12 | **DECIDED** | **Option C: Hybrid with User Override (Orchestrator suggests, user accepts/overrides/invokes explicitly)** |
 | Q13 | **DECIDED** | **Option C: Agent Manifest-Driven Selection (dynamically select 2-3 agents based on task via manifest)** |
-| Q14-Q20 | PENDING | - |
+| Q14 | **DECIDED** | **Option D: Hierarchical Persona Authority (role-based tier hierarchy for conflict resolution)** |
+| Q15-Q20 | PENDING | - |
 
 ---
 
