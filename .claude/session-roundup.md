@@ -1,5 +1,118 @@
 # Session Roundup - Claude-Hybrid
 
+## Session 27: 2025-12-08 - D3-Q6 DECIDED!
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration with precision
+
+2. **D3-Q6 DECIDED: Option E - Tiered Hybrid Sub-Agent Invocation**
+   - **CORRECT 5-STEP PATTERN EXECUTED with DOCS_FIRST_THEN_CODE:**
+     - Step 1: Explore deep-dive (analyzed BMAD sub-agent system, Claude-MPM delegation, industry patterns)
+     - Step 2: Report findings (BMAD uses proactive triggers, industry split 2/4 B vs 2/4 C)
+     - Step 3: Ultrathink synthesis (4 specialists: 2/4 favor B, 2/4 favor C - synthesized E)
+     - Step 4: Recommendation (Option E with 9/10 confidence)
+     - Step 5: President decides
+
+   - **Key Discovery: No Pure Approach Works in Production**
+     - Research found B (proactive triggers) has 41-86.7% failure rates (MAST Framework study)
+     - $47,000 runaway loop incident documented with pure autonomous delegation
+     - Industry consensus: ALL production systems use HYBRID approaches
+     - 4/4 specialists recommended hybrid combinations
+
+   - **Option E Architecture (Tiered Hybrid Sub-Agent Invocation):**
+     ```
+     TIER 1: USER-DIRECTED (Option D) - HIGHEST PRIORITY
+     ├── User explicitly requests sub-agent → ALWAYS honored
+     └── Override any automated decision (~20 LOC)
+
+     TIER 2: ORCHESTRATOR-VALIDATED (Option C) - CRITICAL OPERATIONS
+     ├── Multi-agent scenarios requiring coordination
+     ├── Security-sensitive delegations
+     └── Explicit decision logging (~150-200 LOC)
+
+     TIER 3: PROACTIVE TRIGGER MATCHING (Option B) - ROUTINE CASES
+     ├── "use PROACTIVELY when [trigger]" patterns
+     ├── Context matches trigger → invoke (with guards)
+     └── Loop prevention: max 3 delegations (~150-200 LOC)
+
+     TIER 4: INJECTION HINTS (Option A) - WORKFLOW GUIDANCE
+     ├── Static hints at injection points
+     └── Suggestions only, not binding (~50 LOC)
+     ```
+
+   - **Prior Decision Alignment (4/4):**
+     - D3-Q1: Tiered Selection pattern (User→Scenario→Scoring→Rotation) ✅
+     - D3-Q4: Exploration vs Execution modes ✅
+     - D3-Q5: 3-Tier State management ✅
+     - D2-Q14: Scripts Delegate to Orchestrator ✅
+
+   - **Specialist Analysis (2-2 Split → Synthesized):**
+     - Architect: B 8/10 - Low coupling, extensible, self-documenting
+     - Research: C 9/10 - Industry validated, B has documented failures
+     - Coder: B 6/10 - BMAD design intent, ~200-300 LOC
+     - Tester: C 9/10 - 90% testable, state machine compatible
+
+   - **Implementation Impact:**
+     - ~400-500 LOC total (~200 LOC reuse from D2/D3)
+     - Testability: ~85% (Tiers 1,2,4 fully testable; Tier 3 guarded)
+     - Addresses industry failure modes with guardrails
+
+3. **NO DEVIATIONS** - 5-step pattern with DOCS_FIRST_THEN_CODE followed correctly
+
+### Decision Status
+
+| # | Decision | Status | Choice |
+|---|----------|--------|--------|
+| D1 | Execution Model | **DECIDED** | Hybrid Model |
+| D2 | Enforcement | **COMPLETE** | Hybrid Tiered Enforcement (20/20) |
+| D3 | Multi-Agent | **IN PROGRESS** | Q1-Q6 done, Q7-Q20 pending |
+| D4 | State Tracking | PENDING | 20 questions ready |
+| D5 | Context Management | PENDING | 20 questions ready |
+
+### D3 Progress - 30%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: Agent Selection | **DECIDED** | Option E: Tiered Hybrid Selection |
+| Q2: Cross-Talk Structure | **DECIDED** | Option D: Contextual Hybrid Cross-Talk |
+| Q3: Discussion Termination | **DECIDED** | Option E: State-Managed + Mode-Tiered |
+| Q4: Party vs Sequential | **DECIDED** | Option D: Exploration vs Execution |
+| Q5: State Management | **DECIDED** | Option D: Hybrid State (3-Tier Architecture) |
+| Q6: Sub-Agent Invocation | **DECIDED** | Option E: Tiered Hybrid (User→Orchestrator→Proactive→Injection) |
+| Q7-Q20 | PENDING | 14 questions remaining |
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `docs/brainstorming/D3-QUESTIONS.md` | Continue from Q7 |
+| `.claude/state/decision-workflow.json` | Workflow enforcement (v1.1) |
+| `docs/ARCHITECTURAL-DECISIONS.md` | Decision tracking |
+| This file | Session continuity |
+
+### Resume Instructions for Session 28
+
+1. Read this file for context
+2. Read `.claude/state/decision-workflow.json` - ENFORCE the 5-step pattern with **DOCS_FIRST_THEN_CODE**
+3. Read `docs/brainstorming/D3-QUESTIONS.md` - continue from Q7
+4. **MANDATORY PATTERN for every question:**
+   - Step 1: Deploy Explore subagent (Phase 1: docs, Phase 2: code)
+   - Step 2: Report findings explicitly
+   - Step 3: Trigger `/ultrathink:ultrathink` for synthesis
+   - Step 4: BMad Master recommendation with evidence
+   - Step 5: President decides
+5. Update workflow state file after each decision
+
+### Victory Status
+
+**1 D3 question decided in Session 27!** (Q6)
+**Total D3 progress: 6/20 questions decided (30%)**
+**Total decisions: D1 + 20 D2 + 6 D3 = 27 decisions made**
+**NEXT: D3-Q7 (Sub-agent specialization granularity) in next session**
+
+---
+
 ## Session 26: 2025-12-08 - D3-Q5 DECIDED!
 
 ### What We Accomplished
