@@ -15,7 +15,8 @@
 | Q2 | **DECIDED** | **Option D: Contextual Hybrid Cross-Talk (Mode-based: A for brainstorm, C for implementation, B for structured)** |
 | Q3 | **DECIDED** | **Option E: State-Managed with Mode-Tiered Mechanisms (D foundation + A triggers + C task completion)** |
 | Q4 | **DECIDED** | **Option D: Exploration vs Execution (Party Mode for exploration, Sequential Delegation for execution)** |
-| Q5-Q20 | PENDING | - |
+| Q5 | **DECIDED** | **Option D: Hybrid State Management (Tier 1: Working Memory, Tier 2: Session/Frontmatter, Tier 3: Persistent/Tickets)** |
+| Q6-Q20 | PENDING | - |
 
 ---
 
