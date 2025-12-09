@@ -28,7 +28,8 @@
 | Q15 | **DECIDED** | **Option E: Project Configuration with Sensible Defaults (Config infrastructure + all-by-default experience)** |
 | Q16 | **DECIDED** | **Option A: Filename Stem Matching (Claude Code native - subagent_type matches filename stem)** |
 | Q17 | **DECIDED** | **Option B: Project Highest Priority (Project > Remote > User > System - extends D3-Q9)** |
-| Q18-Q20 | PENDING | - |
+| Q18 | **DECIDED** | **Option E (Synthesized): Hierarchical Manifest + Direct Task Invocation (categorized manifest for discovery, Task tool for deterministic invocation)** |
+| Q19-Q20 | PENDING | - |
 
 ---
 
