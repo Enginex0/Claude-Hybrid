@@ -27,7 +27,8 @@
 | Q14 | **DECIDED** | **Option D: Hierarchical Persona Authority (role-based tier hierarchy for conflict resolution)** |
 | Q15 | **DECIDED** | **Option E: Project Configuration with Sensible Defaults (Config infrastructure + all-by-default experience)** |
 | Q16 | **DECIDED** | **Option A: Filename Stem Matching (Claude Code native - subagent_type matches filename stem)** |
-| Q17-Q20 | PENDING | - |
+| Q17 | **DECIDED** | **Option B: Project Highest Priority (Project > Remote > User > System - extends D3-Q9)** |
+| Q18-Q20 | PENDING | - |
 
 ---
 
