@@ -1,5 +1,107 @@
 # Session Roundup - Claude-Hybrid
 
+## Session 49: 2025-12-09 - D4-Q8 DECIDED!
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration with precision
+
+2. **D4-Q8 DECIDED: Option D - Frontmatter Authoritative; Ticketing Consumes Updates**
+   - **5-STEP PATTERN EXECUTED with DOCS_FIRST_THEN_CODE:**
+     - Step 1: Explore deep-dive (analyzed Claude-MPM StateStorage, TicketWorkflowService, BMAD frontmatter patterns)
+     - Step 2: Report findings (Constraint violation matrix + code evidence)
+     - Step 3: Ultrathink synthesis via `/ultrathink:ultrathink` (4/4 unanimous for D)
+     - Step 4: BMad Master recommendation
+     - Step 5: President approved
+
+   - **Critical Finding: D4-Q6 pre-selected this answer**
+     ```
+     Option A (External authoritative): ❌ Violates D4-Q6 (frontmatter is PRIMARY)
+     Option B (Local tickets/ auth):    ❌ Violates D4-Q6 (different mechanism)
+     Option C (PM_INSTRUCTIONS):        ❌ Violates D4-Q5 (no persistence), D4-Q2 (transient)
+     Option D (Frontmatter auth):       ✅ ONLY valid option - aligns with ALL binding constraints
+     ```
+
+   - **Code Evidence Confirmed:**
+     - TicketWorkflowService CANNOT read current state from tickets (TODO in source)
+     - StateStorage stores to local files (~/.claude-mpm/storage/)
+     - PM_INSTRUCTIONS is cached once at session start, not updated during session
+
+   - **Option D (Frontmatter Authoritative):**
+     - Frontmatter = Single Source of Truth (SSOT)
+     - Tickets = Projection layer (one-way sync: frontmatter → tickets)
+     - ~120 LOC net new (projection service), 100% D4-Q6/Q7 reuse
+     - $36K 3-year TCO (lowest)
+
+   - **Specialist Consensus: 4/4 UNANIMOUS for D**
+     - Architect: 10/10 (4/4 constraint compliance, 5/5 total with code)
+     - Research: 83% industry (5/6 use local authoritative, 0 counterexamples)
+     - Coder: 9/10 (lowest TCO, 100% reuse of D4-Q6/Q7)
+     - Tester: 9/10 (95% coverage achievable, 9/10 testability, 9/10 determinism)
+
+   - **Industry Validation: 5/6 (83%)**
+     - Temporal, Prefect, LangGraph, CrewAI, Dagster all use local authoritative
+     - 0/6 use external ticketing as authoritative
+     - 0 counterexamples found
+
+3. **NO DEVIATIONS** - 5-step pattern with DOCS_FIRST_THEN_CODE followed correctly
+
+### Decision Status
+
+| # | Decision | Status | Choice |
+|---|----------|--------|--------|
+| D1 | Execution Model | **DECIDED** | Hybrid Model |
+| D2 | Enforcement | **COMPLETE** | Hybrid Tiered Enforcement (20/20) |
+| D3 | Multi-Agent | **COMPLETE** | 20/20 questions decided |
+| D4 | State Tracking | **IN PROGRESS** | 8/20 (Q1-Q8 done) |
+| D5 | Context Management | PENDING | 20 questions ready |
+
+### D4 Progress - 40%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: State Granularity | **DECIDED** | Option D: Hybrid (step + workflow) |
+| Q2: State Persistence | **DECIDED** | Option D: Dual Persistence (frontmatter + external) |
+| Q3: Workflow Type ID | **DECIDED** | Option D: Configuration-driven (config_source) |
+| Q4: Step Enforcement | **DECIDED** | Option E: Tiered Hybrid (A+B+C' gate files) |
+| Q5: Workflow Resumption | **DECIDED** | Option E: A+D Hybrid with Orchestrator Awareness |
+| Q6: State Transitions | **DECIDED** | Option D: Hybrid (frontmatter primary + ticketer secondary) |
+| Q7: Scope Classification | **DECIDED** | Option A: Frontmatter metadata (with D4-Q6 ticket sync) |
+| Q8: Authoritative Source | **DECIDED** | Option D: Frontmatter authoritative; ticketing consumes |
+| Q9-Q20 | PENDING | 12 questions remaining |
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `docs/brainstorming/D4-QUESTIONS.md` | Continue from Q9 |
+| `.claude/state/decision-workflow.json` | Workflow enforcement (v1.1) |
+| `docs/ARCHITECTURAL-DECISIONS.md` | Decision tracking |
+| This file | Session continuity |
+
+### Resume Instructions for Session 50
+
+1. Read this file for context
+2. Read `.claude/state/decision-workflow.json` - ENFORCE the 5-step pattern with **DOCS_FIRST_THEN_CODE**
+3. Read `docs/brainstorming/D4-QUESTIONS.md` - continue from Q9
+4. **MANDATORY PATTERN for every question:**
+   - Step 1: Deploy Explore subagent (Phase 1: docs, Phase 2: code)
+   - Step 2: Report findings explicitly
+   - Step 3: Trigger `/ultrathink:ultrathink` (self-coordinating with correct subagent_types)
+   - Step 4: BMad Master recommendation with evidence
+   - Step 5: President decides
+5. Update workflow state file after each decision
+
+### Victory Status
+
+**D4-Q8 DECIDED!**
+**8 D4 questions decided in Sessions 42-49** (Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8)
+**Total D4 progress: 8/20 questions decided (40%)**
+**Total decisions: D1 + 20 D2 + 20 D3 + 8 D4 = 49 decisions made**
+**NEXT: D4-Q9 (State persistence across process boundary) in Session 50**
+
+---
+
 ## Session 48: 2025-12-09 - D4-Q7 DECIDED!
 
 ### What We Accomplished
