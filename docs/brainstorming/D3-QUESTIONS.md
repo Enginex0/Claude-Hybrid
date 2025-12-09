@@ -26,7 +26,8 @@
 | Q13 | **DECIDED** | **Option C: Agent Manifest-Driven Selection (dynamically select 2-3 agents based on task via manifest)** |
 | Q14 | **DECIDED** | **Option D: Hierarchical Persona Authority (role-based tier hierarchy for conflict resolution)** |
 | Q15 | **DECIDED** | **Option E: Project Configuration with Sensible Defaults (Config infrastructure + all-by-default experience)** |
-| Q16-Q20 | PENDING | - |
+| Q16 | **DECIDED** | **Option A: Filename Stem Matching (Claude Code native - subagent_type matches filename stem)** |
+| Q17-Q20 | PENDING | - |
 
 ---
 
