@@ -4,13 +4,13 @@
   "enforcement_type": "workflow_state_tracking",
 
   "current_session": {
-    "session_number": 52,
+    "session_number": 53,
     "date": "2025-12-09",
     "current_decision": "D4",
-    "current_question": "Q12",
+    "current_question": "Q13",
     "d2_status": "100% COMPLETE (20/20)",
     "d3_status": "100% COMPLETE (20/20)",
-    "d4_status": "55% IN PROGRESS (11/20)"
+    "d4_status": "60% IN PROGRESS (12/20)"
   },
 
   "mandatory_pattern": {
@@ -572,6 +572,18 @@
       "specialist_consensus": "4/4 unanimous on FILE-BASED primary (Architect 9/10 for Option E synthesis, Research 9/10 for A, Coder 9/10 for A+C, Tester 9/10 for B hybrid)",
       "industry_validation": "75% of production systems use file-based state for process boundaries (systemd, Docker, K8s, Temporal, Airflow, Prefect). 0% use env vars for STATE (only config). POSIX fact: execvpe destroys memory, files survive.",
       "special_note": "Physics + timing constrain the answer: (1) execvpe destroys memory (POSIX), (2) Claude Code reads state BEFORE MCP Gateway exists, (3) files are ONLY mechanism available pre-MCP. D4-Q2/Q6/Q8/Q9/Q10 binding constraints satisfied via file-primary with lazy ticket projection."
+    },
+    "D4-Q12": {
+      "status": "completed",
+      "steps_completed": ["EXPLORE_DEEP_DIVE", "REPORT_FINDINGS", "ULTRATHINK_SYNTHESIS", "RECOMMENDATION", "PRESIDENT_DECIDES"],
+      "can_present_decision": true,
+      "started_at": "2025-12-09T51:00:00Z",
+      "completed_at": "2025-12-09T52:00:00Z",
+      "decision": "Option D: Frontmatter in source artifact files (BMAD-style). Store workflow progress indicators in YAML frontmatter of artifact files (stepsCompleted array, currentStep, status). Frontmatter = SSOT. ~50-80 LOC net new, 90% reuse from BMAD, ~$10-15K 3-year TCO.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "3/4 favor D (Architect 9/10, Coder 10/10, Tester 9/10), 1/4 favors C+D hybrid (Research 8.95/10). Options A/B ELIMINATED by physics (PM_INSTRUCTIONS read-only post-handoff).",
+      "industry_validation": "75%+ production systems use file-based state at process boundaries (BMAD, Temporal, Prefect, Airflow, Dagster). 0 counterexamples for embedded prompt state.",
+      "special_note": "Decision pre-determined by binding constraints: D4-Q6 (frontmatter PRIMARY), D4-Q8 (frontmatter SSOT). Options A/B eliminated by physics. Option C violates D4-Q6/Q8. Option D is the ONLY option satisfying all 6 binding constraints (6/6)."
     }
   },
 
