@@ -1,5 +1,127 @@
 # Session Roundup - Claude-Hybrid
 
+## Session 36: 2025-12-09 - D3-Q15 DECIDED!
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration with precision
+
+2. **D3-Q15 DECIDED: Option E - Project Configuration with Sensible Defaults**
+   - **CORRECT 5-STEP PATTERN EXECUTED with DOCS_FIRST_THEN_CODE:**
+     - Step 1: Explore deep-dive (analyzed BMAD module organization, Claude-MPM 4-tier discovery, 5 industry frameworks)
+     - Step 2: Report findings (5/5 frameworks use config-based scoping, Option A has 28-32% failure rate)
+     - Step 3: Ultrathink synthesis (4 specialists: 2/4 favor D, 1/4 favor C, 1/4 favor B - synthesized E)
+     - Step 4: Recommendation (Option E with 9/10 confidence)
+     - Step 5: President decides - APPROVED
+
+   - **Key Discovery: D3-Q9 Already Decided the Architecture**
+     - D3-Q9's "Project > User > System" priority = Option D infrastructure
+     - Option E adds "all by default" semantics for zero-config experience
+     - 95% alignment with prior decisions
+
+   - **Option E Architecture (Project Config + Sensible Defaults):**
+     ```
+     TIER 1: DEFAULT BEHAVIOR (Zero Config Required)
+     ├── All modules/agents available (Option A behavior)
+     └── D3-Q13 dynamic selection picks 2-3 relevant per message
+
+     TIER 2: OPTIONAL PROJECT CONFIG (For Advanced Users)
+     ├── .bmad/config.yaml specifies available modules/agents
+     ├── Follows D3-Q9: Project > User > System priority
+     └── Enables enterprise governance when needed
+
+     TIER 3: RUNTIME DISCOVERY (Option C Enhancement)
+     └── *discover-agents command for explicit loading (optional)
+     ```
+
+   - **Prior Decision Alignment (95% - highest in D3):**
+     - D3-Q7: 4-tier hierarchy → config can scope to tier subsets ✅
+     - D3-Q9: Hybrid installation → EXACT MATCH (D is the implementation) ✅
+     - D3-Q11: Dual orchestrator → different defaults per environment ✅
+     - D3-Q13: Dynamic selection → operates within configured scope ✅
+
+   - **Specialist Analysis (Split - Synthesized Option E):**
+     - Architect: D 9/10 - 95% prior alignment, implements D3-Q9 exactly
+     - Research: D 10/10 - 100% enterprise standard, 5/5 frameworks, Option A has 28-32% failure
+     - Coder: C 7/10 - Lowest net new LOC (150), highest code reuse (77%)
+     - Tester: B 8/10 - Highest testability (8/10), 85% AC verifiability
+
+   - **Critical Evidence Against Option A (Pure Always Available):**
+     - MAST Framework: 28-32% failure rate documented
+     - Context rot: Performance degrades as agent pool grows
+     - Token bloat: 15-30% cost premium with performance degradation
+     - 0/5 production systems recommend as primary pattern
+
+   - **Implementation Impact:**
+     - ~350 LOC net new
+     - 77% code reuse from D3-Q9 + D3-Q12
+     - 3-Year TCO: $25,000
+     - Testability: 7/10
+
+3. **NO DEVIATIONS** - 5-step pattern with DOCS_FIRST_THEN_CODE followed correctly
+
+### Decision Status
+
+| # | Decision | Status | Choice |
+|---|----------|--------|--------|
+| D1 | Execution Model | **DECIDED** | Hybrid Model |
+| D2 | Enforcement | **COMPLETE** | Hybrid Tiered Enforcement (20/20) |
+| D3 | Multi-Agent | **IN PROGRESS** | Q1-Q15 done, Q16-Q20 pending |
+| D4 | State Tracking | PENDING | 20 questions ready |
+| D5 | Context Management | PENDING | 20 questions ready |
+
+### D3 Progress - 75%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: Agent Selection | **DECIDED** | Option E: Tiered Hybrid Selection |
+| Q2: Cross-Talk Structure | **DECIDED** | Option D: Contextual Hybrid Cross-Talk |
+| Q3: Discussion Termination | **DECIDED** | Option E: State-Managed + Mode-Tiered |
+| Q4: Party vs Sequential | **DECIDED** | Option D: Exploration vs Execution |
+| Q5: State Management | **DECIDED** | Option D: Hybrid State (3-Tier Architecture) |
+| Q6: Sub-Agent Invocation | **DECIDED** | Option E: Tiered Hybrid (User→Orchestrator→Proactive→Injection) |
+| Q7: Specialization Granularity | **DECIDED** | Option D: Tiered Role-Based (~25-30 agents, 4-tier hierarchy) |
+| Q8: Output Return Format | **DECIDED** | Option E: Tiered Output (Message→File→Metadata) |
+| Q9: Installation Location | **DECIDED** | Option C: Hybrid (Project > User > System) |
+| Q10: Delegation Relationship | **DECIDED** | Option A: Hierarchical Single-Parent (Task returns to parent) |
+| Q11: IDE vs Web Orchestration | **DECIDED** | Option B: Dual Orchestrator Pattern (BMad Master + BMad Web Orch) |
+| Q12: Agent Transformation | **DECIDED** | Option C: Hybrid with User Override (Orchestrator suggests, user overrides) |
+| Q13: Party Mode Collaboration | **DECIDED** | Option C: Agent Manifest-Driven Selection (2-3 agents via manifest) |
+| Q14: Persona/Principles Influence | **DECIDED** | Option D: Hierarchical Persona Authority (role-based tier hierarchy) |
+| Q15: Module Agent Availability | **DECIDED** | Option E: Project Config with Sensible Defaults (config infra + all-by-default) |
+| Q16-Q20 | PENDING | 5 questions remaining |
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `docs/brainstorming/D3-QUESTIONS.md` | Continue from Q16 |
+| `.claude/state/decision-workflow.json` | Workflow enforcement (v1.1) |
+| `docs/ARCHITECTURAL-DECISIONS.md` | Decision tracking |
+| This file | Session continuity |
+
+### Resume Instructions for Session 37
+
+1. Read this file for context
+2. Read `.claude/state/decision-workflow.json` - ENFORCE the 5-step pattern with **DOCS_FIRST_THEN_CODE**
+3. Read `docs/brainstorming/D3-QUESTIONS.md` - continue from Q16
+4. **MANDATORY PATTERN for every question:**
+   - Step 1: Deploy Explore subagent (Phase 1: docs, Phase 2: code)
+   - Step 2: Report findings explicitly
+   - Step 3: Trigger `/ultrathink:ultrathink` for synthesis
+   - Step 4: BMad Master recommendation with evidence
+   - Step 5: President decides
+5. Update workflow state file after each decision
+
+### Victory Status
+
+**1 D3 question decided in Session 36!** (Q15)
+**Total D3 progress: 15/20 questions decided (75%)**
+**Total decisions: D1 + 20 D2 + 15 D3 = 36 decisions made**
+**NEXT: D3-Q16 (Task tool agent matching) in next session**
+
+---
+
 ## Session 35: 2025-12-09 - D3-Q14 DECIDED!
 
 ### What We Accomplished
