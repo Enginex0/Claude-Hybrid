@@ -1,5 +1,112 @@
 # Session Roundup - Claude-Hybrid
 
+## Session 52: 2025-12-09 - D4-Q11 DECIDED!
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration with precision
+
+2. **D4-Q11 DECIDED: Option A - File-Based State Persistence (with D4-Q6 Compliant Ticket Sync)**
+   - **5-STEP PATTERN EXECUTED with DOCS_FIRST_THEN_CODE:**
+     - Step 1: Explore deep-dive (analyzed execvpe timing, InstructionCacheService, POSIX semantics)
+     - Step 2: Report findings (Constraint violation matrix + timing analysis)
+     - Step 3: Ultrathink synthesis via `/ultrathink:ultrathink` (4/4 unanimous on FILE-BASED)
+     - Step 4: BMad Master recommendation with physics/timing justification
+     - Step 5: President approved
+
+   - **Critical Finding: Physics + Timing Constrain the Answer**
+     ```
+     POSIX FACT: os.execvpe() destroys memory, files survive
+     TIMING FACT: Claude Code reads state BEFORE MCP Gateway exists
+     CONCLUSION: Files are the ONLY mechanism available pre-MCP
+     ```
+
+   - **Constraint Violation Matrix:**
+     ```
+     Option A (File only):      1 violation (D4-Q2 no dual) - BUT with ticket sync = VALID
+     Option B (File + DB):      2-3 violations (D4-Q6 wrong external type)
+     Option C (Prompt embed):   4 violations (D4-Q2, Q6, Q8, not persistent)
+     Option D (Env vars):       4 violations + size limits (~128KB)
+     ```
+
+   - **Option A (File-Based with D4-Q6 Compliant Ticket Sync):**
+     - State written to frontmatter files BEFORE execvpe
+     - Claude Code reads from file system IMMEDIATELY (before MCP)
+     - Async ticket projection after MCP Gateway starts
+     - ~50-150 LOC net new, 90% reuse (InstructionCacheService), ~$15-20K 3-year TCO
+
+   - **Specialist Consensus: 4/4 Unanimous on FILE-BASED Primary**
+     - Architect: 9/10 (Option E synthesis - file + lazy ticket)
+     - Research: 9/10 (75% industry validation for file-based)
+     - Coder: 9/10 (90% reuse, lowest TCO)
+     - Tester: 9/10 (9/10 testability with hybrid)
+
+   - **Industry Validation: 75% (6/8)**
+     - systemd, Docker, K8s, Temporal, Airflow, Prefect
+     - All use file-based state for process boundaries
+     - 0% use env vars for STATE (only config)
+
+3. **NO DEVIATIONS** - 5-step pattern with DOCS_FIRST_THEN_CODE followed correctly
+
+### Decision Status
+
+| # | Decision | Status | Choice |
+|---|----------|--------|--------|
+| D1 | Execution Model | **DECIDED** | Hybrid Model |
+| D2 | Enforcement | **COMPLETE** | Hybrid Tiered Enforcement (20/20) |
+| D3 | Multi-Agent | **COMPLETE** | 20/20 questions decided |
+| D4 | State Tracking | **IN PROGRESS** | 11/20 (Q1-Q11 done) |
+| D5 | Context Management | PENDING | 20 questions ready |
+
+### D4 Progress - 55%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: State Granularity | **DECIDED** | Option D: Hybrid (step + workflow) |
+| Q2: State Persistence | **DECIDED** | Option D: Dual Persistence (frontmatter + external) |
+| Q3: Workflow Type ID | **DECIDED** | Option D: Configuration-driven (config_source) |
+| Q4: Step Enforcement | **DECIDED** | Option E: Tiered Hybrid (A+B+C' gate files) |
+| Q5: Workflow Resumption | **DECIDED** | Option E: A+D Hybrid with Orchestrator Awareness |
+| Q6: State Transitions | **DECIDED** | Option D: Hybrid (frontmatter primary + ticketer secondary) |
+| Q7: Scope Classification | **DECIDED** | Option A: Frontmatter metadata (with D4-Q6 ticket sync) |
+| Q8: Authoritative Source | **DECIDED** | Option D: Frontmatter authoritative; ticketing consumes |
+| Q9: Process Boundary | **DECIDED** | Option C: Both (files for handoff, tickets for visibility) |
+| Q10: Circuit Breaker | **DECIDED** | Option B: Frontmatter direct + ticketing sync only |
+| Q11: execvpe State Survival | **DECIDED** | Option A: File-based (with D4-Q6 ticket sync) |
+| Q12-Q20 | PENDING | 9 questions remaining |
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `docs/brainstorming/D4-QUESTIONS.md` | Continue from Q12 |
+| `.claude/state/decision-workflow.json` | Workflow enforcement (v1.1) |
+| `docs/ARCHITECTURAL-DECISIONS.md` | Decision tracking |
+| This file | Session continuity |
+
+### Resume Instructions for Session 53
+
+1. Read this file for context
+2. Read `.claude/state/decision-workflow.json` - ENFORCE the 5-step pattern with **DOCS_FIRST_THEN_CODE**
+3. Read `docs/brainstorming/D4-QUESTIONS.md` - continue from Q12
+4. **MANDATORY PATTERN for every question:**
+   - Step 1: Deploy Explore subagent (Phase 1: docs, Phase 2: code)
+   - Step 2: Report findings explicitly
+   - Step 3: Trigger `/ultrathink:ultrathink` (self-coordinating with correct subagent_types)
+   - Step 4: BMad Master recommendation with evidence
+   - Step 5: President decides
+5. Update workflow state file after each decision
+
+### Victory Status
+
+**D4-Q11 DECIDED!**
+**11 D4 questions decided in Sessions 42-52** (Q1-Q11)
+**Total D4 progress: 11/20 questions decided (55%)**
+**Total decisions: D1 + 20 D2 + 20 D3 + 11 D4 = 52 decisions made**
+**NEXT: D4-Q12 (Workflow progress indicators in PM_INSTRUCTIONS) in Session 53**
+
+---
+
 ## Session 51: 2025-12-09 - D4-Q10 DECIDED!
 
 ### What We Accomplished

@@ -4,13 +4,13 @@
   "enforcement_type": "workflow_state_tracking",
 
   "current_session": {
-    "session_number": 51,
+    "session_number": 52,
     "date": "2025-12-09",
     "current_decision": "D4",
-    "current_question": "Q11",
+    "current_question": "Q12",
     "d2_status": "100% COMPLETE (20/20)",
     "d3_status": "100% COMPLETE (20/20)",
-    "d4_status": "50% IN PROGRESS (10/20)"
+    "d4_status": "55% IN PROGRESS (11/20)"
   },
 
   "mandatory_pattern": {
@@ -560,6 +560,18 @@
       "specialist_consensus": "2/4 favor B (Architect 9/10, Research 9/10), 2/4 favor C (Coder 9/10, Tester 9/10) - synthesized to B because Option C's 'SEPARATE' violates D4-Q6 one-way sync requirement unless sync is implicit",
       "industry_validation": "100% of production workflow systems (Temporal, LangGraph, CrewAI, Prefect, Airflow, Dagster) use LOCAL SSOT + ASYNC SYNC pattern. 0 counterexamples.",
       "special_note": "Circuit breaker pattern SHOULD influence architecture - pushes TOWARD local authoritative state (frontmatter) with async one-way sync to external (tickets). TicketWorkflowService CANNOT read current state (line 122 TODO) - write-only interface aligns perfectly with one-way sync."
+    },
+    "D4-Q11": {
+      "status": "completed",
+      "steps_completed": ["EXPLORE_DEEP_DIVE", "REPORT_FINDINGS", "ULTRATHINK_SYNTHESIS", "RECOMMENDATION", "PRESIDENT_DECIDES"],
+      "can_present_decision": true,
+      "started_at": "2025-12-09T49:00:00Z",
+      "completed_at": "2025-12-09T50:00:00Z",
+      "decision": "Option A: File-based state persistence only (with D4-Q6 compliant ticket sync). State written to frontmatter files BEFORE execvpe, Claude Code reads from file system IMMEDIATELY (before MCP Gateway), async ticket projection after MCP available. ~50-150 LOC net new, 90% reuse (InstructionCacheService), ~$15-20K 3-year TCO.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "4/4 unanimous on FILE-BASED primary (Architect 9/10 for Option E synthesis, Research 9/10 for A, Coder 9/10 for A+C, Tester 9/10 for B hybrid)",
+      "industry_validation": "75% of production systems use file-based state for process boundaries (systemd, Docker, K8s, Temporal, Airflow, Prefect). 0% use env vars for STATE (only config). POSIX fact: execvpe destroys memory, files survive.",
+      "special_note": "Physics + timing constrain the answer: (1) execvpe destroys memory (POSIX), (2) Claude Code reads state BEFORE MCP Gateway exists, (3) files are ONLY mechanism available pre-MCP. D4-Q2/Q6/Q8/Q9/Q10 binding constraints satisfied via file-primary with lazy ticket projection."
     }
   },
 
