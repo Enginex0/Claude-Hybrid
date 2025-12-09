@@ -30,7 +30,7 @@
 | Q17 | **DECIDED** | **Option B: Project Highest Priority (Project > Remote > User > System - extends D3-Q9)** |
 | Q18 | **DECIDED** | **Option E (Synthesized): Hierarchical Manifest + Direct Task Invocation (categorized manifest for discovery, Task tool for deterministic invocation)** |
 | Q19 | **DECIDED** | **Option E: Tiered Registry with Agent Scoping (B+D+A). FUTURE: Option F (Progressive Disclosure) Phase 2** |
-| Q20 | PENDING | - |
+| Q20 | **DECIDED** | **Option D: Session Boundary Only (Claude Code native behavior - agents loaded at session start, /agents cmd for immediate)** |
 
 ---
 
