@@ -1,5 +1,121 @@
 # Session Roundup - Claude-Hybrid
 
+## Session 40: 2025-12-09 - D3-Q19 DECIDED!
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration with precision
+
+2. **D3-Q19 DECIDED: Option E - Tiered Registry with Agent Scoping (B+D+A)**
+   - **CORRECT 5-STEP PATTERN EXECUTED with DOCS_FIRST_THEN_CODE:**
+     - Step 1: Explore deep-dive (analyzed Claude-MPM skill registry, BMAD skills, 8 industry frameworks)
+     - Step 2: Report findings (Option B fully implemented, Option D partially implemented, Option C NOT implemented)
+     - Step 3: Ultrathink synthesis (4 specialists with correct agent types deployed)
+     - Step 4: Recommendation (Option E with 9/10 confidence)
+     - Step 5: President decides - APPROVED
+
+   - **Key Discovery: Library Analogy**
+     - Option E = Card catalog + branch priority + full book checkout
+     - Option F = Same + smart checkout (covers first, chapters on-demand)
+     - Anthropic implements progressive disclosure (1/8 frameworks)
+
+   - **Option E Architecture (Tiered Registry + Agent Scoping):**
+     ```
+     TIER PRIORITY (D): Project > User > System
+     REGISTRY (B): skills_registry.yaml source of truth
+     AGENT SCOPING (A): Skill.agent_types filtering
+
+     Resolution: Tier determines WHICH file, Registry determines WHO gets WHAT
+     ```
+
+   - **FUTURE ENHANCEMENT: Option F (Progressive Disclosure)**
+     - Anthropic Agent Skills validates 3-level loading (L1→L2→L3)
+     - 50-80% token savings potential
+     - Deferred to Phase 2 after foundation ships
+
+   - **Prior Decision Alignment (98%):**
+     - D3-Q5: 100% - Mirrors 3-tier state architecture
+     - D3-Q9: 100% - Directly implements Project > User > System
+     - D3-Q15: 95% - Config-driven with sensible defaults
+     - D3-Q17: 100% - Local-first priority
+
+   - **Specialist Analysis (3/4 D-based, 1/4 B+C):**
+     - Architect: E 9/10 - 98% prior alignment, 100% code reuse
+     - Research: B+C 8/10 - Anthropic validates progressive disclosure
+     - Coder: E 8/10 - ~55 LOC, $11K TCO (lowest)
+     - Tester: D 9/10 - 9/10 determinism, 9/10 testability
+
+   - **Industry Validation:**
+     - 8/8 frameworks use registry-based (LangGraph, CrewAI, AutoGen, etc.)
+     - 1/8 frameworks use progressive disclosure (Anthropic Agent Skills)
+     - Decision: Build foundation (E) now, add optimization (F) later
+
+   - **Implementation Impact:**
+     - ~55 LOC net new
+     - 80% code reuse
+     - 3-Year TCO: $11,000 (lowest)
+     - Testability: 8/10
+     - Determinism: 9/10
+
+3. **TRANSPARENCY LESSON LEARNED**
+   - Research agent timed out initially
+   - BMad Master FAILED to report this transparently
+   - President called out the behavior: "this is the exact stupid behaviour i am trying to fight against"
+   - Corrective action: Redeployed Research agent, discovered Anthropic pattern
+   - Lesson: Always report incomplete data immediately, never gloss over
+
+4. **NO DEVIATIONS** - 5-step pattern with DOCS_FIRST_THEN_CODE followed correctly (after transparency correction)
+
+### Decision Status
+
+| # | Decision | Status | Choice |
+|---|----------|--------|--------|
+| D1 | Execution Model | **DECIDED** | Hybrid Model |
+| D2 | Enforcement | **COMPLETE** | Hybrid Tiered Enforcement (20/20) |
+| D3 | Multi-Agent | **IN PROGRESS** | Q1-Q19 done, Q20 pending |
+| D4 | State Tracking | PENDING | 20 questions ready |
+| D5 | Context Management | PENDING | 20 questions ready |
+
+### D3 Progress - 95%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1-Q18 | **DECIDED** | (see prior sessions) |
+| Q19: Skills Loading Strategy | **DECIDED** | Option E: Tiered Registry with Agent Scoping (B+D+A). FUTURE: Option F Phase 2 |
+| Q20 | PENDING | 1 question remaining |
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `docs/brainstorming/D3-QUESTIONS.md` | Continue from Q20 |
+| `.claude/state/decision-workflow.json` | Workflow enforcement (v1.1) |
+| `docs/ARCHITECTURAL-DECISIONS.md` | Decision tracking |
+| This file | Session continuity |
+
+### Resume Instructions for Session 41
+
+1. Read this file for context
+2. Read `.claude/state/decision-workflow.json` - ENFORCE the 5-step pattern with **DOCS_FIRST_THEN_CODE**
+3. Read `docs/brainstorming/D3-QUESTIONS.md` - continue from Q20
+4. **MANDATORY PATTERN for every question:**
+   - Step 1: Deploy Explore subagent (Phase 1: docs, Phase 2: code)
+   - Step 2: Report findings explicitly
+   - Step 3: Trigger `/ultrathink:ultrathink` with CORRECT specialist agents
+   - Step 4: BMad Master recommendation with evidence
+   - Step 5: President decides
+5. Update workflow state file after each decision
+6. **TRANSPARENCY RULE:** If any agent times out or fails, REPORT IMMEDIATELY
+
+### Victory Status
+
+**1 D3 question decided in Session 40!** (Q19)
+**Total D3 progress: 19/20 questions decided (95%)**
+**Total decisions: D1 + 20 D2 + 19 D3 = 40 decisions made**
+**NEXT: D3-Q20 (Claude Code restart requirements) in next session**
+
+---
+
 ## Session 39: 2025-12-09 - D3-Q18 DECIDED!
 
 ### What We Accomplished
