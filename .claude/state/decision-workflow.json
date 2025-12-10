@@ -4,14 +4,14 @@
   "enforcement_type": "workflow_state_tracking",
 
   "current_session": {
-    "session_number": 66,
+    "session_number": 67,
     "date": "2025-12-10",
     "current_decision": "D5",
-    "current_question": "Q11",
+    "current_question": "Q13",
     "d2_status": "100% COMPLETE (20/20)",
     "d3_status": "100% COMPLETE (20/20)",
     "d4_status": "100% COMPLETE (20/20)",
-    "d5_status": "50% IN PROGRESS (10/20)"
+    "d5_status": "60% IN PROGRESS (12/20)"
   },
 
   "mandatory_pattern": {
@@ -801,6 +801,30 @@
       "specialist_consensus": "3/4 favor A (Architect 10/10, Coder 9/10, Tester 9/10), 1/4 favor C (Research for flexibility)",
       "industry_validation": "8/8 frameworks use deterministic registry. Keyword inference: 27.3% accuracy loss (Berkeley BFCL). D3-Q16 MANDATES O(1) lookup.",
       "special_note": "skill_manager.py:194-247 (keyword inference) should be REMOVED. Parallel processing with Q9 in Session 66. NO DEVIATIONS - pattern compliance maintained."
+    },
+    "D5-Q11": {
+      "status": "completed",
+      "steps_completed": ["EXPLORE_DEEP_DIVE", "REPORT_FINDINGS", "ULTRATHINK_SYNTHESIS", "RECOMMENDATION", "PRESIDENT_DECIDES"],
+      "can_present_decision": true,
+      "started_at": "2025-12-10T19:00:00Z",
+      "completed_at": "2025-12-10T20:00:00Z",
+      "decision": "Option C: Hybrid Inline/External - Keep critical-path instructions inline (L1) for immediate availability, externalize supplementary material (L2/L3) only. Directly implements D5-Q7 binding constraint. ~320 LOC, 60% reuse, ~$28K 3-year TCO.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "4/4 unanimous for C (Architect 9/10, Research 8/10, Coder 9/10, Tester 8/10)",
+      "industry_validation": "5/5 production systems use hybrid (LangChain, CrewAI, Airflow, LangGraph, Temporal). 0/5 use full externalization (Option A anti-pattern).",
+      "special_note": "54-template claim NOT VALIDATED (actual: 10 templates). 48.1% NOT ACHIEVED (actual: 46.25%). D5-Q7 binding constraint PRE-SELECTED Option C. Parallel processing with Q12 in Session 67. NO DEVIATIONS - pattern compliance maintained."
+    },
+    "D5-Q12": {
+      "status": "completed",
+      "steps_completed": ["EXPLORE_DEEP_DIVE", "REPORT_FINDINGS", "ULTRATHINK_SYNTHESIS", "RECOMMENDATION", "PRESIDENT_DECIDES"],
+      "can_present_decision": true,
+      "started_at": "2025-12-10T19:00:00Z",
+      "completed_at": "2025-12-10T20:00:00Z",
+      "decision": "Option C: Hash-Based Primary - SHA-256 hash-based caching as PRIMARY mechanism per D4-Q13/Q19 binding constraints. TTL can coexist as secondary cleanup mechanism. ~420 LOC, 85% reuse from InstructionCacheService, ~$28K 3-year TCO.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "2/4 favor C (Coder 9/10, Tester 9/10), 2/4 favor B (Architect 8/10, Research 7/10) - BMad Master resolved split via binding constraint analysis",
+      "industry_validation": "Git, Docker, Kubernetes use hash + LRU/TTL hybrid. D4-Q13 (hash-based) and D4-Q19 (SHA256) binding constraints PRE-SELECT hash as PRIMARY.",
+      "special_note": "Split decision (2/4 B vs 2/4 C) resolved by binding constraints. D4-Q13 says 'hash-based validation', D4-Q19 says 'SHA256 PRIMARY' - Option C makes hash PRIMARY per constraints. Option B viable but treats hash as one-of-two rather than PRIMARY. NO DEVIATIONS - pattern compliance maintained."
     }
   },
 

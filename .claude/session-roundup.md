@@ -3,7 +3,7 @@
 ## Current Phase: D5 - Context Management
 
 **Status:** IN PROGRESS
-**Questions:** 10 pending (Q11-Q20), 10 completed (Q1-Q10)
+**Questions:** 8 pending (Q13-Q20), 12 completed (Q1-Q12)
 **Previous:** D4 (State Tracking) COMPLETE - See `session-D4.md`
 
 ---
@@ -16,9 +16,66 @@
 | D2 | Enforcement | **COMPLETE** | 20/20 |
 | D3 | Multi-Agent | **COMPLETE** | 20/20 |
 | D4 | State Tracking | **COMPLETE** | 20/20 |
-| D5 | Context Management | **IN PROGRESS** | 10/20 |
+| D5 | Context Management | **IN PROGRESS** | 12/20 |
 
-**Total Decisions Made:** 71 (D1 + D2x20 + D3x20 + D4x20 + D5x10)
+**Total Decisions Made:** 73 (D1 + D2x20 + D3x20 + D4x20 + D5x12)
+
+---
+
+## Session 67: 2025-12-10 - D5-Q11 & D5-Q12 DECIDED!
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration from session files
+
+2. **D5-Q11 DECIDED: Option C - Hybrid Inline/External**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (DOCS_FIRST_THEN_CODE)
+     - Step 2: Report findings (54-template claim NOT validated, actual 46.25%)
+     - Step 3: Ultrathink synthesis (4 specialists: 4/4 unanimous for C)
+     - Step 4: BMad Master recommendation with confidence assessment
+     - Step 5: President approved
+
+   - **Key Finding:** D5-Q7 binding constraint PRE-SELECTS Option C
+   - **Specialist Consensus:** 4/4 unanimous (Architect 9/10, Research 8/10, Coder 9/10, Tester 8/10)
+   - **Industry Validation:** 5/5 production systems use hybrid pattern
+   - **Implementation:** ~320 LOC, 60% reuse, ~$28K 3-year TCO
+
+3. **D5-Q12 DECIDED: Option C - Hash-Based Primary**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (cache architecture analysis)
+     - Step 2: Report findings (3-layer exists: CacheManager + FileSystemCache + InstructionCacheService)
+     - Step 3: Ultrathink synthesis (4 specialists: 2/4 split B vs C)
+     - Step 4: BMad Master resolved split via binding constraint analysis
+     - Step 5: President approved
+
+   - **Key Finding:** D4-Q13/Q19 binding constraints mandate hash as PRIMARY
+   - **Specialist Consensus:** 2/4 favor C (Coder, Tester), 2/4 favor B (Architect, Research) - resolved by constraints
+   - **Industry Validation:** Git, Docker, Kubernetes use hash + TTL hybrid
+   - **Implementation:** ~420 LOC, 85% reuse, ~$28K 3-year TCO
+
+4. **NO DEVIATIONS THIS SESSION!** Pattern compliance maintained.
+   - Parallel Explore agents for Q11 and Q12 for efficiency
+   - Manual Task agents for ultrathink (correct subagent_types used)
+   - Split decision resolved via binding constraint precedent analysis
+
+### D5 Progress - 60%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: Step-file architecture | **DECIDED** | Option A: Strict Sequential Loading |
+| Q2: Micro-file granularity | **DECIDED** | Option A: Fine Granularity (1K-2.5K tokens) |
+| Q3: Workflow state tracking | **DECIDED** | Option A: Frontmatter State in Output File |
+| Q4: Workflow formats | **DECIDED** | Option A: Dual Format Support (MD + YAML) |
+| Q5: 3 Tracks context budget | **DECIDED** | Option E: Track=Workflow Selection + Loading Strategies |
+| Q6: Skill loading priority | **DECIDED** | Option A: Project > User > Bundled (pre-selected) |
+| Q7: Progressive disclosure | **DECIDED** | Option A: Full 3-Level (L1/L2/L3) |
+| Q8: Restart semantics | **DECIDED** | Option A: Session Boundary Only (pre-selected by D3-Q20) |
+| Q9: Multi-source discovery | **DECIDED** | Option C: Manifest-Based Selective Loading |
+| Q10: Skill invocation | **DECIDED** | Option A: Registry-Based Linking Only |
+| Q11: Template externalization | **DECIDED** | Option C: Hybrid Inline/External |
+| Q12: Cache layering | **DECIDED** | Option C: Hash-Based Primary |
+| Q13-Q20 | PENDING | 8 questions remaining |
 
 ---
 
@@ -215,11 +272,11 @@
 
 ---
 
-## Resume Instructions for Session 66
+## Resume Instructions for Session 68
 
 1. Read this file for context
 2. Read `.claude/state/decision-workflow.json` - ENFORCE the 5-step pattern with **DOCS_FIRST_THEN_CODE**
-3. Read `docs/brainstorming/D5-QUESTIONS.md` - continue from Q9
+3. Read `docs/brainstorming/D5-QUESTIONS.md` - continue from Q13
 4. **MANDATORY PATTERN for every question:**
    - Step 1: Deploy Explore subagent (Phase 1: docs, Phase 2: code)
    - Step 2: Report findings explicitly
@@ -231,6 +288,13 @@
 ---
 
 ## Session History
+
+### Session 67 (2025-12-10)
+- D5-Q11: Option C - Hybrid Inline/External (4/4 unanimous, D5-Q7 binding constraint pre-selected)
+- D5-Q12: Option C - Hash-Based Primary (2/4 split resolved via D4-Q13/Q19 binding constraints)
+- NO DEVIATIONS - Pattern compliance maintained
+- Parallel Explore agents for Q11 and Q12, manual Task agents for ultrathink specialists
+- TWO QUESTIONS processed simultaneously as requested by President
 
 ### Session 66 (2025-12-10)
 - D5-Q9: Option C - Manifest-Based Selective Loading (3/4 consensus, 98.7% token savings per Anthropic)
