@@ -3,7 +3,7 @@
 ## Current Phase: D5 - Context Management
 
 **Status:** IN PROGRESS
-**Questions:** 8 pending (Q13-Q20), 12 completed (Q1-Q12)
+**Questions:** 6 pending (Q15-Q20), 14 completed (Q1-Q14)
 **Previous:** D4 (State Tracking) COMPLETE - See `session-D4.md`
 
 ---
@@ -16,9 +16,68 @@
 | D2 | Enforcement | **COMPLETE** | 20/20 |
 | D3 | Multi-Agent | **COMPLETE** | 20/20 |
 | D4 | State Tracking | **COMPLETE** | 20/20 |
-| D5 | Context Management | **IN PROGRESS** | 12/20 |
+| D5 | Context Management | **IN PROGRESS** | 14/20 |
 
-**Total Decisions Made:** 73 (D1 + D2x20 + D3x20 + D4x20 + D5x12)
+**Total Decisions Made:** 75 (D1 + D2x20 + D3x20 + D4x20 + D5x14)
+
+---
+
+## Session 68: 2025-12-10 - D5-Q13 & D5-Q14 DECIDED!
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration from session files
+
+2. **D5-Q13 DECIDED: Option A - Hash-Based Invalidation (SHA-256)**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (DOCS_FIRST_THEN_CODE)
+     - Step 2: Report findings (binding constraints D4-Q13/Q19/D5-Q12 pre-select Option A)
+     - Step 3: Ultrathink synthesis (3/4 specialists: 2/3 favor A, 1/3 favor D)
+     - Step 4: BMad Master recommendation with binding constraint analysis
+     - Step 5: President approved
+
+   - **Key Finding:** D4-Q13/Q19/D5-Q12 binding constraints MANDATE hash-primary
+   - **Specialist Consensus:** 2/3 favor A (Architect 9/10, Coder 9/10), 1/3 favor D (Research 9/10)
+   - **Split Resolution:** Option D adds memory-pressure as secondary; hash-PRIMARY per D5-Q12 is satisfied by Option A
+   - **Implementation:** 0-15 LOC, 95% reuse from InstructionCacheService, ~$2K-5K 3-year TCO
+
+3. **D5-Q14 DECIDED: Option A - Full ETag Implementation**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (three-layer pattern analysis)
+     - Step 2: Report findings (GitSourceSyncService already implements ETag+SHA256+SQLite)
+     - Step 3: Ultrathink synthesis (3/4 specialists: 2/3 favor A, 1/3 favor B)
+     - Step 4: BMad Master recommendation with scope clarification
+     - Step 5: President approved
+
+   - **Key Finding:** Question is about REMOTE Git-Sync where ETags ARE appropriate
+   - **Specialist Consensus:** 2/3 favor A (Architect 10/10, Coder 10/10), 1/3 favor B (Research 8/10)
+   - **Split Resolution:** Research misunderstood scope; Option B would regress existing functionality
+   - **Implementation:** 0-20 LOC, 98% reuse, ~$1K-3K 3-year TCO
+
+4. **NO DEVIATIONS THIS SESSION!** Pattern compliance maintained.
+   - Parallel Explore agents for Q13 and Q14 for efficiency
+   - Ultrathink triggered via slash command (Tester agent timed out, proceeded with 3/4)
+   - TWO QUESTIONS processed simultaneously as requested by President
+
+### D5 Progress - 70%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: Step-file architecture | **DECIDED** | Option A: Strict Sequential Loading |
+| Q2: Micro-file granularity | **DECIDED** | Option A: Fine Granularity (1K-2.5K tokens) |
+| Q3: Workflow state tracking | **DECIDED** | Option A: Frontmatter State in Output File |
+| Q4: Workflow formats | **DECIDED** | Option A: Dual Format Support (MD + YAML) |
+| Q5: 3 Tracks context budget | **DECIDED** | Option E: Track=Workflow Selection + Loading Strategies |
+| Q6: Skill loading priority | **DECIDED** | Option A: Project > User > Bundled (pre-selected) |
+| Q7: Progressive disclosure | **DECIDED** | Option A: Full 3-Level (L1/L2/L3) |
+| Q8: Restart semantics | **DECIDED** | Option A: Session Boundary Only (pre-selected by D3-Q20) |
+| Q9: Multi-source discovery | **DECIDED** | Option C: Manifest-Based Selective Loading |
+| Q10: Skill invocation | **DECIDED** | Option A: Registry-Based Linking Only |
+| Q11: Template externalization | **DECIDED** | Option C: Hybrid Inline/External |
+| Q12: Cache layering | **DECIDED** | Option C: Hash-Based Primary |
+| Q13: Template invalidation | **DECIDED** | Option A: Hash-Based SHA-256 |
+| Q14: Git-Sync ETag | **DECIDED** | Option A: Full ETag + SHA-256 + SQLite |
+| Q15-Q20 | PENDING | 6 questions remaining |
 
 ---
 
@@ -272,11 +331,11 @@
 
 ---
 
-## Resume Instructions for Session 68
+## Resume Instructions for Session 69
 
 1. Read this file for context
 2. Read `.claude/state/decision-workflow.json` - ENFORCE the 5-step pattern with **DOCS_FIRST_THEN_CODE**
-3. Read `docs/brainstorming/D5-QUESTIONS.md` - continue from Q13
+3. Read `docs/brainstorming/D5-QUESTIONS.md` - continue from Q15
 4. **MANDATORY PATTERN for every question:**
    - Step 1: Deploy Explore subagent (Phase 1: docs, Phase 2: code)
    - Step 2: Report findings explicitly
@@ -288,6 +347,14 @@
 ---
 
 ## Session History
+
+### Session 68 (2025-12-10)
+- D5-Q13: Option A - Hash-Based Invalidation SHA-256 (2/3 favor A, 1/3 favor D, resolved via binding constraints)
+- D5-Q14: Option A - Full ETag + SHA-256 + SQLite (2/3 favor A, 1/3 favor B, resolved via scope clarification)
+- NO DEVIATIONS - Pattern compliance maintained
+- Parallel Explore agents for Q13 and Q14
+- Tester agent timed out, proceeded with 3/4 specialists
+- TWO QUESTIONS processed simultaneously as requested by President
 
 ### Session 67 (2025-12-10)
 - D5-Q11: Option C - Hybrid Inline/External (4/4 unanimous, D5-Q7 binding constraint pre-selected)
