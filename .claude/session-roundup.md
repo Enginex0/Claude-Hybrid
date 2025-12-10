@@ -3,7 +3,7 @@
 ## Current Phase: D5 - Context Management
 
 **Status:** IN PROGRESS
-**Questions:** 16 pending (Q5-Q20), 4 completed (Q1-Q4)
+**Questions:** 14 pending (Q7-Q20), 6 completed (Q1-Q6)
 **Previous:** D4 (State Tracking) COMPLETE - See `session-D4.md`
 
 ---
@@ -16,9 +16,53 @@
 | D2 | Enforcement | **COMPLETE** | 20/20 |
 | D3 | Multi-Agent | **COMPLETE** | 20/20 |
 | D4 | State Tracking | **COMPLETE** | 20/20 |
-| D5 | Context Management | **IN PROGRESS** | 4/20 |
+| D5 | Context Management | **IN PROGRESS** | 6/20 |
 
-**Total Decisions Made:** 65 (D1 + D2x20 + D3x20 + D4x20 + D5x4)
+**Total Decisions Made:** 67 (D1 + D2x20 + D3x20 + D4x20 + D5x6)
+
+---
+
+## Session 64: 2025-12-10 - D5-Q5 & D5-Q6 DECIDED!
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration from session files
+
+2. **D5-Q5 DECIDED: Option E (Synthesized) - Track as Workflow Selection + Loading Strategies**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Explore deep-dive (DOCS_FIRST_THEN_CODE)
+     - Step 2: Report findings (tracks=workflow selection, not budgets)
+     - Step 3: Ultrathink synthesis (4 specialists: 2/4 favor C, 2/4 favor A)
+     - Step 4: BMad Master recommendation with Library Analogy
+     - Step 5: President approved
+
+   - **Key Finding:** BMAD tracks ARE workflow selection, NOT context budgets
+   - **Specialist Split:** Architect+Research favor C (architecture), Coder+Tester favor A (testability)
+   - **Synthesis:** Option E combines C foundation + D loading optimizations
+   - **Implementation:** ~330 LOC, ~$14K 3-year TCO
+   - **Industry:** 7/7 systems use complexity-driven, not track-driven context
+
+3. **D5-Q6 DECIDED: Option A - Project > User > Bundled Priority**
+   - **PRE-SELECTED by binding constraints D3-Q9 and D3-Q17**
+   - **Specialist Consensus:** 4/4 unanimous (Architect 10/10, Research 10/10, Coder 10/10, Tester 9/10)
+   - **Industry Validation:** 13/13 frameworks use local-first priority
+   - **Implementation:** 0 LOC (already exists in registry.py), $0 TCO
+
+4. **NO DEVIATIONS THIS SESSION!** Pattern compliance maintained.
+   - Parallel Explore agents for efficiency
+   - Manual Task agents for ultrathink (correct subagent_types used)
+
+### D5 Progress - 30%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: Step-file architecture | **DECIDED** | Option A: Strict Sequential Loading |
+| Q2: Micro-file granularity | **DECIDED** | Option A: Fine Granularity (1K-2.5K tokens) |
+| Q3: Workflow state tracking | **DECIDED** | Option A: Frontmatter State in Output File |
+| Q4: Workflow formats | **DECIDED** | Option A: Dual Format Support (MD + YAML) |
+| Q5: 3 Tracks context budget | **DECIDED** | Option E: Track=Workflow Selection + Loading Strategies |
+| Q6: Skill loading priority | **DECIDED** | Option A: Project > User > Bundled (pre-selected) |
+| Q7-Q20 | PENDING | 14 questions remaining |
 
 ---
 
@@ -74,11 +118,11 @@
 
 ---
 
-## Resume Instructions for Session 64
+## Resume Instructions for Session 65
 
 1. Read this file for context
 2. Read `.claude/state/decision-workflow.json` - ENFORCE the 5-step pattern with **DOCS_FIRST_THEN_CODE**
-3. Read `docs/brainstorming/D5-QUESTIONS.md` - continue from Q5
+3. Read `docs/brainstorming/D5-QUESTIONS.md` - continue from Q7
 4. **MANDATORY PATTERN for every question:**
    - Step 1: Deploy Explore subagent (Phase 1: docs, Phase 2: code)
    - Step 2: Report findings explicitly
@@ -90,6 +134,12 @@
 ---
 
 ## Session History
+
+### Session 64 (2025-12-10)
+- D5-Q5: Option E (Synthesized) - Track=Workflow Selection + Loading Strategies (2/4 split resolved via synthesis)
+- D5-Q6: Option A - Project > User > Bundled (4/4 unanimous, pre-selected by D3-Q9/Q17)
+- NO DEVIATIONS - Pattern compliance maintained
+- Parallel Explore agents deployed for efficiency
 
 ### Session 63 (2025-12-10)
 - D5-Q3: Option A - Frontmatter State (3/3 unanimous, constraint-forced)
