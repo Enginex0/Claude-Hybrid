@@ -3,7 +3,7 @@
 ## Current Phase: D5 - Context Management
 
 **Status:** IN PROGRESS
-**Questions:** 12 pending (Q9-Q20), 8 completed (Q1-Q8)
+**Questions:** 10 pending (Q11-Q20), 10 completed (Q1-Q10)
 **Previous:** D4 (State Tracking) COMPLETE - See `session-D4.md`
 
 ---
@@ -16,9 +16,58 @@
 | D2 | Enforcement | **COMPLETE** | 20/20 |
 | D3 | Multi-Agent | **COMPLETE** | 20/20 |
 | D4 | State Tracking | **COMPLETE** | 20/20 |
-| D5 | Context Management | **IN PROGRESS** | 8/20 |
+| D5 | Context Management | **IN PROGRESS** | 10/20 |
 
-**Total Decisions Made:** 69 (D1 + D2x20 + D3x20 + D4x20 + D5x8)
+**Total Decisions Made:** 71 (D1 + D2x20 + D3x20 + D4x20 + D5x10)
+
+---
+
+## Session 66: 2025-12-10 - D5-Q9 & D5-Q10 DECIDED!
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration from session files
+
+2. **D5-Q9 DECIDED: Option C - Manifest-Based Selective Loading**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (DOCS_FIRST_THEN_CODE)
+     - Step 2: Report findings (manifest patterns in BMAD and claude-mpm)
+     - Step 3: Ultrathink synthesis (4 specialists: 3/4 favor C or C+B)
+     - Step 4: BMad Master recommendation with confidence assessment
+     - Step 5: President approved
+
+   - **Key Finding:** 98.7% token reduction with Anthropic MCP manifest pattern
+   - **Specialist Consensus:** 3/4 favor C (Architect 9/10, Research, Tester 95%+ coverage)
+   - **Industry Validation:** CMU: 70% agent failures from context overflow
+   - **Implementation:** +390 LOC, ~$20.6K 3-year TCO, 65-80% token savings
+
+3. **D5-Q10 DECIDED: Option A - Registry-Based Linking Only**
+   - **PRE-SELECTED by D3-Q16 binding constraint** (O(1) deterministic lookup)
+   - **Specialist Consensus:** 3/4 favor A (Architect 10/10, Coder 9/10, Tester 9/10)
+   - **Industry Validation:** 8/8 frameworks use deterministic registry
+   - **Implementation:** -13 LOC (simplification!), ~$5.8K 3-year TCO
+   - **Action Required:** Remove skill_manager.py:194-247 (keyword inference)
+
+4. **NO DEVIATIONS THIS SESSION!** Pattern compliance maintained.
+   - Parallel Explore agents for Q9 and Q10 for efficiency
+   - Ultrathink self-coordinated correctly via /ultrathink:ultrathink
+   - Correct subagent_types used for all 4 specialists
+
+### D5 Progress - 50%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: Step-file architecture | **DECIDED** | Option A: Strict Sequential Loading |
+| Q2: Micro-file granularity | **DECIDED** | Option A: Fine Granularity (1K-2.5K tokens) |
+| Q3: Workflow state tracking | **DECIDED** | Option A: Frontmatter State in Output File |
+| Q4: Workflow formats | **DECIDED** | Option A: Dual Format Support (MD + YAML) |
+| Q5: 3 Tracks context budget | **DECIDED** | Option E: Track=Workflow Selection + Loading Strategies |
+| Q6: Skill loading priority | **DECIDED** | Option A: Project > User > Bundled (pre-selected) |
+| Q7: Progressive disclosure | **DECIDED** | Option A: Full 3-Level (L1/L2/L3) |
+| Q8: Restart semantics | **DECIDED** | Option A: Session Boundary Only (pre-selected by D3-Q20) |
+| Q9: Multi-source discovery | **DECIDED** | Option C: Manifest-Based Selective Loading |
+| Q10: Skill invocation | **DECIDED** | Option A: Registry-Based Linking Only |
+| Q11-Q20 | PENDING | 10 questions remaining |
 
 ---
 
@@ -182,6 +231,13 @@
 ---
 
 ## Session History
+
+### Session 66 (2025-12-10)
+- D5-Q9: Option C - Manifest-Based Selective Loading (3/4 consensus, 98.7% token savings per Anthropic)
+- D5-Q10: Option A - Registry-Based Linking Only (3/4 consensus, pre-selected by D3-Q16)
+- NO DEVIATIONS - Pattern compliance maintained
+- Parallel Explore agents for Q9 and Q10, ultrathink self-coordinated correctly
+- TWO QUESTIONS processed simultaneously as requested by President
 
 ### Session 65 (2025-12-10)
 - D5-Q7: Option A - Full 3-Level Progressive Disclosure (4/4 unanimous, already implemented 1,378 LOC)
