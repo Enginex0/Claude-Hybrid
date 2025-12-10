@@ -3,7 +3,7 @@
 ## Current Phase: D5 - Context Management
 
 **Status:** IN PROGRESS
-**Questions:** 6 pending (Q15-Q20), 14 completed (Q1-Q14)
+**Questions:** 4 pending (Q17-Q20), 16 completed (Q1-Q16)
 **Previous:** D4 (State Tracking) COMPLETE - See `session-D4.md`
 
 ---
@@ -16,9 +16,70 @@
 | D2 | Enforcement | **COMPLETE** | 20/20 |
 | D3 | Multi-Agent | **COMPLETE** | 20/20 |
 | D4 | State Tracking | **COMPLETE** | 20/20 |
-| D5 | Context Management | **IN PROGRESS** | 14/20 |
+| D5 | Context Management | **IN PROGRESS** | 16/20 |
 
-**Total Decisions Made:** 75 (D1 + D2x20 + D3x20 + D4x20 + D5x14)
+**Total Decisions Made:** 77 (D1 + D2x20 + D3x20 + D4x20 + D5x16)
+
+---
+
+## Session 69: 2025-12-10 - D5-Q15 & D5-Q16 DECIDED!
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration from session files
+
+2. **D5-Q15 DECIDED: Option A - Categorical Templates**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (DOCS_FIRST_THEN_CODE)
+     - Step 2: Report findings (BMAD/claude-mpm both use flat categorical)
+     - Step 3: Ultrathink synthesis (4 specialists: 2/4 B, 1/4 C, 1/4 D - split resolved via constraints)
+     - Step 4: BMad Master recommendation with binding constraint analysis
+     - Step 5: President approved
+
+   - **Key Finding:** Options C and D VIOLATE D5-Q11/Q12/Q13 binding constraints
+   - **Specialist Consensus:** 2/4 favor B (Architect, Coder), 1/4 favor C (Research), 1/4 favor D (Tester)
+   - **Split Resolution:** C and D have constraint violations; A and B are identical (flat with semantic naming)
+   - **Implementation:** 0 LOC net new, 100% reuse from BMAD/claude-mpm, $0 TCO
+
+3. **D5-Q16 DECIDED: Option A - Three-tier Structure (L1/L2/L3)**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (existing skill implementations)
+     - Step 2: Report findings (D5-Q7 binding constraint PRE-SELECTS Option A)
+     - Step 3: Ultrathink synthesis (4/4 unanimous for Option A)
+     - Step 4: BMad Master recommendation - constraint satisfaction, not choice
+     - Step 5: President approved
+
+   - **Key Finding:** D5-Q7 ALREADY DECIDED L1/L2/L3 - this was PRE-SELECTED
+   - **Specialist Consensus:** 4/4 unanimous (Architect 10/10, Research 9/10, Coder 8/10, Tester 8/10)
+   - **Industry Validation:** Anthropic MCP (98.7%) uses identical pattern, 96%+ token savings
+   - **Implementation:** ~200 LOC, 60% reuse, ~$4K 3-year TCO
+
+4. **NO DEVIATIONS THIS SESSION!** Pattern compliance maintained.
+   - Parallel Explore agents for Q15 and Q16 for efficiency
+   - Ultrathink triggered via slash command with 4 specialists
+   - TWO QUESTIONS processed simultaneously as requested by President
+
+### D5 Progress - 80%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: Step-file architecture | **DECIDED** | Option A: Strict Sequential Loading |
+| Q2: Micro-file granularity | **DECIDED** | Option A: Fine Granularity (1K-2.5K tokens) |
+| Q3: Workflow state tracking | **DECIDED** | Option A: Frontmatter State in Output File |
+| Q4: Workflow formats | **DECIDED** | Option A: Dual Format Support (MD + YAML) |
+| Q5: 3 Tracks context budget | **DECIDED** | Option E: Track=Workflow Selection + Loading Strategies |
+| Q6: Skill loading priority | **DECIDED** | Option A: Project > User > Bundled (pre-selected) |
+| Q7: Progressive disclosure | **DECIDED** | Option A: Full 3-Level (L1/L2/L3) |
+| Q8: Restart semantics | **DECIDED** | Option A: Session Boundary Only (pre-selected by D3-Q20) |
+| Q9: Multi-source discovery | **DECIDED** | Option C: Manifest-Based Selective Loading |
+| Q10: Skill invocation | **DECIDED** | Option A: Registry-Based Linking Only |
+| Q11: Template externalization | **DECIDED** | Option C: Hybrid Inline/External |
+| Q12: Cache layering | **DECIDED** | Option C: Hash-Based Primary |
+| Q13: Template invalidation | **DECIDED** | Option A: Hash-Based SHA-256 |
+| Q14: Git-Sync ETag | **DECIDED** | Option A: Full ETag + SHA-256 + SQLite |
+| Q15: Template organization | **DECIDED** | Option A: Categorical Templates (flat with semantic naming) |
+| Q16: Skill progressive disclosure | **DECIDED** | Option A: Three-tier (L1/L2/L3) - PRE-SELECTED by D5-Q7 |
+| Q17-Q20 | PENDING | 4 questions remaining |
 
 ---
 
@@ -331,11 +392,11 @@
 
 ---
 
-## Resume Instructions for Session 69
+## Resume Instructions for Session 70
 
 1. Read this file for context
 2. Read `.claude/state/decision-workflow.json` - ENFORCE the 5-step pattern with **DOCS_FIRST_THEN_CODE**
-3. Read `docs/brainstorming/D5-QUESTIONS.md` - continue from Q15
+3. Read `docs/brainstorming/D5-QUESTIONS.md` - continue from Q17
 4. **MANDATORY PATTERN for every question:**
    - Step 1: Deploy Explore subagent (Phase 1: docs, Phase 2: code)
    - Step 2: Report findings explicitly
@@ -347,6 +408,14 @@
 ---
 
 ## Session History
+
+### Session 69 (2025-12-10)
+- D5-Q15: Option A - Categorical Templates (2/4 B, 1/4 C, 1/4 D, resolved via constraint violations)
+- D5-Q16: Option A - Three-tier Structure L1/L2/L3 (4/4 unanimous, PRE-SELECTED by D5-Q7)
+- NO DEVIATIONS - Pattern compliance maintained
+- Parallel Explore agents for Q15 and Q16
+- Ultrathink with 4 specialists via slash command
+- TWO QUESTIONS processed simultaneously as requested by President
 
 ### Session 68 (2025-12-10)
 - D5-Q13: Option A - Hash-Based Invalidation SHA-256 (2/3 favor A, 1/3 favor D, resolved via binding constraints)
