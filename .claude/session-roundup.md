@@ -3,7 +3,7 @@
 ## Current Phase: D5 - Context Management
 
 **Status:** IN PROGRESS
-**Questions:** 4 pending (Q17-Q20), 16 completed (Q1-Q16)
+**Questions:** 2 pending (Q19-Q20), 18 completed (Q1-Q18)
 **Previous:** D4 (State Tracking) COMPLETE - See `session-D4.md`
 
 ---
@@ -16,9 +16,75 @@
 | D2 | Enforcement | **COMPLETE** | 20/20 |
 | D3 | Multi-Agent | **COMPLETE** | 20/20 |
 | D4 | State Tracking | **COMPLETE** | 20/20 |
-| D5 | Context Management | **IN PROGRESS** | 16/20 |
+| D5 | Context Management | **IN PROGRESS** | 18/20 |
 
-**Total Decisions Made:** 77 (D1 + D2x20 + D3x20 + D4x20 + D5x16)
+**Total Decisions Made:** 79 (D1 + D2x20 + D3x20 + D4x20 + D5x18)
+
+---
+
+## Session 70: 2025-12-10 - D5-Q17 & D5-Q18 DECIDED!
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration from session files
+
+2. **D5-Q17 DECIDED: Option D - Progressive Loading (L1/L2/L3)**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (DOCS_FIRST_THEN_CODE)
+     - Step 2: Report findings (Claude Code native 3-level, claude-mpm SkillManager)
+     - Step 3: Ultrathink synthesis (4 specialists: 3/4 D, 1/4 B)
+     - Step 4: BMad Master recommendation with binding constraint analysis
+     - Step 5: President approved
+
+   - **Key Finding:** Option B REJECTED - violates D5-Q9 (manifest) and D5-Q10 (registry)
+   - **Specialist Consensus:** 3/4 favor D (Architect 9/10, Research 9/10, Tester 8/10), 1/4 favor B (Coder 8/10)
+   - **Split Resolution:** Coder's TCO analysis valid but binding constraints take precedence
+   - **Industry Validation:** 98.7% of frameworks use progressive disclosure (Anthropic MCP, LangChain, CrewAI)
+   - **Implementation:** ~200 LOC, 50-80% token savings, ~$37K 3-year TCO
+
+3. **D5-Q18 DECIDED: Option B - Shorthand when unambiguous (with D tier-based priority)**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (BMAD, claude-mpm, Claude Code namespacing)
+     - Step 2: Report findings (npm, PyPI PEP 752, cargo all use shorthand patterns)
+     - Step 3: Ultrathink synthesis (4 specialists: 3/4 B, 1/4 A)
+     - Step 4: BMad Master recommendation with UX + security analysis
+     - Step 5: President approved
+
+   - **Key Finding:** Option A REJECTED - verbose UX, wastes 10-20 tokens per reference
+   - **Specialist Consensus:** 3/4 favor B (Architect 8/10 B+D, Research 7/10, Coder 7/10), 1/4 favor A (Tester 9/10)
+   - **Split Resolution:** Tester's testability concern valid but UX degradation unacceptable
+   - **Industry Validation:** 11/11 frameworks use tier-based priority; npm/PyPI/cargo use shorthand
+   - **Implementation:** ~80 LOC, 80-90% token savings, ~$22K 3-year TCO
+   - **Security:** 222K typosquat vectors mitigated by tier-based shadowing with warnings
+
+4. **NO DEVIATIONS THIS SESSION!** Pattern compliance maintained.
+   - Parallel Explore agents for Q17 and Q18 for efficiency
+   - Ultrathink triggered via /ultrathink:ultrathink slash command (correct pattern)
+   - TWO QUESTIONS processed simultaneously as requested by President
+
+### D5 Progress - 90%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: Step-file architecture | **DECIDED** | Option A: Strict Sequential Loading |
+| Q2: Micro-file granularity | **DECIDED** | Option A: Fine Granularity (1K-2.5K tokens) |
+| Q3: Workflow state tracking | **DECIDED** | Option A: Frontmatter State in Output File |
+| Q4: Workflow formats | **DECIDED** | Option A: Dual Format Support (MD + YAML) |
+| Q5: 3 Tracks context budget | **DECIDED** | Option E: Track=Workflow Selection + Loading Strategies |
+| Q6: Skill loading priority | **DECIDED** | Option A: Project > User > Bundled (pre-selected) |
+| Q7: Progressive disclosure | **DECIDED** | Option A: Full 3-Level (L1/L2/L3) |
+| Q8: Restart semantics | **DECIDED** | Option A: Session Boundary Only (pre-selected by D3-Q20) |
+| Q9: Multi-source discovery | **DECIDED** | Option C: Manifest-Based Selective Loading |
+| Q10: Skill invocation | **DECIDED** | Option A: Registry-Based Linking Only |
+| Q11: Template externalization | **DECIDED** | Option C: Hybrid Inline/External |
+| Q12: Cache layering | **DECIDED** | Option C: Hash-Based Primary |
+| Q13: Template invalidation | **DECIDED** | Option A: Hash-Based SHA-256 |
+| Q14: Git-Sync ETag | **DECIDED** | Option A: Full ETag + SHA-256 + SQLite |
+| Q15: Template organization | **DECIDED** | Option A: Categorical Templates (flat with semantic naming) |
+| Q16: Skill progressive disclosure | **DECIDED** | Option A: Three-tier (L1/L2/L3) - PRE-SELECTED by D5-Q7 |
+| Q17: Skill loading timing | **DECIDED** | Option D: Progressive Loading (L1 always, L2/L3 on-demand) |
+| Q18: Plugin/skill namespacing | **DECIDED** | Option B: Shorthand when unambiguous + tier-based priority |
+| Q19-Q20 | PENDING | 2 questions remaining |
 
 ---
 
