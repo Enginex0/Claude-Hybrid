@@ -1,7 +1,7 @@
 # D5: Context Management - Question Set
 
 **Decision:** How does Claude-Hybrid manage the 200k context limit?
-**Status:** PENDING
+**Status:** 🎉 COMPLETE (20/20 DECIDED)
 **Generated:** 2025-12-07 (Session 5)
 **Sources:** 4 documents analyzed by subagents
 
@@ -11,7 +11,26 @@
 
 | Question | Status | Answer |
 |----------|--------|--------|
-| Q1-Q20 | PENDING | - |
+| Q1 | **DECIDED** | Option A: Strict Sequential Loading |
+| Q2 | **DECIDED** | Option A: Fine Granularity (1K-2.5K tokens) |
+| Q3 | **DECIDED** | Option A: Frontmatter State in Output File |
+| Q4 | **DECIDED** | Option A: Dual Format Support (MD + YAML) |
+| Q5 | **DECIDED** | Option E: Track=Workflow Selection + Loading Strategies |
+| Q6 | **DECIDED** | Option A: Project > User > Bundled |
+| Q7 | **DECIDED** | Option A: Full 3-Level (L1/L2/L3) |
+| Q8 | **DECIDED** | Option A: Session Boundary Only |
+| Q9 | **DECIDED** | Option C: Manifest-Based Selective Loading |
+| Q10 | **DECIDED** | Option A: Registry-Based Linking Only |
+| Q11 | **DECIDED** | Option C: Hybrid Inline/External |
+| Q12 | **DECIDED** | Option C: Hash-Based Primary |
+| Q13 | **DECIDED** | Option A: Hash-Based SHA-256 |
+| Q14 | **DECIDED** | Option A: Full ETag + SHA-256 + SQLite |
+| Q15 | **DECIDED** | Option A: Categorical Templates |
+| Q16 | **DECIDED** | Option A: Three-tier (L1/L2/L3) |
+| Q17 | **DECIDED** | Option D: Progressive Loading |
+| Q18 | **DECIDED** | Option B: Shorthand + tier-based priority |
+| Q19 | **DECIDED** | Option C: Never auto-load + Read tool + inline hints |
+| Q20 | **DECIDED** | Option B: Single response model |
 
 ---
 
