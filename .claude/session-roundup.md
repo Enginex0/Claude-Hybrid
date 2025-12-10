@@ -3,7 +3,7 @@
 ## Current Phase: D5 - Context Management
 
 **Status:** IN PROGRESS
-**Questions:** 14 pending (Q7-Q20), 6 completed (Q1-Q6)
+**Questions:** 12 pending (Q9-Q20), 8 completed (Q1-Q8)
 **Previous:** D4 (State Tracking) COMPLETE - See `session-D4.md`
 
 ---
@@ -16,9 +16,57 @@
 | D2 | Enforcement | **COMPLETE** | 20/20 |
 | D3 | Multi-Agent | **COMPLETE** | 20/20 |
 | D4 | State Tracking | **COMPLETE** | 20/20 |
-| D5 | Context Management | **IN PROGRESS** | 6/20 |
+| D5 | Context Management | **IN PROGRESS** | 8/20 |
 
-**Total Decisions Made:** 67 (D1 + D2x20 + D3x20 + D4x20 + D5x6)
+**Total Decisions Made:** 69 (D1 + D2x20 + D3x20 + D4x20 + D5x8)
+
+---
+
+## Session 65: 2025-12-10 - D5-Q7 & D5-Q8 DECIDED!
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration from session files
+
+2. **D5-Q7 DECIDED: Option A - Full 3-Level Progressive Disclosure**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Explore deep-dive (DOCS_FIRST_THEN_CODE)
+     - Step 2: Report findings (pattern already implemented in claude-mpm)
+     - Step 3: Ultrathink synthesis (4 specialists: 4/4 unanimous)
+     - Step 4: BMad Master recommendation with Library Card Catalog Analogy
+     - Step 5: President approved
+
+   - **Key Finding:** Already implemented in claude-mpm with 1,378 LOC
+   - **Specialist Consensus:** 4/4 unanimous (Architect 9/10, Research 9/10, Coder 9/10, Tester 9/10)
+   - **Token Savings:** 50-80% validated (industry shows 60-98% achievable)
+   - **Implementation:** 0 LOC required, ~$4K 3-year TCO
+   - **Industry:** All major frameworks (Anthropic MCP 98.7%, LangChain, CrewAI) use progressive disclosure
+
+3. **D5-Q8 DECIDED: Option A - Require Explicit Restart (Session Boundary Only)**
+   - **PRE-SELECTED by D3-Q20 binding precedent**
+   - **Architect noted:** "This is not a judgment call - it is a binding precedent application"
+   - **Specialist Consensus:** 4/4 unanimous (Architect 10/10, Research 9/10, Coder 9/10, Tester 9/10)
+   - **Industry Validation:** 10/10 frameworks use session-boundary loading
+   - **Implementation:** 0 LOC (already native Claude Code behavior), $0 TCO
+
+4. **NO DEVIATIONS THIS SESSION!** Pattern compliance maintained.
+   - Parallel Explore agents for Q7 and Q8 for efficiency
+   - Ultrathink self-coordinated correctly via /ultrathink:ultrathink
+   - Correct subagent_types used for specialists
+
+### D5 Progress - 40%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: Step-file architecture | **DECIDED** | Option A: Strict Sequential Loading |
+| Q2: Micro-file granularity | **DECIDED** | Option A: Fine Granularity (1K-2.5K tokens) |
+| Q3: Workflow state tracking | **DECIDED** | Option A: Frontmatter State in Output File |
+| Q4: Workflow formats | **DECIDED** | Option A: Dual Format Support (MD + YAML) |
+| Q5: 3 Tracks context budget | **DECIDED** | Option E: Track=Workflow Selection + Loading Strategies |
+| Q6: Skill loading priority | **DECIDED** | Option A: Project > User > Bundled (pre-selected) |
+| Q7: Progressive disclosure | **DECIDED** | Option A: Full 3-Level (L1/L2/L3) |
+| Q8: Restart semantics | **DECIDED** | Option A: Session Boundary Only (pre-selected by D3-Q20) |
+| Q9-Q20 | PENDING | 12 questions remaining |
 
 ---
 
@@ -118,15 +166,15 @@
 
 ---
 
-## Resume Instructions for Session 65
+## Resume Instructions for Session 66
 
 1. Read this file for context
 2. Read `.claude/state/decision-workflow.json` - ENFORCE the 5-step pattern with **DOCS_FIRST_THEN_CODE**
-3. Read `docs/brainstorming/D5-QUESTIONS.md` - continue from Q7
+3. Read `docs/brainstorming/D5-QUESTIONS.md` - continue from Q9
 4. **MANDATORY PATTERN for every question:**
    - Step 1: Deploy Explore subagent (Phase 1: docs, Phase 2: code)
    - Step 2: Report findings explicitly
-   - Step 3: Deploy 4 specialist agents manually (Architect, Research, Coder, Tester)
+   - Step 3: Trigger /ultrathink:ultrathink for 4-specialist synthesis (self-coordinating)
    - Step 4: BMad Master recommendation with evidence
    - Step 5: President decides
 5. Update workflow state file after each decision
@@ -134,6 +182,12 @@
 ---
 
 ## Session History
+
+### Session 65 (2025-12-10)
+- D5-Q7: Option A - Full 3-Level Progressive Disclosure (4/4 unanimous, already implemented 1,378 LOC)
+- D5-Q8: Option A - Session Boundary Only (4/4 unanimous, pre-selected by D3-Q20)
+- NO DEVIATIONS - Pattern compliance maintained
+- Parallel Explore agents for Q7 and Q8, ultrathink self-coordinated correctly
 
 ### Session 64 (2025-12-10)
 - D5-Q5: Option E (Synthesized) - Track=Workflow Selection + Loading Strategies (2/4 split resolved via synthesis)
