@@ -1,0 +1,224 @@
+{
+  "decision": "D2",
+  "title": "Enforcement Mechanism",
+  "current_question": 20,
+  "questions_completed": 20,
+  "total_questions": 20,
+  "status": "complete",
+  "created": "2025-12-07",
+  "last_updated": "2025-12-08",
+  "decisions": [
+    {
+      "question": "Q1",
+      "title": "Which hook events should be used for enforcement in Claude-Hybrid?",
+      "decision": "Option E: Hybrid-Optimized (SessionStart + PreToolUse + Stop)",
+      "rationale": "SessionStart for workflow initialization, PreToolUse for action blocking, Stop for cleanup. Industry-validated pattern confirmed by Q11.",
+      "decided_at": "2025-12-07"
+    },
+    {
+      "question": "Q2",
+      "title": "How should hook priority be structured for enforcement rules?",
+      "decision": "Option C: Orchestrator Semantic Grouping (P10/P20/P50/P80/P90 internal)",
+      "rationale": "Tiered priority system allows initialization hooks to run first, then enforcement, then business logic, then audit.",
+      "decided_at": "2025-12-07"
+    },
+    {
+      "question": "Q3",
+      "title": "What response schema should enforcement hooks return?",
+      "decision": "Option B: Block/Allow/Modify Schema (decision + reason + updatedInput + systemMessage)",
+      "rationale": "Extended schema allows enforcement hooks to sanitize/modify inputs, provide structured explanations, and inject context.",
+      "decided_at": "2025-12-07"
+    },
+    {
+      "question": "Q4",
+      "title": "How should enforcement integrate with the two parallel hook systems?",
+      "decision": "Option C: Hybrid Approach (CC for blocking, MPM for complex rules)",
+      "rationale": "Claude Code External hooks for critical blocking, MPM Internal hooks for complex rule evaluation. Deviation noted: Skipped EXPLORE_DEEP_DIVE step.",
+      "decided_at": "2025-12-07"
+    },
+    {
+      "question": "Q5",
+      "title": "How should enforcement handle edge cases and failure modes?",
+      "decision": "Option C+D: Circuit-Breaker with Graceful Degradation",
+      "rationale": "Circuit-breaker pattern with PreToolUse enforcement for primary enforcement, graceful degradation to instructional rules if hooks fail.",
+      "specialist_consensus": "Full workflow followed after Q4 deviation",
+      "binding_constraints": ["D6-Q11 (synchronous non-blocking for sub-phases)", "D6-Q15 (graceful degradation)"],
+      "decided_at": "2025-12-07"
+    },
+    {
+      "question": "Q6",
+      "title": "Should Claude-Hybrid enforce circuit breakers via hooks or instructions?",
+      "decision": "Option D: Hook-enforced for critical only with instructional fallback",
+      "rationale": "Hook-enforced for CB#1 (implementation), CB#2 (investigation), CB#6 (critical), state-tracked for CB#4, instructional for CB#3/5/7 with monitoring.",
+      "decided_at": "2025-12-07"
+    },
+    {
+      "question": "Q7",
+      "title": "What should the hook blocking mechanism return when a violation is detected?",
+      "decision": "Option F: Extended D2-Q3 Schema + Translator Compliance (add 'ask', use D2-Q4 translator layer)",
+      "rationale": "Extends D2-Q3 schema with 'ask' action for escalation to user, translator converts to Claude Code format for compatibility.",
+      "binding_constraints": ["D2-Q3 (schema structure)", "D2-Q4 (hybrid approach)"],
+      "decided_at": "2025-12-07"
+    },
+    {
+      "question": "Q8",
+      "title": "How should Claude-Hybrid handle the effectiveness gap between hook-enforced (95%) and instructional (unknown) circuit breakers?",
+      "decision": "Option D+C: Two-Tier System with Monitoring (Hard=95% hooks, Soft=measurable instructions, ~40 LOC persistence)",
+      "rationale": "Hard blocks via hooks for workflow violations (95% effectiveness), soft blocks via instructions for style/convention rules, monitoring/logging for instructional violations to measure effectiveness.",
+      "docs_first_then_code_followed": true,
+      "loc_estimate": "~40 LOC persistence",
+      "decided_at": "2025-12-07"
+    },
+    {
+      "question": "Q9",
+      "title": "How should error recovery strategies integrate with enforcement mechanisms?",
+      "decision": "Option D+B: Separate + Logging + Selective Hooks Influence (A foundation, D for observability ~100 LOC, B opt-in ~200 LOC)",
+      "rationale": "Keep error strategies and enforcement separate as foundation (A), add hook-triggered error logging (D) for observability ~100 LOC, selective hooks influence on error strategy (B) as opt-in ~200 LOC.",
+      "docs_first_then_code_followed": true,
+      "loc_estimate": "~300 LOC total",
+      "decided_at": "2025-12-07"
+    },
+    {
+      "question": "Q10",
+      "title": "Should Claude-Hybrid address the duplicate exception class problem as part of enforcement design?",
+      "decision": "Option B: Unified Exception Hierarchy (single source of truth, 95% testable, universal industry pattern)",
+      "rationale": "Create unified exception hierarchy to enable consistent enforcement responses. Single source of truth, 95% testable, universal industry pattern.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "Industry standard approach",
+      "decided_at": "2025-12-07"
+    },
+    {
+      "question": "Q11",
+      "title": "Which hook events should Claude-Hybrid use for enforcement?",
+      "decision": "Option E (Synthesized): SessionStart + PreToolUse + Stop for enforcement (confirms D2-Q1, industry-validated pattern)",
+      "rationale": "Question identified as redundant with D2-Q1 by all 4 Ultrathink specialists. Synthesized Option E confirms SessionStart for initialization, PreToolUse for blocking, Stop for cleanup.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "4/4 specialists confirmed redundancy with Q1",
+      "special_note": "Question identified as redundant with D2-Q1 by all 4 Ultrathink specialists - synthesized Option E to confirm prior decision",
+      "decided_at": "2025-12-07"
+    },
+    {
+      "question": "Q12",
+      "title": "How should rule violations be communicated back to Claude?",
+      "decision": "Option D: Combined Approach (reason for hard blocks via permissionDecisionReason, additionalContext for soft warnings)",
+      "rationale": "Use structured JSON with reason field for hard violations (permissionDecisionReason), systemMessage/additionalContext for soft warnings and guidance.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "4/4 unanimous (Architect, Research, Coder, Tester)",
+      "decided_at": "2025-12-07"
+    },
+    {
+      "question": "Q13",
+      "title": "How granular should enforcement be at the tool level?",
+      "decision": "Option D: Layered (broad baseline * + specific exceptions Edit|Write|MultiEdit, Grep|Glob)",
+      "rationale": "Layer matchers - broad policies (* baseline) for baseline rules, specific matchers (Edit|Write|MultiEdit, Grep|Glob) for exceptions and overrides.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "4/4 unanimous (Architect, Research, Coder, Tester)",
+      "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q14",
+      "title": "Should enforcement rely on external scripts or be built into the orchestrator?",
+      "decision": "Option D: Scripts Delegate to Orchestrator (thin proxy → Python RuleEngine, 89% LOC reduction, industry-validated)",
+      "rationale": "Hook scripts delegate decisions back to orchestrator enforcement agent for consistent rule interpretation. Thin shell proxy to Python RuleEngine, 89% LOC reduction vs external scripts.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "4/4 unanimous (Architect, Research, Coder, Tester)",
+      "loc_estimate": "89% LOC reduction",
+      "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q15",
+      "title": "What enforcement pattern should be used for multi-step workflows?",
+      "decision": "Option E (Modified): 4-Phase Lifecycle (SessionStart init + PreToolUse enforce + PreCompact persist + Stop complete)",
+      "rationale": "SessionStart for workflow initialization, PreToolUse for step validation, PreCompact for state preservation, Stop for completion enforcement. 9/9 production systems use 4-phase pattern.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "3/4 favor E (Research, Coder, Tester), 1/4 favor D (Architect)",
+      "industry_validation": "9/9 production systems use 4-phase pattern (Temporal, Prefect, Dagster, GitHub Actions, Airflow, LangGraph, CrewAI, LangChain LCEL, MS Agent Framework)",
+      "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q16",
+      "title": "How should Claude-Hybrid enforce workflow step ordering?",
+      "decision": "Option D: Hybrid Enforcement (mandates for LLM compliance + hooks for critical sequences, ~320 LOC)",
+      "rationale": "Mandate declarations in XML/YAML for LLM compliance combined with programmatic hooks for critical sequence enforcement. Best of both worlds.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "3/4 favor D (Architect, Research, Tester), 1/4 favor C (Coder)",
+      "industry_validation": "6/6 workflow systems use structural+runtime enforcement (Temporal, Prefect, Dagster, Airflow, LangGraph, CrewAI)",
+      "loc_estimate": "~320 LOC",
+      "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q17",
+      "title": "What enforcement model should govern user interaction checkpoints?",
+      "decision": "Option D: Configurable Enforcement Levels (per-checkpoint config, tiered HARD/SOFT, ~300 LOC)",
+      "rationale": "Let users/projects define which checkpoints are hook-enforced vs. instructional. Per-checkpoint configuration with tiered HARD/SOFT enforcement levels.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "3/4 favor D (Architect, Research, Coder), 1/4 favor C (Tester)",
+      "industry_validation": "6/6 systems use configurable enforcement (Temporal, Prefect, GitHub Actions, Airflow, LangGraph; Dagster not implemented)",
+      "loc_estimate": "~300 LOC",
+      "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q18",
+      "title": "How should menu handler routing be enforced?",
+      "decision": "Option D: Dual-Layer Enforcement (Schema at load + Hook at invocation, ~300 LOC reusing D2-Q14/Q16/Q17)",
+      "rationale": "Schema validation at load time ensures handler definitions are valid, hook validation at invocation time ensures correct runtime routing.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "3/4 favor D (Architect, Research, Tester), 1/4 favor C (Coder)",
+      "industry_validation": "6/6 production systems use programmatic validation (Click, Typer, Temporal, Prefect, LangGraph, CrewAI)",
+      "binding_constraints": ["D2-Q14 (scripts delegate)", "D2-Q16 (hybrid enforcement)", "D2-Q17 (configurable levels)"],
+      "loc_estimate": "~300 LOC",
+      "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q19",
+      "title": "Should critical_actions (agent activation rules) be hook-enforced or instructional?",
+      "decision": "Option D: Tiered Criticality (hook for critical actions like config loading, instructional for soft actions like style)",
+      "rationale": "Hook-enforced for critical actions (config loading, state initialization), instructional for soft actions (communication style, formatting preferences). ~450 LOC implementation.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "4/4 unanimous (Architect, Research, Coder, Tester)",
+      "industry_validation": "10/10 systems use programmatic enforcement, 0 counterexamples",
+      "loc_estimate": "~450 LOC",
+      "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q20",
+      "title": "How should variable resolution cascade be enforced?",
+      "decision": "Option C: Hybrid Resolution (hooks for critical System/Path vars, LLM for soft Config/User vars with fallbacks)",
+      "rationale": "System/Path variables resolved by hooks for deterministic behavior, Config/User variables resolved by LLM with fallback prompts for flexibility. ~1300 LOC per estimate.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "3/4 favor C (Architect, Research, Coder), 1/4 favor B secondary C (Tester)",
+      "industry_validation": "0/11 systems use instructional-only, LangChain InjectedToolArg is production pattern",
+      "loc_estimate": "~1300 LOC",
+      "decided_at": "2025-12-08"
+    }
+  ],
+  "question_groups": {
+    "hook_events_and_priority": {
+      "questions": [1, 2, 3, 4],
+      "topic": "Hook Events, Priority, Schema, and Integration",
+      "completed": 4
+    },
+    "failure_modes_and_circuit_breakers": {
+      "questions": [5, 6, 7, 8, 9, 10],
+      "topic": "Edge Cases, Circuit Breakers, and Error Handling",
+      "completed": 6
+    },
+    "hook_enforcement_patterns": {
+      "questions": [11, 12, 13, 14, 15],
+      "topic": "Hook Events, Communication, Granularity, and Workflow Patterns",
+      "completed": 5
+    },
+    "workflow_and_routing_enforcement": {
+      "questions": [16, 17, 18, 19, 20],
+      "topic": "Step Ordering, Checkpoints, Routing, Actions, and Variable Resolution",
+      "completed": 5
+    }
+  },
+  "enforcement_strategy": "Hybrid Tiered Enforcement (3-tier: Hook/Structural/Instructional)",
+  "sources": [
+    "claude-mpm-complete-analysis/06-MEMORY-HOOKS.md",
+    "claude-mpm-complete-analysis/09-ERROR-HANDLING.md",
+    "docs/analysis/claude-code/06-HOOK-SYSTEM.md",
+    "bmad-complete-analysis/02-ARCHITECTURE-CORE.md"
+  ]
+}
