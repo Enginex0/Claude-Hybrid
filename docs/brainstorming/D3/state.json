@@ -1,0 +1,276 @@
+{
+  "decision": "D3",
+  "title": "Multi-Agent Strategy",
+  "current_question": 20,
+  "questions_completed": 20,
+  "total_questions": 20,
+  "status": "complete",
+  "created": "2025-12-08",
+  "last_updated": "2025-12-09",
+  "decisions": [
+    {
+      "question": "Q1",
+      "title": "Agent Selection for Parallel Collaboration",
+      "decision": "Option E (Synthesized): Tiered Hybrid Selection (TIER 1: User-Directed, TIER 2: Scenario-Based ~80%, TIER 3: Intelligent Scoring ~15%, TIER 4: Rotation Modifier ~5%)",
+      "rationale": "Hybrid approach combining multiple selection strategies in a tiered priority system. User direction takes precedence, followed by scenario-based selection for most cases, intelligent scoring for optimization, and rotation to ensure balanced participation over time.",
+      "specialist_consensus": "4/4 favor Hybrid (Architect: A+C+D, Research: B+A, Coder: B+A+C+D, Tester: B+C)",
+      "industry_validation": "0/0 production systems use pure approach, all use hybrid B+A pattern",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q2",
+      "title": "Cross-Talk Structure Between Agents",
+      "decision": "Option D (Synthesized): Contextual Hybrid Cross-Talk (Mode-based: A for brainstorm, C for implementation, B for structured tasks, ~1420 LOC)",
+      "rationale": "Context-aware cross-talk that adapts based on collaboration mode. Natural discourse (A) for brainstorming creativity, bounded interaction (C) for implementation focus, sequential response (B) for structured workflows.",
+      "specialist_consensus": "2/4 favor C (Research, Coder), 1/4 favor A (Architect), 1/4 favor B (Tester) - synthesized Option D to capture all perspectives",
+      "industry_validation": "7/8 systems use B/C for production, Option A validated for brainstorming (BMAD Party Mode, AutoGen)",
+      "loc_estimate": "~1420 LOC",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q3",
+      "title": "Parallel Agent Discussion Termination",
+      "decision": "Option E (Synthesized): State-Managed with Mode-Tiered Mechanisms (D foundation + A triggers + C task completion, ~220 LOC)",
+      "rationale": "State machine foundation (D) with party_active flag tracking Init -> Active -> Exit states, combined with explicit trigger words (A) for user control and automatic task completion detection (C) for workflow efficiency.",
+      "specialist_consensus": "4/4 favor D as foundation (Architect 9/10, Research 9/10, Coder 8/10, Tester 9/10)",
+      "industry_validation": "10/10 systems use state machines, 0 counterexamples, BMAD production validates A+B+D hybrid",
+      "loc_estimate": "~220 LOC",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q4",
+      "title": "Party Mode vs Sequential Delegation Usage",
+      "decision": "Option D: Exploration vs Execution (Party Mode for exploration/divergent thinking, Sequential Delegation for execution/deliverables, ~120 LOC)",
+      "rationale": "Clear separation based on cognitive mode. Party Mode enables parallel discussion for divergent thinking and exploration. Sequential Delegation provides focused execution for deliverables and implementation work.",
+      "specialist_consensus": "4/4 favor D (Architect 8/10, Research 9/10, Coder 8/10, Tester 8/10)",
+      "industry_validation": "5/5 production systems validate D (LangGraph, CrewAI, AutoGen, Temporal, Prefect)",
+      "loc_estimate": "~120 LOC",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q5",
+      "title": "Agent State and Context Management",
+      "decision": "Option D: Hybrid State Management (Tier 1: Working Memory/Conversation, Tier 2: Session State/Frontmatter, Tier 3: Persistent State/Tickets, ~240 LOC net new)",
+      "rationale": "Three-tier state architecture. Working memory for active conversation context, session state via YAML frontmatter for workflow tracking, persistent state via tickets for cross-session task management.",
+      "specialist_consensus": "4/4 favor D (Architect 9/10, Research 10/10, Coder 7/10, Tester 7/10)",
+      "industry_validation": "5/5 production systems use hybrid (LangGraph, CrewAI, Temporal, Prefect, AutoGen), 0/5 use pure single-option",
+      "loc_estimate": "~240 LOC net new",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q6",
+      "title": "Sub-Agent Invocation Decision Process",
+      "decision": "Option E (Synthesized): Tiered Hybrid Sub-Agent Invocation (TIER 1: User-Directed, TIER 2: Orchestrator-Validated for critical, TIER 3: Proactive Trigger Matching with guards, TIER 4: Injection Hints, ~400-500 LOC)",
+      "rationale": "Four-tier invocation hierarchy balancing user control, orchestrator oversight, agent autonomy, and workflow hints. Prevents 41-86% failure rates of pure proactive approaches while enabling intelligent delegation.",
+      "specialist_consensus": "2/4 favor B (Architect 8/10, Coder 6/10), 2/4 favor C (Research 9/10, Tester 9/10) - synthesized Option E to capture all perspectives",
+      "industry_validation": "Research: B alone has 41-86% failure rates, $47K runaway incident; C validated by LangGraph Supervisor, AutoGen GroupChatManager, Temporal",
+      "loc_estimate": "~400-500 LOC",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-09"
+    },
+    {
+      "question": "Q7",
+      "title": "Sub-Agent Specialization Granularity",
+      "decision": "Option D (Synthesized): Tiered Role-Based Specialization (4-tier hierarchy: Orchestrator, Phase Leads, Role Specialists, Sub-Agents, ~25-30 agents total, ~550 LOC net new)",
+      "rationale": "Four-tier agent hierarchy balancing specialization depth with coordination overhead. Orchestrator at top, phase leads for major workflows, role specialists for domains, sub-agents for specific tasks. Optimal 25-30 agent count avoids quadratic coordination overhead.",
+      "specialist_consensus": "2/4 favor A (Research 8/10, Tester 8.5/10), 1/4 favor B (Coder 8/10), 1/4 favor Hybrid (Architect 8/10) - synthesized Option D",
+      "industry_validation": "100% production systems use medium granularity (3-50 agents), BMAD 22 agents in optimal range, coordination overhead scales quadratically >50 agents",
+      "loc_estimate": "~550 LOC net new",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-09"
+    },
+    {
+      "question": "Q8",
+      "title": "Sub-Agent Output Return Format",
+      "decision": "Option E (Synthesized): Tiered Output Architecture (TIER 1: Complete message primary 90-95%, TIER 2: File artifacts conditional 5-10%, TIER 3: JSON metadata supplementary, ~290 LOC net new)",
+      "rationale": "Complete structured message as primary output (90-95% of cases) for immediate integration. File-based handoff for large artifacts (5-10%). JSON metadata for structured data when needed. Prevents file proliferation while supporting all use cases.",
+      "specialist_consensus": "4/4 unanimous for A+B hybrid (Architect 9/10, Research 9/10, Coder 9/10, Tester 9/10)",
+      "industry_validation": "100% industry use structured objects (LangGraph, CrewAI, AutoGen, Temporal, Prefect, Semantic Kernel), 0% use file-based as primary",
+      "binding_constraints": ["D5-Q20 (single response model for Task tool)"],
+      "loc_estimate": "~290 LOC net new",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-09"
+    },
+    {
+      "question": "Q9",
+      "title": "Sub-Agent Definition Installation Locations",
+      "decision": "Option C: Hybrid Installation with Priority Resolution (Project > User > System, ~520 LOC net new with 400 LOC reuse, $18.5K 3-year TCO lowest)",
+      "rationale": "Three-tier installation hierarchy. Project-level for customization, user-level for personal defaults, system-level for core agents. Priority resolution enables override patterns matching industry standards (npm, pip, cargo).",
+      "specialist_consensus": "4/4 unanimous for C (Architect 9/10, Research 8.95/10, Coder best TCO, Tester 9/10)",
+      "industry_validation": "5/5 package managers use hybrid (npm, pip, cargo, gradle, git), 0 counterexamples found, 93% alignment with D3-Q5/Q6/Q7",
+      "loc_estimate": "~520 LOC net new with 400 LOC reuse",
+      "tco_estimate": "$18.5K 3-year",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q10",
+      "title": "Main Agent to Sub-Agent Delegation Structure",
+      "decision": "Option A: Hierarchical Single-Parent Delegation (Task tool returns to same parent, cross-branch via Orchestrator, ~280 LOC net new, $22K 3-year TCO lowest)",
+      "rationale": "Single-parent delegation maintains clear ownership and prevents 41-86.7% failure rate of peer/shared patterns. Task tool returns to same parent. Cross-branch coordination via orchestrator. Enables parent-child tracking mandated by D4-Q14.",
+      "specialist_consensus": "4/4 unanimous for A (Architect 9/10, Research 10/10, Coder lowest LOC/TCO, Tester 9/10 testability)",
+      "industry_validation": "10/10 production systems use A as foundation (LangGraph, CrewAI, AutoGen, Temporal, Prefect, AWS Bedrock, Azure AI, Semantic Kernel), Option C 41-86.7% failure rate REJECTED",
+      "binding_constraints": ["D4-Q14 (parent-child tracking required)"],
+      "loc_estimate": "~280 LOC net new",
+      "tco_estimate": "$22K 3-year",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q11",
+      "title": "IDE vs Web Environment Orchestration",
+      "decision": "Option B: Dual Orchestrator Pattern (BMad Master for IDE + BMad Web Orchestrator for Web, 185 LOC actual, 100% BMAD reuse, $10 3-year TCO)",
+      "rationale": "Separate orchestrators for fundamentally different environments. BMad Master for IDE has file I/O, manifests, 18 handlers. BMad Web Orchestrator for Web has embedded XML, no file I/O. BMAD production-validated pattern.",
+      "specialist_consensus": "3/4 favor B (Architect 9/10, Coder 9/10, Tester 9/10), 1/4 favor C (Research 7/10)",
+      "industry_validation": "BMAD production-validated pattern, IDE has file I/O + manifests + 18 handlers, Web has embedded XML + no file I/O",
+      "loc_estimate": "185 LOC actual, 100% BMAD reuse",
+      "tco_estimate": "$10 3-year",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q12",
+      "title": "Explicit vs Implicit Agent Transformation",
+      "decision": "Option C: Hybrid with User Override (Orchestrator suggests agent based on task, user can accept/override/invoke explicitly, ~128 LOC net new, $47K 3-year TCO)",
+      "rationale": "Balanced autonomy with user control. Orchestrator provides intelligent suggestions based on task analysis. User maintains final control via accept/override/explicit invocation. Prevents 41-86.7% failure rate of pure implicit approaches.",
+      "specialist_consensus": "4/4 unanimous for C (Architect 9/10, Research 9/10, Coder 8/10, Tester 8/10)",
+      "industry_validation": "100% frameworks use hybrid (LangGraph, CrewAI, AutoGen), Option B (implicit) has 41-86.7% failure rate, BMAD already implements C via *agents + Party Mode",
+      "loc_estimate": "~128 LOC net new",
+      "tco_estimate": "$47K 3-year",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q13",
+      "title": "Party Mode Multi-Agent Collaboration Mechanism",
+      "decision": "Option C: Agent Manifest-Driven Selection (dynamically select 2-3 relevant agents based on task domain via manifest, ~380-480 LOC net new, 55-65% BMAD reuse, $25-35K 3-year TCO)",
+      "rationale": "Manifest-driven dynamic selection for Party Mode. Analyze task domain and select 2-3 most relevant agents from manifest. Prevents overhead of loading all agents while ensuring domain coverage. BMAD already implements in party-mode workflow.",
+      "specialist_consensus": "3/4 favor C (Architect 9/10, Research 9/10, Coder 9/10), 1/4 favor D (Tester 9/10 for testability)",
+      "industry_validation": "5/5 frameworks use orchestrator+selection (LangGraph, CrewAI, AutoGen, Temporal, Prefect), Option B 41-86.7% failure rate REJECTED, BMAD already implements C in party-mode workflow",
+      "loc_estimate": "~380-480 LOC net new, 55-65% BMAD reuse",
+      "tco_estimate": "$25-35K 3-year",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-09"
+    },
+    {
+      "question": "Q14",
+      "title": "Agent Persona Influence on Collaboration",
+      "decision": "Option D: Hierarchical Persona Authority (role-based tier hierarchy for conflict resolution, ~450 LOC total, ~200 LOC net new, 55% reuse from D3-Q1/Q2, $7.5K 3-year TCO)",
+      "rationale": "Role-based hierarchy for conflict resolution. Clear authority tiers prevent infinite loops and ensure decisiveness. Prevents $47K infinite loop incidents documented with persona-driven deference patterns.",
+      "specialist_consensus": "4/4 unanimous for D (Architect 9/10, Research 8/10, Coder 9/10, Tester 8/10)",
+      "industry_validation": "60% of frameworks use hierarchical authority (LangGraph, CrewAI, Temporal), 0% use persona-driven deference, Option D prevents $47K infinite loop incidents documented with Option C patterns",
+      "loc_estimate": "~450 LOC total, ~200 LOC net new, 55% reuse from D3-Q1/Q2",
+      "tco_estimate": "$7.5K 3-year",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-09"
+    },
+    {
+      "question": "Q15",
+      "title": "Specialized Agent Availability Scope",
+      "decision": "Option E (Synthesized): Project Configuration with Sensible Defaults (TIER 1: All agents available by default, TIER 2: Optional project config for scoping, TIER 3: Runtime discovery enhancement, ~350 LOC net new, $25K 3-year TCO)",
+      "rationale": "All agents available by default (A) provides zero-config experience. Optional project config (D) enables scoping for large deployments. Runtime discovery enhancement for optimization. Prevents 28-32% failure rate of pure default approaches.",
+      "specialist_consensus": "2/4 favor D (Architect 9/10, Research 10/10), 1/4 favor C (Coder 7/10), 1/4 favor B (Tester 8/10) - synthesized Option E combining D infrastructure + A default experience",
+      "industry_validation": "5/5 frameworks support config-based scoping (LangGraph, CrewAI, AutoGen, Temporal, Prefect), 100% enterprise deployments use project config, Option A pure has 28-32% failure rate (MAST Framework)",
+      "loc_estimate": "~350 LOC net new",
+      "tco_estimate": "$25K 3-year",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-09"
+    },
+    {
+      "question": "Q16",
+      "title": "Task Tool Agent Matching Mechanism",
+      "decision": "Option A: Filename Stem Matching (Claude Code native - subagent_type matches filename stem, O(1) lookup, 0 LOC net new, $1.8K 3-year TCO)",
+      "rationale": "Use Claude Code's native filename stem matching. Task tool subagent_type parameter matches agent filename stem directly. O(1) lookup performance. Zero implementation cost leveraging existing SDK behavior.",
+      "specialist_consensus": "4/4 unanimous for A (Architect 9.8/10, Research 9/10, Coder 9/10, Tester 9/10)",
+      "industry_validation": "8/8 frameworks use identifier-based matching (LangGraph, CrewAI, AutoGen, Semantic Kernel, Temporal, Prefect, OpenAI Swarm, Anthropic MCP), 0/8 use keyword matching as primary",
+      "loc_estimate": "0 LOC net new",
+      "tco_estimate": "$1.8K 3-year",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-09"
+    },
+    {
+      "question": "Q17",
+      "title": "Agent Discovery Tier Precedence",
+      "decision": "Option B: Project Highest Priority (Project > Remote > User > System - extends D3-Q9, 50-80 LOC net new, $1.5K 3-year TCO)",
+      "rationale": "Project-level agents take highest priority, extending D3-Q9 pattern. Enables project-specific customization to override all other tiers. Matches industry standard (npm, pip, cargo, git) local-first resolution.",
+      "specialist_consensus": "4/4 unanimous for B (Architect 9.5/10, Research 9.5/10, Coder 8/10, Tester 9/10)",
+      "industry_validation": "11/11 frameworks use local-first (npm, pip, cargo, git, gradle, nuget, LangGraph, CrewAI, AutoGen, Temporal, Prefect), 0/11 use remote-first or merge patterns",
+      "binding_constraints": ["D3-Q9 (extends hybrid installation pattern)"],
+      "loc_estimate": "50-80 LOC net new",
+      "tco_estimate": "$1.5K 3-year",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-09"
+    },
+    {
+      "question": "Q18",
+      "title": "PM Delegation to 92 Specialized Agents",
+      "decision": "Option E (Synthesized): Hierarchical Manifest + Direct Task Invocation (PM uses categorized manifest for discovery, Task tool for deterministic invocation, ~220 LOC net new, 90% reuse, $30K 3-year TCO)",
+      "rationale": "Hierarchical manifest organization (91% complexity reduction) for agent discovery. Direct Task tool invocation for deterministic routing. Combines manifest-based discovery with deterministic execution preventing routing failures.",
+      "specialist_consensus": "2/4 favor B (Architect 9/10, Research 9/10), 2/4 favor A/E (Coder 8/10 for E, Tester 9/10 for A) - synthesized Option E combining manifest discovery with deterministic Task invocation",
+      "industry_validation": "8/8 frameworks use deterministic routing (LangGraph, CrewAI, AutoGen, Semantic Kernel, Temporal, Prefect, OpenAI Swarm, Anthropic MCP), 91% complexity reduction with hierarchical organization",
+      "loc_estimate": "~220 LOC net new, 90% reuse",
+      "tco_estimate": "$30K 3-year",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-09"
+    },
+    {
+      "question": "Q19",
+      "title": "Skill Loading Scope for Collaborating Agents",
+      "decision": "Option E: Tiered Registry with Agent Scoping (B+D+A: Registry-based assignment + Project>User>System priority + agent_types filtering, ~55 LOC net new, 80% reuse, $11K 3-year TCO). FUTURE ENHANCEMENT: Option F (Progressive Disclosure per Anthropic pattern) planned for Phase 2.",
+      "rationale": "Registry-based skill assignment (B) with Project>User>System priority (D) and agent_types filtering (A). Balances deterministic assignment with flexible scoping. Future Phase 2: Progressive disclosure per Anthropic Agent Skills pattern.",
+      "specialist_consensus": "3/4 favor D-based options (Architect 9/10 for E, Coder 8/10 for E, Tester 9/10 for D), 1/4 favor B+C (Research 8/10 citing Anthropic progressive disclosure)",
+      "industry_validation": "8/8 frameworks use registry-based (LangGraph, CrewAI, AutoGen, Temporal, Prefect, Semantic Kernel, OpenAI Swarm, Anthropic MCP). Anthropic Agent Skills validates progressive disclosure (1/8) - deferred to Phase 2.",
+      "special_note": "Research agent initially timed out - BMad Master failed to report transparently. Redeployed and discovered Anthropic implements progressive disclosure. Corrected recommendation to acknowledge Option F as future enhancement.",
+      "loc_estimate": "~55 LOC net new, 80% reuse",
+      "tco_estimate": "$11K 3-year",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-09"
+    },
+    {
+      "question": "Q20",
+      "title": "Claude Code Restart Requirements During Collaboration",
+      "decision": "Option D: Session Boundary Only (Claude Code native behavior - agents loaded at session start, new agents available next session. Workaround: /agents command for interactive creation. 0 LOC - already implemented by Claude Code)",
+      "rationale": "Align with Claude Code SDK native behavior. Agents are loaded at session start. New agents created by adding files are available in next session, not during active session. Zero implementation cost - use existing behavior.",
+      "specialist_consensus": "4-way split: Architect C 9/10, Research B 8/10, Coder D 8/10, Tester A 9/10 - synthesized to D based on actual Claude SDK documentation",
+      "industry_validation": "Claude Code SDK explicitly states: 'Subagents created by manually adding files will be loaded the next time you start a Claude Code session, not during an active session.' This IS Option D.",
+      "special_note": "President correctly challenged assumptions. Claude SDK documentation research revealed Option D is already Claude Code's native behavior. No implementation needed - align with existing behavior.",
+      "loc_estimate": "0 LOC",
+      "tco_estimate": "$0",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-09"
+    }
+  ],
+  "question_groups": {
+    "party_mode_questions": {
+      "questions": [1, 2, 3, 4, 5],
+      "topic": "Party Mode (Parallel) Multi-Agent Collaboration",
+      "completed": 5
+    },
+    "sub_agent_system_questions": {
+      "questions": [6, 7, 8, 9, 10],
+      "topic": "Sub-Agent System Design",
+      "completed": 5
+    },
+    "orchestration_questions": {
+      "questions": [11, 12, 13, 14, 15],
+      "topic": "Agent Orchestration and Transformation",
+      "completed": 5
+    },
+    "agent_integration_questions": {
+      "questions": [16, 17, 18, 19, 20],
+      "topic": "Agent Integration and Lifecycle",
+      "completed": 5
+    }
+  },
+  "sources": [
+    "bmad-analysis/10-PARTY-MODE.md",
+    "bmad-analysis/13-SUB-AGENTS-SYSTEM.md",
+    "bmad-analysis/04-AGENTS-SYSTEM.md",
+    "claude-mpm-complete-analysis/05-AGENTS-SKILLS.md"
+  ]
+}
