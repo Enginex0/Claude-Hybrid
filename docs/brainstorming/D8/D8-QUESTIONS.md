@@ -1,9 +1,9 @@
 # D8: Plugin & Agent Format - Question Set
 
 **Decision:** How does Claude-Hybrid structure plugins and agents?
-**Status:** PENDING (0/14 DECIDED)
+**Status:** COMPLETE (14/14 DECIDED) 🎉
 **Generated:** 2025-12-10 (Session X)
-**Updated:** 2025-12-11 - Removed 8 redundant questions (see Redundancy Audit Notes)
+**Updated:** 2025-12-11 - Q1-Q12 DECIDED, Removed 8 redundant questions (see Redundancy Audit Notes)
 **Sources:** Claude Code architecture (03-EXTENSION-SYSTEM.md, 05-CONFIGURATION.md), Personal BMAD architecture
 
 ---
@@ -29,20 +29,20 @@ The following 8 questions were removed as they overlap with decisions made in D2
 
 | Question | Status | Answer |
 |----------|--------|--------|
-| Q1 | PENDING | - |
-| Q2 | PENDING | - |
-| Q3 | PENDING | - |
-| Q4 | PENDING | - |
-| Q5 | PENDING | - |
-| Q6 | PENDING | - |
-| Q7 | PENDING | - |
-| Q8 | PENDING | - |
-| Q9 | PENDING | - |
-| Q10 | PENDING | - |
-| Q11 | PENDING | - |
-| Q12 | PENDING | - |
-| Q13 | PENDING | - |
-| Q14 | PENDING | - |
+| Q1 | **DECIDED** | Option B: Standard (name + version + description) |
+| Q2 | **DECIDED** | Option B: Semantic Versioning (X.Y.Z) |
+| Q3 | **DECIDED** | Option A: No dependencies (future path to C) |
+| Q4 | **DECIDED** | Option A: Name-directory match (constraint-forced) |
+| Q5 | **DECIDED** | Option B: Fixed set (inherit/sonnet/opus/haiku) |
+| Q6 | **DECIDED** | Option B: Tiered (default/elevated/bypass) |
+| Q7 | **DECIDED** | Option C: Least-privilege wins |
+| Q8 | **DECIDED** | Hybrid B+C: Session warning + Per-op audit |
+| Q9 | **DECIDED** | Option B: Marketplace-qualified (plugin@marketplace) |
+| Q10 | **DECIDED** | Option D: Hybrid (YAML frontmatter + XML sections) |
+| Q11 | **DECIDED** | Option D: Configurable gates (template + opt-in/out) |
+| Q12 | **DECIDED** | Option B: Optional namespacing (plugin:agent when ambiguous) |
+| Q13 | **DECIDED** | Option B: Optional sidecar (static only, D5-Q20 compliant) |
+| Q14 | **DECIDED** | Option D: Hybrid backward-compatible (ALREADY IMPLEMENTED) |
 
 ---
 
