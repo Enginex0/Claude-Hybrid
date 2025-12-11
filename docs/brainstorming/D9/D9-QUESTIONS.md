@@ -1,7 +1,7 @@
 # D9: Path Variables & File Structure - Question Set
 
 **Decision:** How does Claude-Hybrid manage path variables and file structure?
-**Status:** PENDING (0/16 DECIDED)
+**Status:** COMPLETE (16/16 DECIDED - 100%) 🎉
 **Generated:** 2025-12-10 (Session X)
 **Updated:** 2025-12-11 - Removed 5 redundant questions (previously 20, now 15)
 **Sources:** Personal BMAD architecture (BMAD-PERSONAL-ARCHITECTURE.md), BMAD Method configuration (09-CONFIGURATION.md)
@@ -26,22 +26,22 @@ The following questions were removed due to overlap with prior D2-D5 decisions:
 
 | Question | Status | Answer |
 |----------|--------|--------|
-| Q1 | PENDING | - |
-| Q2 | PENDING | - |
-| Q3 | PENDING | - |
-| Q4 | PENDING | - |
-| Q5 | PENDING | - |
-| Q6 | PENDING | - |
-| Q7 | PENDING | - |
-| Q8 | PENDING | - |
-| Q9 | PENDING | - |
-| Q10 | PENDING | - |
-| Q11 | PENDING | - |
-| Q12 | PENDING | - |
-| Q13 | PENDING | - |
-| Q14 | PENDING | - |
-| Q15 | PENDING | - |
-| Q16 | PENDING | - |
+| Q1 | **DECIDED** | Option C: Hybrid Resolution (env + Claude Code context) |
+| Q2 | **DECIDED** | Option C: Variable-Chained ({home}/.claude/bmad) |
+| Q3 | **DECIDED** | Option A: Direct Aliasing (bmad_path = {bmad-framework-root}) |
+| Q4 | **DECIDED** | Option A: Personal BMAD Structure (~/.claude/{plugins,bmad,workflows,commands}/) |
+| Q5 | **DECIDED** | Option A: Module-first Organization ({module}/config.yaml, agents/, workflows/) |
+| Q6 | **DECIDED** | Option A: Claude Code Plugin Path (~/.claude/plugins/.../agents/) - 99.4% perf |
+| Q7 | **DECIDED** | Option A: Fixed Structure ({project-root}/bmad/{epics,stories,analysis,blueprints,research}/) |
+| Q8 | **DECIDED** | Option C: Two-Phase Resolution (D2-Q20 PRE-SELECTS) |
+| Q9 | **DECIDED** | HYBRID A+C: Tier-Aware Handling |
+| Q10 | **DECIDED** | Option A: No Conditionals |
+| Q11 | **DECIDED** | Option A: On First Write (Lazy) |
+| Q12 | **DECIDED** | Option B: Installer-Required (D6-Q5 PRE-SELECTS) |
+| Q13 | **DECIDED** | Option A: Full Path Creation (mkdir -p) |
+| Q14 | **DECIDED** | Option A: No Placeholders (lazy = never empty) |
+| Q15 | **DECIDED** | Option A: Reference-Only (Store paths, load on-demand via Read tool) |
+| Q16 | **DECIDED** | Option D: Layered Styles (System + User + Project cascade) |
 
 ---
 

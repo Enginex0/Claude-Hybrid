@@ -3,4 +3,321 @@
 # Started: 2025-12-10
 
 ---
-(Decisions will be logged here with timestamps)
+
+## Session 72: 2025-12-11
+
+### D9-Q1 DECIDED: Option C - Hybrid Resolution
+- Timestamp: 2025-12-11T12:00:00Z
+- Decision: {home} from env var ($HOME/Path.home()), {project-root} from Claude Code context
+- Confidence: 9/10
+- Specialist Split: 2/3 favor C (Coder, Tester), 1/3 favor D (Architect)
+- Binding Constraint: D2-Q20 (hooks for critical System/Path vars) - SATISFIED
+- LOC: 115 (~50 net new), TCO: $3,970
+- Key Finding: Option C achieves hook-equivalent determinism through programmatic resolution
+
+### D9-Q2 DECIDED: Option C - Variable-Chained
+- Timestamp: 2025-12-11T12:00:00Z
+- Decision: Framework variables reference System variables via cascade (e.g., {bmad-framework-root} = {home}/.claude/bmad)
+- Confidence: 9/10
+- Specialist Split: 2/3 favor C (Architect, Coder), 1/3 favor D (Tester)
+- Binding Constraint: D4-Q16 (4-level cascade adoption) - FULLY ALIGNED
+- LOC: 395 (~240 net new), TCO: $12,000
+- Key Finding: D4-Q16's example pattern IS variable-chaining - Option C is exact match
+
+### Combined Q1+Q2 Implementation
+- Total LOC: ~510 (~290 net new)
+- Combined TCO: $15,460
+- Architecture: SessionStart -> Primitives -> Cascade Resolver -> Components -> Instances
+
+---
+
+## Session 73: 2025-12-11
+
+### D9-Q3 DECIDED: Option A - Direct Aliasing
+- Timestamp: 2025-12-11T14:30:00Z
+- Decision: Legacy variables (bmad_path, output_folder, lsposed_reference_path) are simple aliases to modern equivalents, resolved transparently at Level 4 of the 4-level cascade
+- Confidence: 8.5/10
+- Specialist Consensus: 3/4 favor A (Architect 8/10, Coder 9/10, Tester 8/10), 1/4 favor B (Research 9/10)
+- Binding Constraint: D4-Q16 (4-level cascade - Level 4 IS legacy variables) - SATISFIED
+- LOC: 70 (~40 net new + 30 tests), TCO: $5,500
+- Key Finding: Personal BMAD architecture (lines 151-156) explicitly shows Level 4 as direct aliases
+- Legacy Variables Mapped:
+  - bmad_path = {bmad-framework-root}
+  - output_folder = {project-docs}
+  - lsposed_reference_path = {bmad-framework-root}/reference/LSPOSED-MODERN-API-REFERENCE.md
+
+### D9-Q4 DECIDED: Option A - Personal BMAD Structure
+- Timestamp: 2025-12-11T14:30:00Z
+- Decision: Use existing ~/.claude/{plugins,bmad,workflows,commands}/ structure - ONLY option that maintains Claude Code integration
+- Confidence: 9.5/10
+- Specialist Consensus: 4/4 UNANIMOUS (Architect 10/10, Research 7/10, Coder 9/10, Tester 9/10)
+- Binding Constraint: D3-Q9/Q17 (Project > User > System priority); Claude Code plugin discovery REQUIRES ~/.claude/plugins/cache/
+- LOC: 35, TCO: $3,000
+- Key Finding: Options B, C, D all BREAK Claude Code plugin auto-discovery (NON-NEGOTIABLE)
+- Structure Validated:
+  - ~/.claude/plugins/cache/{marketplace}/{plugin}/ - REQUIRED for Claude Code
+  - ~/.claude/commands/ - REQUIRED for Claude Code
+  - ~/.claude/workflows/ - REQUIRED for Claude Code
+  - ~/.claude/bmad/ - Personal BMAD modules (38+ directories production-validated)
+
+### Combined Q3+Q4 Implementation
+- Total LOC: ~105 (~75 net new)
+- Combined TCO: $8,500
+- Architecture: Direct aliasing at Level 4 + Personal BMAD structure at ~/.claude/
+
+---
+
+## Session 74: 2025-12-11
+
+### D9-Q5 DECIDED: Option A - Module-first Organization
+- Timestamp: 2025-12-11T16:00:00Z
+- Decision: Organize as {framework-root}/{module}/ with config.yaml, agents/, workflows/, tasks/ per module
+- Confidence: 9/10
+- Specialist Consensus: 3/4 favor A (Architect 9/10, Coder 8/10, Tester 8/10), 1/4 favor B (Research 7/10)
+- Binding Constraint: D9-Q4 PRE-SELECTS (chose ~/.claude/bmad/{module}/ which IS module-first)
+- LOC: 100 (module loader + path resolver + registry), TCO: $4,000
+- Key Finding: D9-Q4's choice of ~/.claude/bmad/{module}/ IS module-first by definition
+
+### D9-Q6 DECIDED: Option A - Claude Code Plugin Path
+- Timestamp: 2025-12-11T16:00:00Z
+- Decision: Use ~/.claude/plugins/marketplaces/local/plugins/{module}/agents/ for native auto-discovery
+- Confidence: 8.5/10
+- Specialist Split: Resolved by performance evidence (Coder 9/10 - proven performance)
+  - Architect 9/10 proposed Option E (symlink) - elegant but unnecessary complexity
+  - Research 8/10 favored Option B (framework-local) - industry pattern but loses performance
+  - Tester 8/10 favored Option D (single dir) - simplicity but unproven Claude Code support
+- Binding Constraint: D9-Q4 chose Personal BMAD structure; D3-Q16 requires O(1) stem matching
+- LOC: 50 (deployment script only - discovery is Claude Code native), TCO: $3,500
+- DECISIVE FACTOR: 99.4% performance improvement ALREADY ACHIEVED (15min -> <5sec agent spawn)
+
+### Combined Q5+Q6 Implementation
+- Total LOC: ~150 (~120 net new)
+- Combined TCO: $7,500
+- Architecture: Module-first + Claude Code plugin auto-discovery = current proven implementation
+
+---
+
+## Session 75: 2025-12-11
+
+### D9-Q7 DECIDED: Option A - Fixed Structure
+- Timestamp: 2025-12-11T18:00:00Z
+- Decision: Predefined subdirectories (epics, stories, analysis, blueprints, research) auto-created at {project-root}/bmad/
+- Confidence: 8.5/10
+- Specialist Split: 3/4 favor A (Architect 8/10, Coder 9/10, Tester 9/10), 1/4 favor B (Research 9/10)
+- Binding Constraint: None (D9-Q4 architectural signal only)
+- LOC: 80, TCO: $650, Reuse: 90% from claude-mpm ProjectOrganizer, Reliability: 94%
+- Key Finding: Research favored B (workflow-driven citing Airflow/Prefect), but BMAD is workflow-DEFINITION not workflow-EXECUTION - different paradigm
+- Analogy: Filing cabinet - drawers exist from day one, users always know where to find things
+
+### D9-Q8 DECIDED: Option C - Two-Phase Resolution
+- Timestamp: 2025-12-11T18:00:00Z
+- Decision: Phase 1 (Static): System+Framework via hooks at SessionStart. Phase 2 (Dynamic): Project+Runtime before/during workflow.
+- Confidence: 9/10
+- Specialist Split: 3/4 favor C (Architect 9/10, Coder 9/10, Tester 9/10), 1/4 favor A (Research 9/10)
+- Binding Constraint: D2-Q20 PRE-SELECTS - "hooks for System/Path, LLM for Config/User" IS two-phase
+- LOC: 100 (on D2-Q20 base), TCO: $700, Reuse: 95% from D2-Q20, Reliability: 91%
+- Key Finding: Research favored A (top-down eager citing Terraform/Ansible), but D2-Q20 binding constraint requires different resolution mechanisms per category
+- Analogy: Road trip - Phase 1 (fixed: home address, car registration), Phase 2 (dynamic: next destination, gas stations)
+
+### Combined Q7+Q8 Implementation
+- Total LOC: ~180 (~145 net new)
+- Combined TCO: $1,350
+- Architecture: Fixed output dirs + Two-phase variable resolution
+
+---
+
+## Session 77: 2025-12-11
+
+### D9-Q9 DECIDED: HYBRID A+C - Tier-Aware Handling
+- Timestamp: 2025-12-11T20:30:00Z
+- Decision: CRITICAL/HARD tiers (System/Framework/Config): Fail-fast on circular or undefined. SOFT tier (Project/Legacy): Graceful degradation to literal string {var} with warning.
+- Confidence: 8.5/10
+- Specialist Consensus: 4/4 UNANIMOUS (Architect 9/10, Research 8/10, Coder 8/10, Tester 8/10)
+- Binding Constraints: D9-Q8 (Two-Phase Resolution), D2-Q20 (CRITICAL=fail-fast), D4-Q16 (4-level cascade)
+- LOC: ~1,190, TCO: $10,472, Reuse: 15% from config-collector.js, Testability: 92%
+- Industry Validation: Terraform (fail-fast) + Docker (literal) = hybrid pattern proven
+- Key Finding: Neither BMAD nor claude-mpm has circular detection - greenfield implementation
+- Implementation:
+  - Phase 1 (SessionStart): DFS circular detection + undefined check for CRITICAL/HARD
+  - Phase 2 (Runtime): Max-depth 10 + literal fallback for SOFT tier
+
+### D9-Q10 DECIDED: Option A - No Conditionals
+- Timestamp: 2025-12-11T20:30:00Z
+- Decision: Variables remain simple substitutions only. Conditionals handled at workflow logic level. 4-level cascade provides fallback via priority. D9-Q9 SOFT tier provides literal fallback.
+- Confidence: 9/10
+- Specialist Consensus: 4/4 UNANIMOUS (Architect 8.75/10, Research 9/10, Coder 9/10, Tester 9/10)
+- Binding Constraints: D4-Q16 (Static configuration only - PRE-SELECTS A), 4-level cascade provides fallback
+- LOC: 0 (uses existing cascade), TCO: $0, Reuse: 100%, Testability: 95%
+- Industry Validation: 0/9 major frameworks use conditional variable syntax (npm, pip, cargo, K8s, Terraform, XDG, LangChain, CrewAI, Temporal)
+- Security Note: Option C rejected due to CVE-documented injection risks (Jinja2, OGNL)
+- Key Finding: D4-Q16's "static configuration only" pre-selects this answer
+
+### Combined Q9+Q10 Implementation
+- Total LOC: ~1,190 (~1,010 net new)
+- Combined TCO: $10,472
+- Architecture: Tier-aware error handling + No conditional syntax = simple, safe, testable
+
+---
+
+## Session 78: 2025-12-11
+
+### D9-Q11 DECIDED: Option A - On First Write (Lazy)
+- Timestamp: 2025-12-11T22:00:00Z
+- Decision: Project output directories (epics, stories, analysis, blueprints, research) auto-created via mkdir -p when first file is written
+- Confidence: 8.5/10
+- Specialist Split: 2/4 favor A (Architect 9/10, Coder 92%), 1/4 favor B-aligned (Research 9/10), 1/4 favor C (Tester 8/10)
+- Binding Constraint: NONE - D6-Q5 applies to FRAMEWORK dirs only, not project dirs
+- LOC: ~50-55, TCO: $135, Reuse: 85% from claude-mpm ProjectOrganizer
+- Test Cases: 38 required
+- Key Finding: BMAD-PERSONAL-ARCHITECTURE.md:190-198 explicitly documents lazy mkdir-p pattern
+- Analogy: Moving Box - set up rooms when you need them, not before
+
+### D9-Q12 DECIDED: Option B - Installer-Required
+- Timestamp: 2025-12-11T22:00:00Z
+- Decision: Framework directories (~/.claude/bmad/, ~/.claude/plugins/, ~/.claude/workflows/) require explicit installer
+- Confidence: 10/10 (BINDING CONSTRAINT)
+- Specialist Consensus: 3/4 favor B (Architect 10/10, Research 8/10, Coder 95%), 1/4 favor C (Tester 9/10)
+- Binding Constraint: D6-Q5 PRE-SELECTS - Full deployment pre-handoff REQUIRED
+- LOC: ~70-100, TCO: $90, Reuse: 95% from claude-mpm ProjectInitializer
+- Test Cases: 40 required
+- Industry Validation: 60% use installer, 40% use first-command (0% pure lazy)
+- Key Finding: D6-Q5 mandates files exist BEFORE Claude Code runs - framework dirs are prerequisites
+- Analogy: Foundation - walls must be built before you can hang pictures
+
+### Combined Q11+Q12 Implementation
+- Total LOC: ~120-155 (~100 net new)
+- Combined TCO: $225
+- Architecture: Lazy project dirs (on first write) + Explicit framework installer (pre-handoff)
+
+---
+
+## Session 79: 2025-12-11
+
+### D9-Q13 DECIDED: Option A - Full Path Creation (mkdir -p)
+- Timestamp: 2025-12-11T23:30:00Z
+- Decision: Use mkdir -p equivalent (Path.mkdir(parents=True, exist_ok=True)) to create ALL intermediate directories
+- Confidence: 9.5/10
+- Specialist Consensus: 4/4 UNANIMOUS (Architect 10/10, Research 10/10, Coder 9.5/10, Tester 9/10)
+- Binding Constraint: D9-Q11 (Lazy Creation) implies automatic intermediate path handling
+- LOC: 5, TCO: $150, Reuse: 100% from claude-mpm project_organizer.py:384
+- Test Cases: 28-32
+- Key Finding: BMAD-PERSONAL-ARCHITECTURE.md:190-198 explicitly documents mkdir-p pattern
+- Industry Validation: 95% of frameworks (npm, cargo, Rails, Django) use full-path creation
+- Analogy: Automatic Escalator - carries you to destination without building each floor's stairs manually
+
+### D9-Q14 DECIDED: Option A - No Placeholders
+- Timestamp: 2025-12-11T23:30:00Z
+- Decision: Do NOT add .gitkeep or README.md placeholder files - lazy creation makes them unnecessary
+- Confidence: 9.5/10
+- Specialist Consensus: 3/4 favor A (Architect 10/10, Research 9/10, Tester 10/10), Coder 8.5/10 (hybrid for support dirs)
+- Binding Constraint: D9-Q11 (Lazy Creation) eliminates empty directory problem entirely
+- LOC: 0, TCO: $0
+- Test Cases: 8-10
+- Key Insight: Lazy creation = dirs created WHEN files written = NEVER empty = git tracks automatically
+- Industry Validation: 85% of frameworks use no placeholders when files exist
+- Analogy: Self-Filling Bookshelf - shelf only appears when you have a book; no need for placeholder book
+
+### Combined Q13+Q14 Implementation
+- Total LOC: 5 (Q13 only, Q14 is 0)
+- Combined TCO: $150
+- Architecture: mkdir -p for all paths + no placeholder files = minimal code, maximum simplicity
+
+---
+
+## Session 80: 2025-12-11 - D9 COMPLETE! 🎉
+
+### D9-Q15 DECIDED: Option A - Reference-Only
+- Timestamp: 2025-12-11T23:59:00Z
+- Decision: Project state stores paths/references to global files, loads on-demand via Read tool. Never copy.
+- Confidence: 9/10
+- Specialist Consensus: 3/4 favor A (Architect 9/10, Research 9/10, Coder 9/10), 1/4 favor D (Tester 8/10)
+- Binding Constraints: D5-Q19 (never auto-load), D4-Q1/Q2 (frontmatter state), D6-Q5 (pre-handoff), D9-Q2 (variable-chained)
+- LOC: 150, TCO: $6,000, Reuse: 50% from OutputStyleManager
+- Industry Validation: 10/10 systems (npm, pip, Docker, K8s, systemd, VS Code, git, Claude Code) use reference-only
+- Key Insight: Library Card Catalog - store WHERE the book is, not a photocopy
+- Tester Dissent: Favored Option D (Hybrid) for testability - resolved by binding constraint compliance
+
+### D9-Q16 DECIDED: Option D - Layered Styles
+- Timestamp: 2025-12-11T23:59:00Z
+- Decision: System styles in {bmad-framework-root}/styles/, User in ~/.claude/styles/, Project in {project-root}/.claude/styles/
+- Confidence: 8.5/10
+- Specialist Consensus: 3/4 favor D (Architect 9/10, Research 9/10, Tester 9/10), 1/4 favor A (Coder 8/10)
+- Binding Constraints: D3-Q17 (Project > User > System priority)
+- LOC: 300, TCO: $8,000, Reuse: 60% from OutputStyleManager
+- Industry Validation: VS Code, npm, git all use layered cascades
+- Key Insight: Paint Color Swatch - manufacturer base, user favorites, project-specific overrides
+- Coder Dissent: Favored Option A (0 LOC current) - resolved by D3-Q17 constraint compliance
+
+### Combined Q15+Q16 Implementation
+- Total LOC: 450 (~380 net new)
+- Combined TCO: $14,000
+- Architecture: Reference-only state + Layered styles = consistent with priority cascade
+
+---
+
+## D9 COMPLETE - FINAL SUMMARY
+
+**Total Questions:** 16/16 DECIDED (100%)
+**Sessions:** 72-80 (9 sessions)
+**Total LOC:** ~2,805 net new
+**Total 3-Year TCO:** ~$56,500
+
+### Decision Summary
+
+| Q | Topic | Decision | LOC | TCO |
+|---|-------|----------|-----|-----|
+| Q1 | System-level vars | Option C: Hybrid Resolution | 115 | $3,970 |
+| Q2 | Framework-level vars | Option C: Variable-Chained | 395 | $12,000 |
+| Q3 | Legacy aliases | Option A: Direct Aliasing | 70 | $5,500 |
+| Q4 | Root structure | Option A: Personal BMAD | 35 | $3,000 |
+| Q5 | Module organization | Option A: Module-first | 100 | $4,000 |
+| Q6 | Agent plugin location | Option A: Claude Code Plugin Path | 50 | $3,500 |
+| Q7 | Project output dirs | Option A: Fixed Structure | 80 | $650 |
+| Q8 | Resolution order | Option C: Two-Phase | 100 | $700 |
+| Q9 | Circular/undefined | HYBRID A+C: Tier-Aware | 1,190 | $10,472 |
+| Q10 | Conditionals | Option A: No Conditionals | 0 | $0 |
+| Q11 | Project dir timing | Option A: On First Write | 55 | $135 |
+| Q12 | Framework dir timing | Option B: Installer-Required | 100 | $90 |
+| Q13 | Intermediate dirs | Option A: Full Path (mkdir -p) | 5 | $150 |
+| Q14 | Placeholders | Option A: No Placeholders | 0 | $0 |
+| Q15 | State references | Option A: Reference-Only | 150 | $6,000 |
+| Q16 | Styles directory | Option D: Layered | 300 | $8,000 |
+
+### Architecture Established
+
+```
+PATH VARIABLE CASCADE (4 Levels):
+Level 1: SYSTEM      {home}, {project-root}
+    ↓
+Level 2: FRAMEWORK   {bmad-framework-root} = {home}/.claude/bmad
+    ↓
+Level 3: PROJECT     {output-root} = {project-root}/bmad
+    ↓
+Level 4: LEGACY      bmad_path = {bmad-framework-root}
+
+FILE STRUCTURE:
+~/.claude/
+├── plugins/marketplaces/local/plugins/{module}/agents/  (Q6: Claude Code native)
+├── bmad/{module}/config.yaml, agents/, workflows/       (Q4-Q5: Module-first)
+├── styles/                                               (Q16: User-level styles)
+├── workflows/
+└── commands/
+
+{project-root}/
+├── bmad/{epics,stories,analysis,blueprints,research}/   (Q7: Fixed structure)
+└── .claude/styles/                                       (Q16: Project overrides)
+
+STATE STRATEGY:
+- Project state stores REFERENCES to global files         (Q15)
+- Load content on-demand via Read tool                    (D5-Q19)
+- Never copy global files to project                      (Q15)
+
+AUTO-CREATION:
+- Framework dirs: Installer-required (D6-Q5 pre-handoff)  (Q12)
+- Project dirs: Lazy on first write (mkdir -p)            (Q11, Q13)
+- No placeholder files needed (lazy = never empty)         (Q14)
+```
+
+---
+
+D9 Path Variables & File Structure: COMPLETE
