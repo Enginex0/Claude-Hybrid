@@ -1,0 +1,39 @@
+{
+  "decision": "D1",
+  "title": "Execution Model",
+  "current_question": 1,
+  "questions_completed": 1,
+  "total_questions": 1,
+  "status": "complete",
+  "created": "2025-12-07",
+  "last_updated": "2025-12-11",
+  "decisions": [
+    {
+      "question": "Q1",
+      "title": "Execution Model: Config Deployer vs Runtime Orchestrator vs Hybrid",
+      "decision": "Option C: Hybrid Model",
+      "rationale": "Combines upfront configuration (project-specific tailoring from Config Deployer pattern) with runtime orchestration (continuous control from Runtime Orchestrator pattern). Orchestrator implemented as Claude Code agent, not external process. Maintains President's 'know every wire' principle while providing flexibility to invoke/dismiss orchestrator as needed.",
+      "specialist_consensus": "President-decided (foundational architectural choice)",
+      "binding_constraints": ["D2 (Enforcement Mechanism depends on execution model)", "D3 (Multi-Agent Strategy depends on enforcement)", "D4 (State Tracking depends on agent model)"],
+      "architectural_pattern": {
+        "layer_1_static": "Deploy agents, skills, hooks, MCP config upfront",
+        "layer_2_runtime": "Orchestrator agent (BMad Master) invokable during session",
+        "process_model": "Orchestrator is Claude Code agent, NOT external process",
+        "control_model": "User can invoke/dismiss orchestrator as needed"
+      },
+      "trade_off_resolution": {
+        "simplicity": "Medium - upfront config reduces runtime complexity",
+        "control": "Flexible - runtime control via agent invocation",
+        "context": "Configurable - layers can be tuned per project",
+        "debugging": "Medium - persistent agent layer aids visibility",
+        "claude_code_native": "Balanced - leverages Claude Code's native agent model"
+      },
+      "decided_at": "2025-12-07",
+      "decided_in_session": 5
+    }
+  ],
+  "sources": [
+    "docs/ARCHITECTURAL-DECISIONS.md",
+    "CORE-VISION.md"
+  ]
+}
