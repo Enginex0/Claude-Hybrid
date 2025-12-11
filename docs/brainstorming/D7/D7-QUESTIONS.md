@@ -1,7 +1,7 @@
 # D7: MCP Integration - Question Set
 
 **Decision:** How does Claude-Hybrid integrate MCP servers and tools?
-**Status:** PENDING (0/16 DECIDED)
+**Status:** COMPLETE (16/16 DECIDED) 🎉
 **Generated:** 2025-12-10 (Updated 2025-12-11 - Removed 6 redundant questions)
 **Sources:** Claude Code architecture (04-MCP-INTEGRATION.md), Claude-MPM analysis (07-MCP-TICKETING.md)
 
@@ -23,22 +23,22 @@ The following questions were REMOVED due to semantic overlap with D2-D5:
 
 | Question | Status | Answer |
 |----------|--------|--------|
-| Q1 | PENDING | - |
-| Q2 | PENDING | - |
-| Q3 | PENDING | - |
-| Q4 | PENDING | - |
-| Q5 | PENDING | - |
-| Q6 | PENDING | - |
-| Q7 | PENDING | - |
-| Q8 | PENDING | - |
-| Q9 | PENDING | - |
-| Q10 | PENDING | - |
-| Q11 | PENDING | - |
-| Q12 | PENDING | - |
-| Q13 | PENDING | - |
-| Q14 | PENDING | - |
-| Q15 | PENDING | - |
-| Q16 | PENDING | - |
+| Q1 | **DECIDED** | Option A: Single Aggregator Proxy (Claude Code Pattern) |
+| Q2 | **DECIDED** | Option C: Progressive Disclosure (L1/L2/L3) |
+| Q3 | **DECIDED** | Option D: Lazy initialization with keep-alive |
+| Q4 | **DECIDED** | Option C: Project-scoped config (per project overrides global) |
+| Q5 | **DECIDED** | Option A: Triple underscore pattern (mcp__server__tool) |
+| Q6 | **DECIDED** | Option D: Priority-based routing (with D5-Q18 shorthand) |
+| Q7 | **DECIDED** | Option C: Auto-aliasing for unique tools (D5-Q18 mandate) |
+| Q8 | **DECIDED** | Option B: Summary only + on-demand full schemas (L1/L2/L3) |
+| Q9 | **DECIDED** | Option A: Server-specific timeouts (code-graph-rag: 60min, vector-search: 10min, default: 2min) |
+| Q10 | **DECIDED** | Option B: Session-scoped pooling (servers live for session duration) |
+| Q11 | **DECIDED** | Option A: Direct stdio pipes (JSON-RPC over stdin/stdout) |
+| Q12 | **DECIDED** | Option A: Strict registration (servers must be in config.json) |
+| Q13 | **DECIDED** | Option C: Schema + performance hints (timeout tier, latency, resource class) |
+| Q14 | **DECIDED** | Option B: Fallback redirection (on failure, redirect to configured fallback) |
+| Q15 | **DECIDED** | Option C: Tiered defaults with override (fast/medium/slow tiers + per-server override) |
+| Q16 | **DECIDED** | Option B: Explicit tool selection (both vector systems as separate MCP tools) |
 
 ---
 

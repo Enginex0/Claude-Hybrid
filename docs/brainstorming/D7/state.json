@@ -1,13 +1,285 @@
 {
   "decision": "D7",
   "title": "MCP Integration",
-  "current_question": 1,
-  "questions_completed": 0,
+  "current_question": "COMPLETE",
+  "questions_completed": 16,
   "total_questions": 16,
-  "status": "not_started",
+  "status": "complete",
   "created": "2025-12-10",
   "last_updated": "2025-12-11",
-  "decisions": [],
+  "decisions": [
+    {
+      "question": "Q1",
+      "title": "Aggregator Architecture Pattern",
+      "decision": "Option A: Single Aggregator Proxy (Claude Code Pattern)",
+      "specialist_consensus": "4/4 unanimous (Architect 9/10, Research 9/10, Coder 9/10, Tester 8/10)",
+      "binding_constraints": ["D1 (static config)", "D2-Q1/Q11 (centralized hooks)", "D5-Q7 (progressive disclosure)"],
+      "implementation": "0 LOC - Already exists at ~/.claude/mcp-aggregator/server.js",
+      "tco_3year": "$18,000",
+      "industry_validation": "5/6 frameworks use single aggregator/supervisor pattern",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q2",
+      "title": "Tool Scale Handling (26 servers, 332 tools)",
+      "decision": "Option C: Progressive Disclosure (L1/L2/L3)",
+      "specialist_consensus": "3/4 favor C (Architect 9/10, Research 10/10, Coder 9/10), 1/4 favor D (Tester 7/10)",
+      "binding_constraints": ["D5-Q7 MANDATES L1/L2/L3", "D5-Q9 MANDATES manifest-based loading"],
+      "implementation": "0 LOC - Already exists in get_tools(detail=name|summary|full)",
+      "token_savings": "97.96% (6.6K vs 325K tokens)",
+      "tco_3year": "$9,000",
+      "industry_validation": "6/6 frameworks use progressive; Anthropic achieves 98.7%",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q3",
+      "title": "MCP Server Spawning Strategy",
+      "decision": "Option D: Lazy initialization with keep-alive (spawn on first use, keep running for session duration with timeout)",
+      "specialist_consensus": "2/4 favor A (Architect 9/10, Coder 9/10), 1/4 favor C (Research 8/10), 1/4 favor D (Tester 7/10) - Effective D since current impl has keep-alive",
+      "binding_constraints": ["D5-Q8 (Session Boundary Only)", "D6-Q1 (exec default)", "D6-Q2 (Complete state death)"],
+      "implementation": "0 LOC - Already implemented with keep-alive heartbeat (lines 187-229) and startup pre-warming (lines 776-836)",
+      "key_finding": "Warm-up DISABLED in claude-mpm (commit 18a644d) due to FD inheritance conflicts; current aggregator has post-connection pre-warming",
+      "tco_3year": "$50,000",
+      "industry_validation": "Agent Sandbox (Dec 2025) validates hybrid pre-warming; keep-alive is standard pattern",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q4",
+      "title": "Aggregator Configuration Management",
+      "decision": "Option C: Project-scoped config (.claude.json per project overrides global config for project-specific servers)",
+      "specialist_consensus": "2/4 favor D (Research 9/10, Tester 8/10), 1/4 favor A (Architect 8/10), 1/4 favor B (Coder 10/10) - C chosen as constraint-compliant layering",
+      "binding_constraints": ["D1 (Layer 1 Static)", "D5-Q8 (Session Boundary Only)", "D6-Q2 (State death - files survive)"],
+      "implementation": "~100-150 LOC (project config loading + merge logic)",
+      "key_finding": "reload_config exists as escape hatch; Option D runtime layer violates D5-Q8/D6-Q2; Option C satisfies layering need without violations",
+      "proposed_precedence": "PROJECT/.claude/mcp-aggregator.json > ~/.claude/mcp-aggregator/config.json (loaded at session start)",
+      "tco_3year": "$45,000",
+      "industry_validation": "VS Code, npm, Terraform all use layered config loaded at startup",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q5",
+      "title": "Tool Naming Convention",
+      "decision": "Option A: Triple underscore pattern (mcp__server__tool)",
+      "specialist_consensus": "4/4 unanimous (Architect 9/10, Research 7/10, Coder 9/10, Tester 9/10)",
+      "binding_constraints": ["D7-Q1 (single aggregator)", "D7-Q2 (progressive disclosure)"],
+      "implementation": "0 LOC - Already implemented, production-proven with 332 tools",
+      "key_finding": "10+ tool name collisions exist (browser_click, read_file, etc.) - Option D (flat) INFEASIBLE",
+      "option_disqualifications": {
+        "B_dot_notation": "Parsing ambiguity with server/tool names containing dots",
+        "C_slash_hierarchy": "Security risk - path traversal confusion",
+        "D_flat_prefix": "INFEASIBLE - 10+ collisions cannot be disambiguated"
+      },
+      "tco_3year": "$1,500",
+      "industry_validation": "Anthropic MCP SDK uses triple underscore natively; 100% deterministic parsing",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q6",
+      "title": "Namespace Conflict Resolution",
+      "decision": "Option D: Priority-based routing (config defines server priority order, with D5-Q18 shorthand when unambiguous)",
+      "specialist_consensus": "SPLIT resolved via binding constraint - Architect 9/10 HYBRID C+D, Research 9/10 D, Coder 8/10 C, Tester 8/10 B",
+      "binding_constraints": ["D5-Q18 MANDATES 'shorthand when unambiguous + tier-based priority'"],
+      "implementation": "~200 LOC (collision map + priority resolver)",
+      "key_finding": "9 verified collisions (browser_click, read_file, find_similar_code, etc.); D5-Q18 is BINDING precedent",
+      "option_disqualifications": {
+        "A_first_registered": "NON-DETERMINISTIC - startup order creates race condition",
+        "B_explicit_aliasing": "Config overhead, doesn't provide automatic shorthand for unique tools",
+        "C_server_qualified_only": "VIOLATES D5-Q18 - no shorthand support"
+      },
+      "resolution_logic": "if len(servers)==1: shorthand allowed; else: priority-based routing per tier config",
+      "tco_3year": "$8,000",
+      "industry_validation": "npm, Go imports, Python sys.path all use priority-based resolution",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q7",
+      "title": "Tool Aliasing for Frequently-Used MCP Tools",
+      "decision": "Option C: Auto-aliasing for unique tools (237 unique tools auto-aliased, 9 collisions require full path)",
+      "specialist_consensus": "3/3 effective (Architect 9/10, Coder 8/10, Tester 8/10 - Research timed out)",
+      "binding_constraints": ["D5-Q18 MANDATES 'shorthand when unambiguous'", "D7-Q6 (priority-based routing)"],
+      "implementation": "~150-200 LOC (collision map + auto-resolver)",
+      "key_finding": "D5-Q18 binding constraint MANDATES auto-aliasing for 237 unique tools; Option B (config-only) would require manual configuration of 237 aliases",
+      "option_disqualifications": {
+        "A_no_aliasing": "VIOLATES D5-Q18 - shorthand when unambiguous is mandatory",
+        "D_contextual": "Over-engineering, non-deterministic, 4/10 testability"
+      },
+      "tco_3year": "$7,000",
+      "test_coverage": "83% achievable",
+      "industry_validation": "5/6 tools use config-driven aliases; auto-alias satisfies D5-Q18 mandate",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q8",
+      "title": "Tool Discovery MCP Capability Exposure",
+      "decision": "Option B: Summary only with on-demand full schemas (L1/L2/L3 progressive disclosure)",
+      "specialist_consensus": "3/3 UNANIMOUS (Architect 9/10, Coder 9/10, Tester 9/10 - Research timed out)",
+      "binding_constraints": ["D7-Q2 decided progressive disclosure L1/L2/L3", "D5-Q9 decided manifest-based loading"],
+      "implementation": "0 LOC - get_tools(detail=name|summary|full) ALREADY EXISTS",
+      "key_finding": "D7-Q2 already decided progressive disclosure with 97.96% token savings; get_tools(detail) already implements L1/L2/L3 pattern",
+      "option_disqualifications": {
+        "A_full_list": "VIOLATES D7-Q2 - wastes 80-90% tokens",
+        "D_intent_based": "Non-deterministic, LLM hallucination risk, 4/10 testability"
+      },
+      "token_savings": "94.9% (16.6K vs 325K tokens)",
+      "tco_3year": "$0",
+      "test_coverage": "90%+ achievable",
+      "industry_validation": "6/6 LLM frameworks use progressive disclosure pattern",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q9",
+      "title": "MCP Server Timeout Strategy",
+      "decision": "Option A: Server-specific timeouts (code-graph-rag: 60min, vector-search: 10min, default: 2min)",
+      "specialist_consensus": "2/4 favor A (Architect 9/10, Coder 9/10), 2/4 favor B (Research 8/10, Tester 9/10) - Split resolved by implementation reality",
+      "binding_constraints": ["D7-Q4 (Project-scoped config provides override layer)"],
+      "implementation": "0 LOC - Already implemented at server.js:164-169",
+      "key_finding": "SERVER_TIMEOUTS constant with hardcoded values; D7-Q4 project config enables user overrides as enhancement",
+      "option_disqualifications": {
+        "B_operation_type": "Requires operation classification for 332 tools; same server has different operation speeds",
+        "C_adaptive": "Non-deterministic, partial exists only for connection phase (resetTimeoutOnProgress)",
+        "D_user_configurable": "Better as enhancement to A via D7-Q4 project config"
+      },
+      "tco_3year": "$1,500",
+      "test_coverage": "95% achievable",
+      "industry_validation": "4/4 frameworks use server-specific timeouts (Kubernetes, Docker, AWS Lambda, Temporal)",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q10",
+      "title": "MCP Process Lifecycle Model",
+      "decision": "Option B: Session-scoped pooling (servers live for Claude session duration, managed by aggregator)",
+      "specialist_consensus": "4/4 UNANIMOUS (Architect 10/10, Research 9/10, Coder 10/10, Tester 10/10)",
+      "binding_constraints": ["D7-Q3 PRE-SELECTS B (Lazy init with keep-alive)", "D5-Q8 (Session Boundary Only)", "D6-Q2 (Complete state death)"],
+      "implementation": "0 LOC - Already implemented with keep-alive heartbeat (server.js:187-229) and cleanup (server.js:495-517)",
+      "key_finding": "D7-Q3 decision text IS Option B definition; Options C/D VIOLATE binding constraints",
+      "option_disqualifications": {
+        "A_per_call": "VIOLATES D7-Q3 'keep-alive' mandate; 11.9s overhead per call unacceptable",
+        "C_project_scoped": "VIOLATES D5-Q8 (Session Boundary Only) and D6-Q2 (Complete state death)",
+        "D_background_daemon": "VIOLATES D5-Q8; system service model overkill for CLI tool"
+      },
+      "tco_3year": "$3,000",
+      "test_coverage": "89% achievable",
+      "industry_validation": "4/4 frameworks use session-scoped pooling (VS Code LSP, AutoGen, Python Pool, Docker)",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q11",
+      "title": "stdio Communication Management",
+      "decision": "Option A: Direct stdio pipes (aggregator spawns servers with stdin/stdout pipes, JSON-RPC over stdio)",
+      "specialist_consensus": "3/4 favor A (Architect 9.8/10, Research 9/10, Coder 10/10), 1/4 favor B (Tester 8/10 - better abstraction)",
+      "binding_constraints": ["D7-Q3 (Lazy init with keep-alive)", "D7-Q10 (Session-scoped pooling)", "D6-Q2 (Complete state death)", "D5-Q8 (Session boundary only)"],
+      "implementation": "0 LOC - Already implemented in server.js (836 LOC) with StdioClientTransport/StdioServerTransport",
+      "key_finding": "JSON-RPC 2.0 over stdio with Content-Length framing (LSP-style); MCP SDK 1.23+ handles spawning internally; 30-second keep-alive heartbeat",
+      "option_disqualifications": {
+        "C_http_transport": "VIOLATES D6-Q2 (state death), D5-Q8 (session boundary), D7-Q10 (session-scoped pooling)",
+        "D_mixed_transport": "VIOLATES same constraints for remote/cloud servers"
+      },
+      "tco_3year": "$1,500",
+      "test_coverage": "85-90% achievable",
+      "industry_validation": "LSP, DAP, MCP all use stdio as primary transport; 7+ million developers use stdio-based LSP",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q12",
+      "title": "Tool Capability Discovery for Unknown Servers",
+      "decision": "Option A: Strict registration (servers must be in config.json, unknown servers rejected)",
+      "specialist_consensus": "4/4 UNANIMOUS (Architect 9.8/10, Research 9/10, Coder 10/10, Tester 9/10)",
+      "binding_constraints": ["D7-Q4 (Project-scoped config)", "D5-Q8 (Session boundary only)", "D5-Q9 (Manifest-based selective loading)"],
+      "implementation": "0 LOC - Already implemented in tool_registry.py (490 LOC) with thread-safe RLock, LRU cache, regex search",
+      "key_finding": "reload_config() is NOT dynamic discovery - it clears cache and takes effect on NEXT call; config.json is single source of truth",
+      "option_disqualifications": {
+        "B_dynamic_discovery": "VIOLATES ALL THREE constraints (D5-Q8, D7-Q4, D5-Q9) - mid-session changes forbidden",
+        "C_plugin_model": "Viable but 530 LOC, $33,750 TCO - unnecessary when strict registration works",
+        "D_sandbox_discovery": "Viable but 800 LOC, $61,000 TCO - Kubernetes explicitly warns against self-registration"
+      },
+      "tco_3year": "$2,400",
+      "test_coverage": "95%+ achievable",
+      "industry_validation": "VS Code, npm, Kubernetes ALL use explicit registration; Kubernetes warns 'Operators should NOT self-register'",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q13",
+      "title": "MCP Metadata Caching alongside Tool Schemas",
+      "decision": "Option C: Schema + performance hints (timeout tier, latency, resource class)",
+      "specialist_consensus": "3/4 favor C (Architect 8/10, Research 8/10, Coder 8/10), 1/4 favor B (Tester 8/10)",
+      "binding_constraints": ["D5-Q12/Q13 (hash-based SHA-256 caching)", "D7-Q2 (progressive disclosure L1/L2/L3)", "D7-Q9 (server-specific timeouts)"],
+      "implementation": "~70 LOC (extract SERVER_TIMEOUTS into schema metadata)",
+      "key_finding": "D7-Q9 timeout info (60min/10min/2min) NOT in schema metadata - Claude cannot make informed decisions without performance hints",
+      "option_disqualifications": {
+        "A_schema_only": "Does NOT address D7-Q9 timeout visibility gap",
+        "B_schema_examples": "Does NOT address timeout gap; examples add token weight without operational value",
+        "D_full_profile": "Overkill - dependencies/compatibility matrix not needed yet; violates KISS"
+      },
+      "cache_impact": "+0.2% (~25KB increase from 1.3MB baseline)",
+      "tco_3year": "$1,550",
+      "test_coverage": "70% achievable",
+      "industry_validation": "4/6 frameworks use C/D level metadata; MCP standard supports behavioral hints",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q14",
+      "title": "Hook Redirection of MCP Tool Calls",
+      "decision": "Option B: Fallback redirection (if primary server fails, hook can redirect to configured fallback)",
+      "specialist_consensus": "3/4 favor B (Architect 7/10, Coder 8/10, Tester 7/10), 1/4 favor C (Research 7/10)",
+      "binding_constraints": ["D2-Q3 (updatedInput for params only - redirection is separate action)", "D2-Q5 (circuit-breaker + graceful degradation)", "D7-Q6 (priority routing is config-time, not runtime)", "D7-Q12 (strict registration - fallbacks must be in config.json)"],
+      "implementation": "~50 LOC (extend retry logic, fallback config)",
+      "key_finding": "D2-Q3 updatedInput is for PARAMETERS only, not server selection; Option B uses separate 'redirect_fallback' action that respects D7-Q12 strict registration",
+      "option_disqualifications": {
+        "A_no_redirection": "Provides NO resilience mechanism; D2-Q5 mandates graceful degradation",
+        "C_policy_routing": "DUPLICATES D7-Q6 priority routing at different layer; creates confusion",
+        "D_full_control": "VIOLATES D2-Q3 (server is positional param); security risk; unpredictable"
+      },
+      "tco_3year": "$1,900",
+      "test_coverage": "80% achievable",
+      "industry_validation": "7/8 frameworks support fallback/routing; service mesh pattern validated",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q15",
+      "title": "Per-Server MCP Timeout Configuration Mechanism",
+      "decision": "Option C: Tiered defaults with override (3 tiers: fast/medium/slow with per-server override capability)",
+      "specialist_consensus": "3/4 favor C (Architect 8/10, Research 8/10, Tester 8/10), 1/4 favor A (Coder 9/10)",
+      "binding_constraints": ["D7-Q9 (Server-specific timeouts - mechanism)", "D7-Q4 (Project-scoped config for overrides)"],
+      "implementation": "~120 LOC (tier definitions + getTimeout() + config integration)",
+      "key_finding": "Current timeouts HARDCODED at server.js:164-169, NOT externalized. Option C externalizes with DRY tiering (fast=2min, medium=10min, slow=60min)",
+      "option_disqualifications": {
+        "A_per_server_config": "DRY violation - 26+ individual timeout entries; scales poorly",
+        "B_operation_type": "DISQUALIFIED by D7-Q9 - server-specific, not operation-specific",
+        "D_adaptive": "Non-deterministic, Q9 flagged as complex; debugging difficulty"
+      },
+      "tier_structure": {
+        "fast": "120000ms (2 min) - ripgrep, memory, sqlite, filesystem, ast-grep",
+        "medium": "600000ms (10 min) - vector-search, serena, tree-sitter, playwright",
+        "slow": "3600000ms (60 min) - code-graph-rag, deepresearch"
+      },
+      "tco_3year": "$5,000",
+      "test_coverage": "92% achievable",
+      "industry_validation": "Kubernetes resource classes, AWS Lambda tiers, gRPC deadline patterns all use tiered defaults",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q16",
+      "title": "Dual Vector Search System Selection",
+      "decision": "Option B: Explicit tool selection (both systems exposed as separate MCP tools; user/agent explicitly chooses)",
+      "specialist_consensus": "2/4 favor B (Coder 8/10, Tester 9/10), 1/4 favor C (Architect 8/10), 1/4 favor A (Research 7/10)",
+      "binding_constraints": ["D7-Q5 (Triple underscore pattern - tools remain mcp__server__tool)", "D7-Q14 (Fallback redirection - handles server FAILURE, not result insufficiency)", "D2-Q5 (Graceful degradation - each tool degrades independently)"],
+      "implementation": "0 LOC - ALREADY IMPLEMENTED (both systems exposed as separate tools)",
+      "key_finding": "Both systems already exposed: code-graph-rag (24 tools, graph analysis) + vector-search (5 tools, semantic). Claude can read descriptions and choose appropriately.",
+      "option_disqualifications": {
+        "A_auto_selection": "Non-deterministic intent analysis; 5/10 determinism; VIOLATES D7-Q5 if new unified tool name",
+        "C_primary_fallback": "Extends D7-Q14 beyond scope (failure vs insufficiency); threshold tuning is subjective",
+        "D_unified_facade": "VIOLATES D7-Q5 (creates non-MCP tool); 2x latency; hides 24 specialized graph tools"
+      },
+      "dual_system_roles": {
+        "code_graph_rag": "24 tools - Graph analysis, impact analysis, clone detection, relationships. Query: 'What calls this function?'",
+        "vector_search": "5 tools - Semantic embeddings, text search, similarity. Query: 'Find code related to auth'"
+      },
+      "tco_3year": "$1,500",
+      "test_coverage": "95% achievable (10/10 determinism)",
+      "industry_validation": "Claude/LLM intelligence enables informed tool selection; Anthropic MCP uses explicit tool exposure",
+      "decided_at": "2025-12-11"
+    }
+  ],
   "source_documents": [
     "/home/president/bmad-systems/claude-code-architecture/04-MCP-INTEGRATION.md",
     "/home/president/bmad-systems/claude-mpm-complete-analysis/07-MCP-TICKETING.md"
@@ -16,18 +288,19 @@
     "Q1-Q4": "MCP Aggregator architecture (26 servers, 332 tools)",
     "Q5-Q8": "Tool namespacing patterns (mcp__server__tool)",
     "Q9-Q12": "Server timeout configuration and lifecycle",
-    "Q13-Q14": "MCP metadata and hooks"
+    "Q13-Q14": "MCP metadata and hooks",
+    "Q15-Q16": "Gap analysis (timeouts, dual vector search)"
   },
   "redundancies_removed": {
     "original_count": 20,
     "removed": 6,
     "removed_questions": [
-      "Q10 (crash handling) → D2-Q5",
-      "Q13 (schema caching) → D5-Q12/Q13/Q14",
-      "Q14 (cache invalidation timing) → D5-Q13",
-      "Q17 (hook interception) → D2-Q1/Q11",
-      "Q19 (error integration) → D2-Q9/Q10",
-      "Q20 (category enforcement) → D2-Q8/Q17/Q19"
+      "Q10 (crash handling) -> D2-Q5",
+      "Q13 (schema caching) -> D5-Q12/Q13/Q14",
+      "Q14 (cache invalidation timing) -> D5-Q13",
+      "Q17 (hook interception) -> D2-Q1/Q11",
+      "Q19 (error integration) -> D2-Q9/Q10",
+      "Q20 (category enforcement) -> D2-Q8/Q17/Q19"
     ]
   }
 }

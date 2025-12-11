@@ -3,4 +3,174 @@
 # Started: 2025-12-10
 
 ---
-(Decisions will be logged here with timestamps)
+
+## 2025-12-11 Session 1
+
+[02:30] D7-Q1 DECIDED: Option A - Single Aggregator Proxy (Claude Code Pattern)
+        Specialist Consensus: 4/4 unanimous
+        Binding Constraints: D1, D2-Q1/Q11, D5-Q7 all satisfied
+        Implementation: 0 LOC (already exists)
+        TCO: $18K
+
+[02:34] D7-Q2 DECIDED: Option C - Progressive Disclosure (L1/L2/L3)
+        Specialist Consensus: 3/4 favor C, 1/4 favor D (Tester)
+        Binding Constraints: D5-Q7 MANDATES L1/L2/L3, D5-Q9 MANDATES manifest-based
+        Token Savings: 97.96% (6.6K vs 325K tokens)
+        Implementation: 0 LOC (already exists)
+        TCO: $9K
+
+---
+
+## 2025-12-11 Session 2
+
+[03:15] D7-Q3 DECIDED: Option D - Lazy initialization with keep-alive
+        Specialist Consensus: 2/4 A (Architect, Coder), 1/4 C (Research), 1/4 D (Tester)
+        Resolution: Current impl has keep-alive = effective Option D
+        Binding Constraints: D5-Q8, D6-Q1, D6-Q2 all satisfied
+        Key Finding: Warm-up DISABLED (commit 18a644d) due to FD inheritance
+        Implementation: 0 LOC (already exists with heartbeat lines 187-229)
+        TCO: $50K
+
+[03:22] D7-Q4 DECIDED: Option C - Project-scoped config
+        Specialist Consensus: 2/4 D (Research, Tester), 1/4 A (Architect), 1/4 B (Coder)
+        Resolution: Option D runtime layer violates D5-Q8/D6-Q2; C is compliant layering
+        Binding Constraints: D1, D5-Q8, D6-Q2 all satisfied
+        Key Finding: reload_config exists as escape hatch, not primary workflow
+        Proposed Precedence: PROJECT/.claude/mcp-aggregator.json > global
+        Implementation: ~100-150 LOC
+        TCO: $45K
+
+---
+
+---
+
+## 2025-12-11 Session 3
+
+[04:15] D7-Q5 DECIDED: Option A - Triple underscore pattern (mcp__server__tool)
+        Specialist Consensus: 4/4 unanimous (Architect 9/10, Research 7/10, Coder 9/10, Tester 9/10)
+        Binding Constraints: D7-Q1, D7-Q2 compatible
+        Key Finding: 10+ collisions exist - Option D (flat) INFEASIBLE
+        Options Disqualified: B (dot ambiguity), C (security risk), D (10+ collisions)
+        Implementation: 0 LOC (already implemented)
+        TCO: $1.5K
+
+[04:22] D7-Q6 DECIDED: Option D - Priority-based routing (with D5-Q18 shorthand)
+        Specialist Consensus: SPLIT - Architect 9/10 HYBRID, Research 9/10 D, Coder 8/10 C, Tester 8/10 B
+        Resolution: D5-Q18 is BINDING constraint mandating "shorthand when unambiguous + tier-based priority"
+        Binding Constraints: D5-Q18 MANDATES this pattern
+        Key Finding: 9 verified collisions (browser_click, read_file, etc.)
+        Options Disqualified: A (race condition), B (config overhead), C (violates D5-Q18)
+        Implementation: ~200 LOC
+        TCO: $8K
+
+---
+
+## 2025-12-11 Session 4
+
+[05:00] D7-Q7 DECIDED: Option C - Auto-aliasing for unique tools
+        Specialist Consensus: 3/3 effective (Architect 9/10, Coder 8/10, Tester 8/10 - Research timed out)
+        Binding Constraints: D5-Q18 MANDATES "shorthand when unambiguous"
+        Key Finding: 237 unique tools auto-aliased; 9 collisions require full path
+        Options Disqualified: A (violates D5-Q18), D (over-engineering)
+        Implementation: ~150-200 LOC
+        TCO: $7K
+
+[05:05] D7-Q8 DECIDED: Option B - Summary only with on-demand full schemas
+        Specialist Consensus: 3/3 UNANIMOUS (Architect 9/10, Coder 9/10, Tester 9/10)
+        Binding Constraints: D7-Q2 decided progressive L1/L2/L3
+        Key Finding: get_tools(detail=name|summary|full) ALREADY EXISTS
+        Options Disqualified: A (violates D7-Q2), D (non-deterministic)
+        Implementation: 0 LOC (already implemented)
+        Token Savings: 94.9%
+        TCO: $0
+
+---
+
+## 2025-12-11 Session 5
+
+[12:15] D7-Q9 DECIDED: Option A - Server-specific timeouts (code-graph-rag: 60min, vector-search: 10min, default: 2min)
+        Specialist Consensus: 2/4 A (Architect 9/10, Coder 9/10), 2/4 B (Research 8/10, Tester 9/10)
+        Resolution: Split resolved by implementation reality (already implemented)
+        Binding Constraints: D7-Q4 provides override layer via project config
+        Key Finding: SERVER_TIMEOUTS at server.js:164-169 already hardcoded
+        Options Disqualified: B (332-tool classification burden), C (non-deterministic), D (better as enhancement)
+        Implementation: 0 LOC (already implemented)
+        TCO: $1.5K
+
+[12:20] D7-Q10 DECIDED: Option B - Session-scoped pooling (servers live for session duration)
+        Specialist Consensus: 4/4 UNANIMOUS (Architect 10/10, Research 9/10, Coder 10/10, Tester 10/10)
+        Binding Constraints: D7-Q3 PRE-SELECTS B, D5-Q8, D6-Q2 all satisfied
+        Key Finding: D7-Q3 "Lazy init with keep-alive" IS Option B; Options C/D VIOLATE constraints
+        Options Disqualified: A (violates keep-alive), C (violates D5-Q8/D6-Q2), D (violates D5-Q8)
+        Implementation: 0 LOC (already implemented - heartbeat at 187-229, cleanup at 495-517)
+        TCO: $3K
+
+---
+
+---
+
+## 2025-12-11 Session 6 (Q11-Q12 from previous session)
+
+[12:30] D7-Q11 DECIDED: Option A - Direct stdio pipes (JSON-RPC over stdin/stdout)
+        Specialist Consensus: 3/4 favor A (Architect 9.8/10, Research 9/10, Coder 10/10), 1/4 favor B (Tester 8/10)
+        Binding Constraints: D7-Q3, D7-Q10, D6-Q2, D5-Q8 all satisfied
+        Key Finding: MCP SDK handles transport internally; 30-second keep-alive heartbeat
+        Options Disqualified: C/D VIOLATE state death constraints
+        Implementation: 0 LOC (already implemented in 836 LOC server.js)
+        TCO: $1.5K
+
+[12:35] D7-Q12 DECIDED: Option A - Strict registration (servers must be in config.json)
+        Specialist Consensus: 4/4 UNANIMOUS (Architect 9.8/10, Research 9/10, Coder 10/10, Tester 9/10)
+        Binding Constraints: D7-Q4, D5-Q8, D5-Q9 all satisfied
+        Key Finding: reload_config is NOT dynamic discovery - config.json is single source of truth
+        Options Disqualified: B violates 3 constraints; C/D are overkill
+        Implementation: 0 LOC (already implemented in tool_registry.py)
+        TCO: $2.4K
+
+---
+
+## 2025-12-11 Session 8 (Current - Q13 & Q14)
+
+[16:00] D7-Q13 DECIDED: Option C - Schema + performance hints (timeout tier, latency, resource class)
+        Specialist Consensus: 3/4 favor C (Architect 8/10, Research 8/10, Coder 8/10), 1/4 favor B (Tester 8/10)
+        Binding Constraints: D5-Q12/Q13 (hash caching), D7-Q2 (progressive disclosure), D7-Q9 (timeouts)
+        Key Finding: D7-Q9 timeout info NOT in schema metadata - Claude cannot make informed decisions
+        Options Disqualified: A (doesn't address gap), B (doesn't address timeout), D (overkill)
+        Implementation: ~70 LOC (extract SERVER_TIMEOUTS into schema meta)
+        Cache Impact: +0.2% (~25KB)
+        TCO: $1,550
+
+[16:10] D7-Q14 DECIDED: Option B - Fallback redirection (on failure, redirect to configured fallback)
+        Specialist Consensus: 3/4 favor B (Architect 7/10, Coder 8/10, Tester 7/10), 1/4 favor C (Research 7/10)
+        Binding Constraints: D2-Q3 (params only), D2-Q5 (graceful degradation), D7-Q6 (complements), D7-Q12 (strict)
+        Key Finding: D2-Q3 updatedInput is for PARAMETERS only; Option B uses separate redirect_fallback action
+        Options Disqualified: A (no resilience), C (duplicates D7-Q6), D (violates D2-Q3/security risk)
+        Implementation: ~50 LOC (extend retry logic)
+        TCO: $1,900
+
+---
+
+## 2025-12-11 Session 9 (D7 COMPLETE! 🎉)
+
+[17:30] D7-Q15 DECIDED: Option C - Tiered defaults with override (fast/medium/slow tiers)
+        Specialist Consensus: 3/4 favor C (Architect 8/10, Research 8/10, Tester 8/10), 1/4 favor A (Coder 9/10)
+        Resolution: DRY principle over lower TCO; tiered approach scales better
+        Binding Constraints: D7-Q9 (mechanism), D7-Q4 (project overrides)
+        Key Finding: Timeouts hardcoded at server.js:164-169 - need externalization
+        Tier Structure: fast=2min, medium=10min, slow=60min
+        Implementation: ~120 LOC
+        TCO: $5K
+
+[17:35] D7-Q16 DECIDED: Option B - Explicit tool selection (both vector systems as separate tools)
+        Specialist Consensus: 2/4 favor B (Coder 8/10, Tester 9/10), 1/4 favor C (Architect 8/10), 1/4 favor A (Research 7/10)
+        Resolution: D7-Q14 defines fallback as server FAILURE, not result insufficiency
+        Binding Constraints: D7-Q5 (triple underscore), D7-Q14 (failure fallback), D2-Q5 (graceful degradation)
+        Key Finding: Both systems already exposed - code-graph-rag (24 tools) + vector-search (5 tools)
+        Implementation: 0 LOC (ALREADY IMPLEMENTED)
+        TCO: $1.5K
+
+---
+
+Progress: 16/16 (100%) ✅ D7 COMPLETE!
+Total Implementation: ~570 LOC new + significant reuse
+Total 3-Year TCO: ~$160K
