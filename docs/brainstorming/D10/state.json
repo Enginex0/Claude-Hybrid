@@ -1,44 +1,392 @@
 {
   "decision": "D10",
   "title": "Workflow Engine & Lifecycle",
-  "current_question": 1,
-  "questions_completed": 0,
+  "current_question": "COMPLETE",
+  "questions_completed": 14,
   "total_questions": 14,
-  "status": "not_started",
+  "status": "COMPLETE",
   "created": "2025-12-10",
   "last_updated": "2025-12-11",
-  "decisions": [],
+  "decisions": [
+    {
+      "question": "Q1",
+      "topic": "Universal Workflow Executor Pattern",
+      "decision": "Option D: Hybrid Executor Pattern",
+      "consensus": "4/4 UNANIMOUS (Architect 9/10, Research 9/10, Coder 8/10, Tester 9/10)",
+      "rationale": "Universal structure + pluggable handlers. Satisfies ALL binding constraints via architectural enforcement. Industry-validated pattern (LangGraph, Temporal, Prefect).",
+      "binding_constraints_satisfied": ["D2-Q15", "D2-Q16", "D5-Q3", "D5-Q4", "D1"],
+      "implementation": {
+        "loc_estimate": "~850",
+        "bmad_reuse": "39% (~330 LOC)",
+        "testability": "85%"
+      },
+      "decided_at": "2025-12-11",
+      "session": 72
+    },
+    {
+      "question": "Q2",
+      "topic": "Deep Merge Customization Pattern",
+      "decision": "Option A: Full Deep Merge Implementation",
+      "consensus": "2/4 split resolved (Architect 10/10, Coder 9/10 for A; Research 8/10, Tester 9/10 for D)",
+      "rationale": "Objects recursive merge, arrays append, scalars override. BMAD-proven pattern (yaml-xml-builder.js:23-48). Industry standard (npm, pip, Cargo, Gradle). Option D documented as FUTURE ENHANCEMENT.",
+      "binding_constraints_satisfied": ["D3-Q9", "D3-Q17", "D5-Q6"],
+      "implementation": {
+        "loc_estimate": "~80-135",
+        "bmad_reuse": "37% (~30 LOC)",
+        "testability": "95%"
+      },
+      "future_enhancement": "Option D (Explicit Merge Directives) when edge cases arise",
+      "decided_at": "2025-12-11",
+      "session": 72
+    },
+    {
+      "question": "Q3",
+      "topic": "Customization File Locations",
+      "decision": "Option A: Per-Agent Customize Files",
+      "consensus": "2/4 split resolved (Architect 9/10, Research 8/10 for C; Coder 9/10, Tester 9/10 for A)",
+      "rationale": "Per-agent customize files with D3-Q9 tier search (Project > User > System). BMAD-proven pattern (21 files in production). Simplest implementation (~15 LOC). Per-agent provides testability while D3-Q9 priority provides hierarchy.",
+      "binding_constraints_satisfied": ["D3-Q9", "D5-Q6"],
+      "implementation": {
+        "loc_estimate": "~15",
+        "bmad_reuse": "100%",
+        "testability": "90%"
+      },
+      "file_structure": {
+        "project": "{project}/.bmad/_cfg/agents/{agent}.customize.yaml",
+        "user": "~/.bmad/_cfg/agents/{agent}.customize.yaml",
+        "system": "{bmad-install}/_cfg/agents/{agent}.customize.yaml"
+      },
+      "decided_at": "2025-12-11",
+      "session": 73
+    },
+    {
+      "question": "Q4",
+      "topic": "Customizable Agent Properties",
+      "decision": "Option B: Whitelist Approach",
+      "consensus": "3/4 majority (Architect 8/10, Coder 8/10, Tester 9/10 for B; Research 9/10 for C)",
+      "rationale": "Whitelist gates WHICH properties enter merge, D10-Q2 defines HOW. BMAD yaml-xml-builder.js:75-131 implements this exact pattern. Secure by default - protects agent identity. Lowest user breakage risk (2/10).",
+      "binding_constraints_satisfied": ["D10-Q2"],
+      "implementation": {
+        "loc_estimate": "~60",
+        "bmad_reuse": "95%",
+        "testability": "90%"
+      },
+      "whitelist": {
+        "persona": "Deep merge (D10-Q2 semantics)",
+        "menu": "Array APPEND",
+        "prompts": "Array APPEND",
+        "critical_actions": "Array APPEND",
+        "memories": "Array APPEND",
+        "metadata_name": "Scalar override",
+        "metadata_title": "Scalar override",
+        "metadata_icon": "Scalar override"
+      },
+      "protected_immutable": ["metadata.id", "metadata.type", "metadata.version"],
+      "decided_at": "2025-12-11",
+      "session": 73
+    },
+    {
+      "question": "Q5",
+      "topic": "Customization Conflict Resolution",
+      "decision": "Option D: Type-Specific Resolution",
+      "consensus": "4/4 UNANIMOUS (Architect 9/10, Research 9/10, Coder 9/10, Tester 8/10)",
+      "rationale": "Arrays append across tiers, objects merge recursively, scalars follow priority (Project > User > System). IS the implementation of D10-Q2 semantics. BMAD-proven pattern (yaml-xml-builder.js:23-48). Industry standard (Docker Compose, Kubernetes, Cargo, Helm).",
+      "binding_constraints_satisfied": ["D3-Q9", "D10-Q2", "D10-Q4"],
+      "implementation": {
+        "loc_estimate": "~100",
+        "bmad_reuse": "95%",
+        "testability": "98%",
+        "tco_3year": "$4,588"
+      },
+      "merge_semantics": {
+        "arrays": "APPEND across all tiers",
+        "objects": "RECURSIVE MERGE",
+        "scalars": "PRIORITY ORDER (Project > User > System)"
+      },
+      "research_divergence_note": "Research suggested arrays REPLACE (citing ESLint/Terraform issues), but D10-Q2 binding constraint mandates arrays APPEND",
+      "decided_at": "2025-12-11",
+      "session": 74
+    },
+    {
+      "question": "Q6",
+      "topic": "Sub-Agent Hint Injection",
+      "decision": "Option D: Registry-Driven Injection",
+      "consensus": "4-way SPLIT resolved (Architect 9/10 for A, Research 9/10 for D, Coder 9/10 for C, Tester 8/10 for B) - Resolved via constraint analysis",
+      "rationale": "Registry defines injection points (WHAT), Orchestrator manages selection (WHEN). Option B ELIMINATED by D5-Q3 (frontmatter reserved for STATE). Aligns with D3-Q6 TIER 4 (Injection Hints). BMAD + claude-mpm + Anthropic Skills all use registry-driven pattern.",
+      "binding_constraints_satisfied": ["D3-Q6", "D5-Q3"],
+      "implementation": {
+        "loc_estimate": "~160",
+        "claude_mpm_reuse": "70%",
+        "testability": "90%",
+        "tco_3year": "~$25K"
+      },
+      "architecture": {
+        "registry": "Skill metadata stored in YAML frontmatter with progressive_disclosure",
+        "orchestrator": "PM agent selects relevant skills by context (enhance_agent_prompt pattern)",
+        "injection": "Runtime composition into sub-agent prompt"
+      },
+      "eliminated_options": {
+        "B_frontmatter_hints": "ELIMINATED - D5-Q3 reserved frontmatter for STATE tracking"
+      },
+      "key_files": {
+        "registry": "claude-mpm/src/claude_mpm/skills/registry.py:56-137",
+        "skill_manager": "claude-mpm/src/claude_mpm/skills/skill_manager.py:91-129",
+        "party_mode": ".bmad/core/workflows/party-mode/workflow.md:88-104"
+      },
+      "decided_at": "2025-12-11",
+      "session": 74
+    },
+    {
+      "question": "Q7",
+      "topic": "Dynamic Injectable Content",
+      "decision": "Option B: Variables + Protocols",
+      "consensus": "2/4 split resolved via BMAD evidence (Coder 8/10, Tester 8/10 for B; Architect 7/10, Research 8/10 for D)",
+      "rationale": "Support {variable}, {{template}} resolution PLUS invoke-protocol for reusable behavior patterns. BMAD production evidence: discover_inputs protocol used in 7+ workflows. 47% cheaper TCO than Option D. Option D (Configurable Scope) documented as FUTURE ENHANCEMENT for enterprise governance.",
+      "binding_constraints_satisfied": ["D5-Q1", "D10-Q1"],
+      "implementation": {
+        "loc_estimate": "~400-500",
+        "bmad_reuse": "50%",
+        "testability": "90%",
+        "tco_3year": "~95 hours"
+      },
+      "injection_types": {
+        "variables": "{variable} static, {config_source}:key lookup",
+        "templates": "{{variable}} user input or template",
+        "protocols": "invoke-protocol name='...' for reusable patterns"
+      },
+      "future_enhancement": "Option D (Configurable Injection Scope) when enterprise governance needed",
+      "decided_at": "2025-12-11",
+      "session": 75
+    },
+    {
+      "question": "Q8",
+      "topic": "Protocol Discovery & Invocation",
+      "decision": "Option D: Hybrid Protocol System",
+      "consensus": "3/4 majority (Architect 9/10, Research 9/10, Tester 8/10 for D; Coder 8/10 for B)",
+      "rationale": "Core protocols in library, custom protocols inline, with strategy selection. BMAD discover_inputs protocol has 3 strategies (FULL_LOAD, SELECTIVE_LOAD, INDEX_GUIDED) proving this exact pattern. Industry validation: Temporal, LangGraph, AutoGen, Airflow ALL use Hybrid patterns.",
+      "binding_constraints_satisfied": ["D10-Q1", "D5-Q9", "D5-Q7"],
+      "implementation": {
+        "loc_estimate": "~500-600",
+        "bmad_reuse": "45%",
+        "testability": "88%",
+        "tco_3year": "~120 hours"
+      },
+      "architecture": {
+        "library": "External protocol files with strategy definitions (manifest-discoverable)",
+        "inline": "Custom protocols for workflow-specific needs",
+        "strategy_selection": "Context-aware selection via load_strategy field",
+        "progressive_disclosure": "L1=name+strategies, L2=descriptions, L3=implementation"
+      },
+      "strategies_example": {
+        "FULL_LOAD": "Load ALL files in sharded directory",
+        "SELECTIVE_LOAD": "Load specific shard via template variable",
+        "INDEX_GUIDED": "Load index.md, analyze, load relevant docs"
+      },
+      "industry_validation": ["Temporal", "LangGraph", "AutoGen", "Airflow"],
+      "decided_at": "2025-12-11",
+      "session": 75
+    },
+    {
+      "question": "Q9",
+      "topic": "Dynamic Agent Persona Injection",
+      "decision": "Option B: Mode-Triggered Injection",
+      "consensus": "3/4 majority (Architect 8/10, Research 8/10, Tester 9/10 for B; Coder 8/10 for A)",
+      "rationale": "Personas refresh ONLY at mode boundaries (spawn, Party Mode enter/exit). Consistent within modes (satisfies D3-Q4). Extends BMAD Party Mode pattern. Industry validated (LangGraph, CrewAI, AutoGen, OpenAI Swarm). Option D ELIMINATED - contradicts D3-Q4 coherence, persona drift within 8 rounds (arXiv:2402.10962).",
+      "binding_constraints_satisfied": ["D3-Q2", "D3-Q4", "D10-Q1", "D10-Q6"],
+      "implementation": {
+        "loc_estimate": "~100-150",
+        "bmad_reuse": "80%",
+        "testability": "90%",
+        "tco_3year": "~$3,750"
+      },
+      "architecture": {
+        "mode_registry": "Normal Mode (static), Party Mode (collective context), YOLO Mode (relaxed)",
+        "transition_handler": "mode_transition(from_mode, to_mode) triggers persona refresh",
+        "coherence": "D3-Q4 satisfied - consistent within modes, changes only at boundaries"
+      },
+      "eliminated_options": {
+        "D_continuous": "ELIMINATED - contradicts D3-Q4, persona drift (8 rounds), no industry precedent"
+      },
+      "coder_divergence_note": "Coder favored Option A (YAGNI, $0 TCO) but other 3 specialists consensus on Option B for future flexibility",
+      "decided_at": "2025-12-11",
+      "session": 76
+    },
+    {
+      "question": "Q10",
+      "topic": "Workflow-Init Status File Creation",
+      "decision": "Option A: Template-Based Generation",
+      "consensus": "4/4 UNANIMOUS (Architect 9/10, Research 9/10, Coder 8/10, Tester 8/10)",
+      "rationale": "Atomic creation from Handlebars template. Status file either complete or doesn't exist (no partial state). 100% BMAD reuse (workflow-status-template.yaml). Industry unanimous (8/8 frameworks). D4-Q2 external persistence must be authoritative.",
+      "binding_constraints_satisfied": ["D4-Q1", "D4-Q2", "D5-Q3"],
+      "implementation": {
+        "loc_estimate": "~70",
+        "bmad_reuse": "100%",
+        "testability": "95%",
+        "tco_3year": "~$4,289"
+      },
+      "architecture": {
+        "template": "workflow-status-template.yaml with Handlebars placeholders",
+        "path_files": "method-greenfield.yaml, method-brownfield.yaml, enterprise-*.yaml",
+        "atomic_write": "Gather selections -> fill template -> write atomically"
+      },
+      "eliminated_options": {
+        "C_config_merge": "ELIMINATED - conflates configuration (static) with state (dynamic)",
+        "D_database": "ELIMINATED for init - overkill for one-time initialization, good for runtime"
+      },
+      "industry_validation": ["Temporal", "Prefect", "Argo", "AWS Step Functions", "Airflow", "Dagster", "Camunda", "Netflix Conductor"],
+      "decided_at": "2025-12-11",
+      "session": 76
+    },
+    {
+      "question": "Q11",
+      "topic": "Path Files Structure & Selection",
+      "decision": "Option A: Standalone Path Files",
+      "consensus": "4/4 UNANIMOUS (Architect 9/10, Research 9/10, Coder 8/10, Tester 10/10)",
+      "rationale": "Each path is independent YAML with full phase/workflow definitions. 25% redundancy (114 LOC) is acceptable for determinism and clarity. BMAD production-validated (455 lines, 4 files).",
+      "binding_constraints_satisfied": ["D5-Q3", "D3-Q12", "D10-Q10"],
+      "implementation": {
+        "loc_estimate": "0 (already implemented)",
+        "bmad_reuse": "100%",
+        "testability": "100%"
+      },
+      "eliminated_options": {
+        "D_dynamic_assembly": "ELIMINATED - violates D5-Q3 (no static file), D3-Q12 (ambiguous detection), D10-Q10 (no path for template)"
+      },
+      "path_files": {
+        "method_greenfield": "102 lines",
+        "method_brownfield": "111 lines",
+        "enterprise_greenfield": "115 lines",
+        "enterprise_brownfield": "127 lines",
+        "total": "455 lines",
+        "redundancy": "25% (acceptable)"
+      },
+      "decided_at": "2025-12-11",
+      "session": 77
+    },
+    {
+      "question": "Q12",
+      "topic": "Multi-menu Handler System",
+      "decision": "Option B: Handler-Multi with Fuzzy Matching",
+      "consensus": "4/4 UNANIMOUS (Architect 9/10, Research 10/10, Coder 8/10, Tester 7/10)",
+      "rationale": "Grouped menu items route via fuzzy matching. BMAD handler-multi.xml (13 lines) + activation-steps.xml. Industry validated (Click, Typer, VS Code command palette). Perfect alignment with D10-Q1 Hybrid Executor Pattern.",
+      "binding_constraints_satisfied": ["D10-Q1", "D3-Q9"],
+      "implementation": {
+        "loc_estimate": "70-90",
+        "bmad_reuse": "95%",
+        "testability": "85%"
+      },
+      "fuzzy_matching": {
+        "algorithm": "case-insensitive substring match",
+        "ranking": "exact > starts-with > contains",
+        "disambiguation": "multiple matches prompt user to choose",
+        "fallback": "no match shows Not recognized"
+      },
+      "handler_types": ["workflow", "exec", "tmpl", "data", "action", "validate-workflow"],
+      "industry_validation": ["Click", "Typer", "VS Code command palette", "Unix Ctrl-R"],
+      "decided_at": "2025-12-11",
+      "session": 77
+    },
+    {
+      "question": "Q13",
+      "topic": "Workflow Compliance Checker",
+      "decision": "Option D: Hybrid Validation",
+      "consensus": "4/4 UNANIMOUS (Architect 9/10, Research 9/10, Coder 9/10, Tester 9/10)",
+      "rationale": "Pre-execution structure validation + runtime behavior hooks. D2-Q16 binding constraint MANDATES both structural + runtime enforcement. 6/6 industry systems use hybrid (Temporal, Prefect, Airflow, LangGraph, CrewAI, GitHub Actions). Options A/B/C each violate D2-Q16 constraints.",
+      "binding_constraints_satisfied": ["D2-Q16", "D10-Q1"],
+      "implementation": {
+        "loc_estimate": "~280",
+        "loc_net_new": "~80",
+        "reuse_percent": "80%",
+        "testability": "100%",
+        "tco_3year": "$30,100"
+      },
+      "architecture": {
+        "pre_execution": "Structure validator (schema, paths, required fields)",
+        "runtime": "Behavior hooks at critical points (D2-Q15 lifecycle)",
+        "integration": "Validator acts as gatekeeper before Hybrid Executor (D10-Q1)"
+      },
+      "eliminated_options": {
+        "A_no_checker": "ELIMINATED - violates D2-Q16 (no structural validation)",
+        "B_pre_execution_only": "INCOMPLETE - violates D2-Q16 (missing runtime hooks)",
+        "C_continuous": "INCOMPLETE - excessive overhead, violates D2-Q16 (missing structural validation)"
+      },
+      "industry_validation": ["Temporal", "Prefect", "Airflow", "LangGraph", "CrewAI", "GitHub Actions"],
+      "decided_at": "2025-12-11",
+      "session": 78
+    },
+    {
+      "question": "Q14",
+      "topic": "Continuable Workflows Builder",
+      "decision": "Option D: Template-driven",
+      "consensus": "3/4 majority (Architect 9/10, Coder 9/10, Tester 8/10 for D; Research 9/10 for C - split resolved via BMAD evidence)",
+      "rationale": "Continuable workflows use specific template with built-in continuation logic. BMAD uses 3-layer architecture: (1) Implicit frontmatter state (D5-Q3), (2) Explicit markers (step-01b files), (3) Template-driven builder. Option D is the BUILDER MECHANISM that creates layers 1 and 2. Research's Option C (separate metadata files) NOT found in BMAD.",
+      "binding_constraints_satisfied": ["D5-Q3", "D10-Q10"],
+      "implementation": {
+        "loc_estimate": "~220",
+        "loc_net_new": "~50",
+        "reuse_percent": "85%",
+        "testability": "90%",
+        "tco_3year": "$24,700"
+      },
+      "architecture": {
+        "template": "step-1b-template.md with continuation detection logic",
+        "output": "Generates step-01b-continue.md alongside step-01-init.md",
+        "state": "Uses D5-Q3 frontmatter (stepsCompleted array) for persistence"
+      },
+      "three_layer_pattern": {
+        "layer_1": "Implicit frontmatter state (stepsCompleted: [])",
+        "layer_2": "Explicit continuation markers (step-01b-continue.md files)",
+        "layer_3": "Template-driven builder (creates layers 1 & 2)"
+      },
+      "eliminated_options": {
+        "A_implicit_alone": "REJECTED - insufficient alone, is the OUTPUT of Option D",
+        "B_explicit_markers": "PART OF D - step-01b files are markers created by template",
+        "C_builder_metadata": "NOT IMPLEMENTED in BMAD - no separate metadata files found"
+      },
+      "decided_at": "2025-12-11",
+      "session": 78
+    }
+  ],
   "question_categories": {
     "workflow_executor": {
       "range": "Q1",
-      "topic": "workflow.xml Universal Executor"
+      "topic": "workflow.xml Universal Executor",
+      "status": "COMPLETE"
     },
     "deep_merge": {
       "range": "Q2-Q5",
-      "topic": "Deep Merge Customization System"
+      "topic": "Deep Merge Customization System",
+      "status": "COMPLETE"
     },
     "content_injection": {
       "range": "Q6-Q9",
-      "topic": "Content Injection System"
+      "topic": "Content Injection System",
+      "status": "COMPLETE"
     },
     "path_files": {
       "range": "Q10-Q11",
-      "topic": "Path Files & Status Tracking"
+      "topic": "Path Files & Status Tracking",
+      "status": "COMPLETE"
+    },
+    "recent_changes": {
+      "range": "Q12-Q14",
+      "topic": "Multi-menu Handler, Compliance Checker, Continuable Workflows",
+      "status": "COMPLETE"
     }
   },
   "redundancies_removed": {
     "original_count": 20,
     "removed": 9,
     "removed_questions": [
-      "Q2 (execution mandates HOW) → D2 domain",
-      "Q4 (Normal vs YOLO modes) → D2-Q17",
-      "Q13 (4-phase lifecycle enforcement) → D2-Q15",
-      "Q14 (phase skip handling) → D2-Q16/Q17",
-      "Q15 (prerequisite enforcement) → D2-Q18/Q19",
-      "Q16 (phase completion tracking) → D4",
-      "Q17 (project level detection) → D3-Q12",
-      "Q18 (track selection) → D5-Q5",
-      "Q2-current (save-and-pause pattern) → D2-Q17"
+      "Q2 (execution mandates HOW) -> D2 domain",
+      "Q4 (Normal vs YOLO modes) -> D2-Q17",
+      "Q13 (4-phase lifecycle enforcement) -> D2-Q15",
+      "Q14 (phase skip handling) -> D2-Q16/Q17",
+      "Q15 (prerequisite enforcement) -> D2-Q18/Q19",
+      "Q16 (phase completion tracking) -> D4",
+      "Q17 (project level detection) -> D3-Q12",
+      "Q18 (track selection) -> D5-Q5",
+      "Q2-current (save-and-pause pattern) -> D2-Q17"
     ]
   },
   "source_documents": [

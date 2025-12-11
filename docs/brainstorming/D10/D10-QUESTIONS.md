@@ -1,9 +1,9 @@
 # D10: Workflow Engine & Lifecycle - Question Set
 
 **Decision:** How does Claude-Hybrid execute workflows and enforce lifecycle?
-**Status:** PENDING (0/14 DECIDED)
-**Generated:** 2025-12-10 (Session X)
-**Updated:** 2025-12-11 - Removed 9 redundant questions (overlap with D2-D5 decisions)
+**Status:** ✅ COMPLETE (14/14 DECIDED)
+**Generated:** 2025-12-10
+**Updated:** 2025-12-11 - All questions decided
 **Sources:** BMAD Method architecture and workflow documentation (02-ARCHITECTURE-CORE.md, 05-WORKFLOWS-SYSTEM.md, 14-WORKFLOW-PATHS.md, 15-CUSTOMIZATION-EXTENSION.md)
 
 ---
@@ -30,20 +30,20 @@ The following 8 questions were removed due to overlap with existing D2-D5 decisi
 
 | Question | Status | Answer |
 |----------|--------|--------|
-| Q1 | PENDING | - |
-| Q2 | PENDING | - |
-| Q3 | PENDING | - |
-| Q4 | PENDING | - |
-| Q5 | PENDING | - |
-| Q6 | PENDING | - |
-| Q7 | PENDING | - |
-| Q8 | PENDING | - |
-| Q9 | PENDING | - |
-| Q10 | PENDING | - |
-| Q11 | PENDING | - |
-| Q12 | PENDING | - |
-| Q13 | PENDING | - |
-| Q14 | PENDING | - |
+| Q1 | **DECIDED** | Option D: Hybrid Executor Pattern |
+| Q2 | **DECIDED** | Option A: Full Deep Merge Implementation |
+| Q3 | **DECIDED** | Option A: Per-Agent Customize Files |
+| Q4 | **DECIDED** | Option B: Whitelist Approach |
+| Q5 | **DECIDED** | Option D: Type-Specific Resolution |
+| Q6 | **DECIDED** | Option D: Registry-Driven Injection |
+| Q7 | **DECIDED** | Option B: Variables + Protocols |
+| Q8 | **DECIDED** | Option D: Hybrid Protocol System |
+| Q9 | **DECIDED** | Option B: Mode-Triggered Injection |
+| Q10 | **DECIDED** | Option A: Template-Based Generation |
+| Q11 | **DECIDED** | Option A: Standalone Path Files |
+| Q12 | **DECIDED** | Option B: Handler-Multi with Fuzzy Matching |
+| Q13 | **DECIDED** | Option D: Hybrid Validation |
+| Q14 | **DECIDED** | Option D: Template-driven |
 
 ---
 
