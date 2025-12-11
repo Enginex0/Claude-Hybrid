@@ -1,30 +1,28 @@
 # Session Roundup - Claude-Hybrid
 
-## Current Phase: D6-D10 - Supplementary Decisions (PARALLEL WORKSPACES)
+## Current Phase: 🎉 ALL ARCHITECTURAL DECISIONS COMPLETE!
 
-**Status:** 🔄 D6 IN PROGRESS
-**Questions:** 2/78 DECIDED (D6-Q1, D6-Q2)
-**Previous:** D1-D5 COMPLETE (81 decisions)
-**Total Decisions Made:** 83/159
+**Status:** ✅ ALL 159 DECISIONS COMPLETE
+**Phase:** Ready for Implementation Planning
 
 ---
 
-## Decision Progress Summary
+## Decision Progress Summary - 100% COMPLETE
 
-| # | Decision | Status | Progress | Workspace |
-|---|----------|--------|----------|-----------|
-| D1 | Execution Model | **COMPLETE** | Hybrid Model | - |
-| D2 | Enforcement | **COMPLETE** | 20/20 | - |
-| D3 | Multi-Agent | **COMPLETE** | 20/20 | - |
-| D4 | State Tracking | **COMPLETE** | 20/20 | - |
-| D5 | Context Management | **COMPLETE** | 20/20 | - |
-| D6 | Process Boundaries & Initialization | **IN PROGRESS** | 2/18 | `D6/` |
-| D7 | MCP Integration | **PENDING** | 0/16 | `D7/` |
-| D8 | Plugin & Agent Format | **PENDING** | 0/14 | `D8/` |
-| D9 | Path Variables & File Structure | **PENDING** | 0/16 | `D9/` |
-| D10 | Workflow Engine & Lifecycle | **PENDING** | 0/14 | `D10/` |
+| # | Decision | Status | Progress |
+|---|----------|--------|----------|
+| D1 | Execution Model | ✅ **COMPLETE** | Hybrid Model |
+| D2 | Enforcement | ✅ **COMPLETE** | 20/20 |
+| D3 | Multi-Agent | ✅ **COMPLETE** | 20/20 |
+| D4 | State Tracking | ✅ **COMPLETE** | 20/20 |
+| D5 | Context Management | ✅ **COMPLETE** | 20/20 |
+| D6 | Process Boundaries & Initialization | ✅ **COMPLETE** | 18/18 |
+| D7 | MCP Integration | ✅ **COMPLETE** | 16/16 |
+| D8 | Plugin & Agent Format | ✅ **COMPLETE** | 14/14 |
+| D9 | Path Variables & File Structure | ✅ **COMPLETE** | 16/16 |
+| D10 | Workflow Engine & Lifecycle | ✅ **COMPLETE** | 14/14 |
 
-**Total Decisions Made:** 83/159 (D1-D5 complete, D6 in progress: 2/18)
+**Total Decisions Made:** 159/159 (100%)
 
 ---
 
@@ -46,6 +44,294 @@ Each D6-D10 decision area has its own INDEPENDENT workspace at:
 4. Update `state.json` and `progress.txt` as you go
 
 **You can run 5 parallel sessions simultaneously!**
+
+---
+
+## Session 78: 2025-12-11 - D7-Q15 & D7-Q16 DECIDED (D7 MCP INTEGRATION COMPLETE! 🎉)
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration from session files
+
+2. **D7-Q15 DECIDED: Option C - Tiered defaults with override**
+   - **5-STEP PATTERN EXECUTED:** All 5 steps with DOCS_FIRST_THEN_CODE
+   - **Key Finding:** Timeouts HARDCODED at server.js:164-169, need externalization with DRY tiering
+   - **Specialist Consensus:** 3/4 favor C (Architect, Research, Tester), 1/4 favor A (Coder)
+   - **Tier Structure:** fast=2min, medium=10min, slow=60min
+   - **Implementation:** ~120 LOC, $5K TCO
+
+3. **D7-Q16 DECIDED: Option B - Explicit tool selection**
+   - **5-STEP PATTERN EXECUTED:** All 5 steps with DOCS_FIRST_THEN_CODE
+   - **Key Finding:** Both vector systems already exposed (code-graph-rag 24 tools + vector-search 5 tools)
+   - **Specialist Consensus:** 2/4 favor B (Coder, Tester), 1/4 C (Architect), 1/4 A (Research)
+   - **Implementation:** 0 LOC - ALREADY IMPLEMENTED, $1.5K TCO
+
+4. **D7 COMPLETE!** All 16 MCP Integration questions decided.
+   - NO DEVIATIONS THIS SESSION - Pattern compliance maintained
+   - TWO QUESTIONS processed simultaneously as requested by President
+
+### D7 Final Progress - 100% ✅
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1-Q14 | **DECIDED** | See previous sessions |
+| Q15: Timeout configuration | **DECIDED** | Option C: Tiered defaults with override |
+| Q16: Dual vector selection | **DECIDED** | Option B: Explicit tool selection |
+
+---
+
+## Session 77: 2025-12-11 - D7-Q11 & D7-Q12 DECIDED (Server Timeout/Lifecycle Group COMPLETE)
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration from session files
+
+2. **D7-Q11 DECIDED: Option A - Direct stdio pipes (JSON-RPC over stdin/stdout)**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (DOCS_FIRST_THEN_CODE)
+     - Step 2: Report findings (836 LOC in server.js, MCP SDK handles transport)
+     - Step 3: Ultrathink synthesis (4 specialists: 3/4 favor A)
+     - Step 4: BMad Master recommendation with Aquarium Analogy
+     - Step 5: President approved
+
+   - **Key Finding:** stdio is production-proven with 26 servers; Options C/D VIOLATE binding constraints
+   - **Specialist Consensus:** 3/4 favor A (Architect 9.8/10, Research 9/10, Coder 10/10), 1/4 favor B (Tester 8/10)
+   - **Implementation:** 0 LOC - Already implemented, $1,500 3-year TCO
+
+3. **D7-Q12 DECIDED: Option A - Strict registration (servers must be in config.json)**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (config.json + tool_registry.py analysis)
+     - Step 2: Report findings (reload_config is NOT dynamic discovery)
+     - Step 3: Ultrathink synthesis (4 specialists: 4/4 UNANIMOUS)
+     - Step 4: BMad Master recommendation with Guest List Analogy
+     - Step 5: President approved
+
+   - **Key Finding:** Kubernetes explicitly warns against self-registration; config.json is single source of truth
+   - **Specialist Consensus:** 4/4 UNANIMOUS (Architect 9.8/10, Research 9/10, Coder 10/10, Tester 9/10)
+   - **Implementation:** 0 LOC - Already implemented, $2,400 3-year TCO
+
+4. **D7 Progress: 12/16** - Server Timeout Configuration and Lifecycle group COMPLETE!
+   - NO DEVIATIONS THIS SESSION - Pattern compliance maintained
+   - TWO QUESTIONS processed simultaneously as requested by President
+
+### D7 Progress - 75%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: Aggregator architecture | **DECIDED** | Option A: Single aggregator proxy |
+| Q2: Tool scale handling | **DECIDED** | Option C: Progressive disclosure L1/L2/L3 |
+| Q3: Server spawning | **DECIDED** | Option D: Lazy init with keep-alive |
+| Q4: Config management | **DECIDED** | Option C: Project-scoped config |
+| Q5: Tool naming | **DECIDED** | Option A: Triple underscore pattern |
+| Q6: Namespace conflicts | **DECIDED** | Option D: Priority-based routing |
+| Q7: Tool aliasing | **DECIDED** | Option C: Auto-aliasing for unique tools |
+| Q8: Tool discovery | **DECIDED** | Option B: Summary + on-demand schemas |
+| Q9: Timeout strategy | **DECIDED** | Option A: Server-specific timeouts |
+| Q10: Process lifecycle | **DECIDED** | Option B: Session-scoped pooling |
+| Q11: stdio communication | **DECIDED** | Option A: Direct stdio pipes |
+| Q12: Capability discovery | **DECIDED** | Option A: Strict registration |
+| Q13-Q16 | PENDING | 4 questions remaining |
+
+---
+
+## Session 76: 2025-12-11 - D6-Q9 & D6-Q10 DECIDED (MCP Gateway Config COMPLETE + Init Lifecycle Started)
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration from session files
+
+2. **D6-Q9 DECIDED: Option C - State requirement (Stateful in Gateway, stateless native)**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (DOCS_FIRST_THEN_CODE)
+     - Step 2: Report findings (7 Gateway tools analyzed, state pattern identified)
+     - Step 3: Ultrathink synthesis (4 specialists: 3/4 favor C)
+     - Step 4: BMad Master recommendation with Aquarium Analogy
+     - Step 5: President approved
+
+   - **Key Finding:** State-based criterion directly aligns with D6-Q2 binding constraint (state death at handoff)
+   - **Binary Decision Rule:** "Does tool need persistent state?" - no subjective interpretation
+   - **Specialist Consensus:** 3/4 favor C (Architect 9/10, Research 8/10, Tester 9/10), Coder favored A (6/10)
+   - **Implementation:** ~225 new LOC, $1,665 3-year TCO
+
+3. **D6-Q10 DECIDED: Option A - Full 12-phase model (Claude-MPM pattern)**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (12-phase analysis)
+     - Step 2: Report findings (12 phases: 8 unconditional, 4 conditional, 1513+ tests)
+     - Step 3: Ultrathink synthesis (4 specialists: 4/4 UNANIMOUS)
+     - Step 4: BMad Master recommendation with Space Launch Analogy
+     - Step 5: President approved
+
+   - **Key Finding:** Industry standard 10-12 phases for orchestrators (systemd, kubeadm)
+   - **Specialist Consensus:** 4/4 UNANIMOUS (Architect 8/10, Research 8/10, Coder 9/10, Tester 9/10)
+   - **Implementation:** ~2,600 LOC (85% reuse from claude-mpm), $15,810 3-year TCO
+
+4. **D6 Progress: 10/18** - MCP Gateway Configuration group COMPLETE! Init Lifecycle started.
+   - NO DEVIATIONS THIS SESSION - Pattern compliance maintained
+   - TWO QUESTIONS processed simultaneously as requested by President
+
+### D6 Progress - 56%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: os.execvpe handoff | **DECIDED** | Option C: Configurable mode |
+| Q2: Internal state at handoff | **DECIDED** | Option A: Complete state death |
+| Q3: CLI construction | **DECIDED** | Option D: Mixed strategy |
+| Q4: Dual mode support | **DECIDED** | Option C: Configurable mode (PRE-SELECTED) |
+| Q5: Pre-handoff files | **DECIDED** | Option A: Full deployment |
+| Q6: System prompt assembly | **DECIDED** | Option A: Multi-section assembly |
+| Q7: MCP config passing | **DECIDED** | Option A: Single config file |
+| Q8: MCP Gateway architecture | **DECIDED** | Option A: External server |
+| Q9: Gateway vs native criteria | **DECIDED** | Option C: State requirement |
+| Q10: 12-phase init model | **DECIDED** | Option A: Full 12-phase |
+| Q11-Q18 | PENDING | 8 questions remaining |
+
+---
+
+## Session 75: 2025-12-11 - D6-Q7 & D6-Q8 DECIDED (MCP Gateway Config Group 2/3)
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration from session files
+
+2. **D6-Q7 DECIDED: Option A - Single config file (~/.claude.json)**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (DOCS_FIRST_THEN_CODE)
+     - Step 2: Report findings (Claude Code only supports ~/.claude.json, 1,749 LOC exists)
+     - Step 3: Ultrathink synthesis (4 specialists: 4/4 unanimous)
+     - Step 4: BMad Master recommendation with Filing Cabinet analogy
+     - Step 5: President approved
+
+   - **Key Finding:** Claude Code ONLY supports ~/.claude.json - per-server files NOT supported
+   - **Options DISQUALIFIED:** B (not supported), C (violates D6-Q3), D (no Claude Code support)
+   - **Specialist Consensus:** 4/4 unanimous (Architect 10/10, Research 9/10, Coder 9/10, Tester 9/10)
+   - **Implementation:** 0 new LOC, 100% reuse from claude-mpm MCPConfigManager, $0 TCO
+
+3. **D6-Q8 DECIDED: Option A - External server (Claude-MPM pattern)**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (MCP Gateway architecture analysis)
+     - Step 2: Report findings (Gateway spawns AFTER handoff, 11,145 LOC exists)
+     - Step 3: Ultrathink synthesis (4 specialists: 4/4 effective - Tester's C disqualified)
+     - Step 4: BMad Master recommendation with Restaurant Kitchen analogy
+     - Step 5: President approved
+
+   - **Key Finding:** Gateway spawns AFTER os.execvpe() - CANNOT be internal to MPM
+   - **Options DISQUALIFIED:** B/C (violate D6-Q2 - state death), D (architectural mismatch)
+   - **Specialist Consensus:** 4/4 effective (Architect 10/10, Research 8/10, Coder 9/10, Tester 8/10)
+   - **Implementation:** 0 new LOC, 100% reuse from claude-mpm MCP Gateway, $0 TCO
+
+4. **D6 Progress: 8/18** - MCP Gateway Configuration group 2/3 complete!
+   - NO DEVIATIONS THIS SESSION - Pattern compliance maintained
+   - TWO QUESTIONS processed simultaneously as requested by President
+
+### D6 Progress - 44%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: os.execvpe handoff | **DECIDED** | Option C: Configurable mode |
+| Q2: Internal state at handoff | **DECIDED** | Option A: Complete state death |
+| Q3: CLI construction | **DECIDED** | Option D: Mixed strategy |
+| Q4: Dual mode support | **DECIDED** | Option C: Configurable mode (PRE-SELECTED) |
+| Q5: Pre-handoff files | **DECIDED** | Option A: Full deployment |
+| Q6: System prompt assembly | **DECIDED** | Option A: Multi-section assembly |
+| Q7: MCP config passing | **DECIDED** | Option A: Single config file |
+| Q8: MCP Gateway architecture | **DECIDED** | Option A: External server |
+| Q9-Q18 | PENDING | 10 questions remaining |
+
+---
+
+## Session 74: 2025-12-11 - D6-Q5 & D6-Q6 DECIDED (File Contracts Group COMPLETE)
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration from session files
+
+2. **D6-Q5 DECIDED: Option A - Full deployment (Claude-MPM pattern)**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (DOCS_FIRST_THEN_CODE)
+     - Step 2: Report findings (6 file targets, 1.49 MB total, 4,234 LOC exists)
+     - Step 3: Ultrathink synthesis (4 specialists: 4/4 unanimous)
+     - Step 4: BMad Master recommendation with Moving Day analogy
+     - Step 5: President approved
+
+   - **Key Finding:** 6 files deployed pre-handoff: ~/.claude.json, ~/.claude/settings.json, PM_INSTRUCTIONS.md, agents/*.md, skills/, output-styles/
+   - **Options DISQUALIFIED:** B (violates D5-Q9), C (violates D6-Q2)
+   - **Specialist Consensus:** 4/4 unanimous (Architect 9/10, Research 9/10, Coder 9/10, Tester 8/10)
+   - **Implementation:** 50-80 new LOC, 95% reuse from claude-mpm, $3,000-4,500 3-year TCO
+
+3. **D6-Q6 DECIDED: Option A - Multi-section assembly (Claude-MPM pattern)**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (ContentFormatter 10-section analysis)
+     - Step 2: Report findings (10 sections, SHA-256 cache, 1,200 LOC exists)
+     - Step 3: Ultrathink synthesis (4 specialists: 4/4 unanimous)
+     - Step 4: BMad Master recommendation with Recipe Assembly analogy
+     - Step 5: President approved
+
+   - **Key Finding:** 10-section assembly with SHA-256 hash-based caching
+   - **Option DISQUALIFIED:** D (violates D5-Q13)
+   - **Specialist Consensus:** 4/4 unanimous (Architect 9/10, Research 8/10, Coder 9/10, Tester 9/10)
+   - **Implementation:** 30-50 new LOC, 98% reuse from claude-mpm, $1,350-2,250 3-year TCO
+
+4. **D6 Progress: 6/18** - Pre/Post-Handoff File Contracts group COMPLETE!
+   - NO DEVIATIONS THIS SESSION - Pattern compliance maintained
+   - TWO QUESTIONS processed simultaneously as requested by President
+
+### D6 Progress - 33%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: os.execvpe handoff | **DECIDED** | Option C: Configurable mode |
+| Q2: Internal state at handoff | **DECIDED** | Option A: Complete state death |
+| Q3: CLI construction | **DECIDED** | Option D: Mixed strategy |
+| Q4: Dual mode support | **DECIDED** | Option C: Configurable mode (PRE-SELECTED) |
+| Q5: Pre-handoff files | **DECIDED** | Option A: Full deployment |
+| Q6: System prompt assembly | **DECIDED** | Option A: Multi-section assembly |
+| Q7-Q18 | PENDING | 12 questions remaining |
+
+---
+
+## Session 73: 2025-12-11 - D6-Q3 & D6-Q4 DECIDED (os.execvpe Group COMPLETE)
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration from session files
+
+2. **D6-Q3 DECIDED: Option D - Mixed strategy (security via CLI, bulky via files)**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (DOCS_FIRST_THEN_CODE)
+     - Step 2: Report findings (ARG_MAX constraint: 152KB > 128KB Linux limit)
+     - Step 3: Ultrathink synthesis (4 specialists: 4/4 unanimous)
+     - Step 4: BMad Master recommendation
+     - Step 5: President approved
+
+   - **Key Finding:** 152KB PM_INSTRUCTIONS.md exceeds Linux ARG_MAX (128KB) - file-based is REQUIRED
+   - **Specialist Consensus:** 4/4 unanimous (Architect 9/10, Research 9/10, Coder 9/10, Tester 9/10)
+   - **Implementation:** 520 LOC, 85-90% reuse from claude-mpm, $4,035 3-year TCO
+
+3. **D6-Q4 DECIDED: Option C - Configurable mode (PRE-SELECTED by D6-Q1)**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (verified Q1 pre-selection)
+     - Step 2: Report findings (semantic equivalence confirmed)
+     - Step 3: Ultrathink synthesis (4 specialists: 4/4 unanimous)
+     - Step 4: BMad Master confirmation
+     - Step 5: President approved
+
+   - **Key Finding:** D6-Q1 decision text = Q4 Option C semantically
+   - **Specialist Consensus:** 4/4 unanimous (Architect 10/10, Research 8/10, Coder 8/10, Tester 10/10)
+   - **Implementation:** 415 LOC, 85-90% reuse from claude-mpm, $4,215 3-year TCO
+
+4. **D6 Progress: 4/18** - os.execvpe Handoff Mechanism group COMPLETE!
+   - NO DEVIATIONS THIS SESSION - Pattern compliance maintained
+   - TWO QUESTIONS processed simultaneously as requested by President
+
+### D6 Progress - 22%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: os.execvpe handoff | **DECIDED** | Option C: Configurable mode |
+| Q2: Internal state at handoff | **DECIDED** | Option A: Complete state death |
+| Q3: CLI construction | **DECIDED** | Option D: Mixed strategy |
+| Q4: Dual mode support | **DECIDED** | Option C: Configurable mode (PRE-SELECTED) |
+| Q5-Q18 | PENDING | 14 questions remaining |
 
 ---
 
