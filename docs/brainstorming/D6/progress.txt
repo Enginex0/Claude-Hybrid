@@ -3,4 +3,132 @@
 # Started: 2025-12-10
 
 ---
-(Decisions will be logged here with timestamps)
+
+## 2025-12-11 Session 72
+- Q1 DECIDED: Option C - Configurable mode (exec default, subprocess for debugging)
+- Q2 DECIDED: Option A - Complete state death (files only survive)
+
+## 2025-12-11 Session 73
+- Q3 DECIDED: Option D - Mixed strategy (security via CLI, optional via env, bulky via files)
+  - 4/4 unanimous (Architect 9/10, Research 9/10, Coder 9/10, Tester 9/10)
+  - Key: ARG_MAX constraint (152KB > 128KB Linux limit) forces file-based prompt
+  - LOC: 520, 85-90% reuse, $4,035 3-year TCO
+
+- Q4 DECIDED: Option C - Configurable mode (PRE-SELECTED by Q1)
+  - 4/4 unanimous (Architect 10/10, Research 8/10, Coder 8/10, Tester 10/10)
+  - Q1 decision "Configurable mode (exec default, subprocess for debugging)" = Q4 Option C
+  - LOC: 415, 85-90% reuse, $4,215 3-year TCO
+
+## 2025-12-11 Session 74
+- Q5 DECIDED: Option A - Full deployment (Claude-MPM pattern)
+  - 4/4 unanimous (Architect 9/10, Research 9/10, Coder 9/10, Tester 8/10)
+  - Key: 6 file targets (1.49 MB): settings.json, .claude.json, PM_INSTRUCTIONS.md, agents/, skills/, output-styles/
+  - Options B/C DISQUALIFIED: B violates D5-Q9, C violates D6-Q2 (no orchestrator survives post-exec)
+  - LOC: 50-80 new, 95% reuse, $3,000-4,500 3-year TCO
+
+- Q6 DECIDED: Option A - Multi-section assembly (Claude-MPM pattern)
+  - 4/4 unanimous (Architect 9/10, Research 8/10, Coder 9/10, Tester 9/10)
+  - Key: 10-section assembly via ContentFormatter, SHA-256 hash-based caching
+  - Option D DISQUALIFIED: violates D5-Q13 (hash-based invalidation)
+  - Research favored C (manifest) but A's InstructionLoader provides implicit manifest
+  - LOC: 30-50 new, 98% reuse, $1,350-2,250 3-year TCO
+
+## 2025-12-11 Session 75
+- Q7 DECIDED: Option A - Single config file (~/.claude.json)
+  - 4/4 unanimous (Architect 10/10, Research 9/10, Coder 9/10, Tester 9/10)
+  - Key: Claude Code ONLY supports ~/.claude.json - per-server files NOT supported
+  - Options B/C/D DISQUALIFIED: B not supported, C violates D6-Q3, D no Claude Code support
+  - LOC: 0 additional (100% reuse from MCPConfigManager), $0 TCO
+
+- Q8 DECIDED: Option A - External server (Claude-MPM pattern)
+  - 4/4 effective consensus (Architect 10/10, Research 8/10, Coder 9/10, Tester 8/10)
+  - Key: Gateway spawns AFTER os.execvpe() - CANNOT be internal to MPM
+  - Options B/C/D DISQUALIFIED: B/C violate D6-Q2 (state death), D architectural mismatch
+  - LOC: 0 additional (100% reuse from MCP Gateway 11,145 LOC), $0 TCO
+
+## 2025-12-11 Session 76
+- Q9 DECIDED: Option C - State requirement (Stateful in Gateway, stateless native)
+  - 3/4 consensus (Architect 9/10, Research 8/10, Tester 9/10), Coder favored A (6/10)
+  - Key: State-based criterion directly aligns with D6-Q2 binding constraint (state death at handoff)
+  - Binary decision rule: "Does tool need persistent state?" - no subjective interpretation
+  - LOC: ~225 new, $1,665 3-year TCO
+
+- Q10 DECIDED: Option A - Full 12-phase model (Claude-MPM pattern)
+  - 4/4 UNANIMOUS (Architect 8/10, Research 8/10, Coder 9/10, Tester 9/10)
+  - Key: 12 phases (8 unconditional, 4 conditional), 1513+ tests validate model
+  - Industry standard: 10-12 phases for orchestrators (systemd, kubeadm)
+  - LOC: ~2,600 (85% reuse from claude-mpm), $15,810 3-year TCO
+
+## 2025-12-11 Session 77
+- Q11 DECIDED: Option A - Synchronous non-blocking (Claude-MPM pattern)
+  - 4/4 favor A-based approach (Architect 9/10, Research 9/10, Coder 9/10, Tester 9/10)
+  - Key: Run 9 sub-phases sequentially with try-except per phase. Failures logged, execution continues.
+  - Option D DISQUALIFIED: Violates D6-Q2 (state death) and D5-Q8 (session boundary)
+  - CRITICAL: Fix daemon thread leak at cli/startup.py:1034-1037 and 874-875
+  - LOC: 18-22 new (thread fix), ~100% reuse, $495 3-year TCO
+
+- Q12 DECIDED: Option A - Match Claude-MPM pattern (PRE-SELECTED by D6-Q10)
+  - 4/4 UNANIMOUS (Architect 9/10, Research 9/10, Coder 10/10, Tester 9/10)
+  - Key: D6-Q10 explicitly decided "8 unconditional, 4 conditional" = Option A
+  - This is binding constraint satisfaction, not a new decision
+  - Phase classification: Unconditional (1-4, 6-8, 12), Conditional (5, 9, 10, 11)
+  - LOC: 0 new (100% reuse), $45-90 TCO
+
+## 2025-12-11 Session 78
+- Q13 DECIDED: HYBRID (Option A + D) - Fail-fast for unconditional phases + Checkpoint model for diagnostics
+  - 4/4 UNANIMOUS (Architect 9/10, Research 9/10, Coder 8/10, Tester 9/10)
+  - Key: Three-tier failure handling: Unconditional phases fail-fast (A), Phase boundaries serve as implicit checkpoints (D), Background sub-phases non-blocking (per Q11)
+  - Option C (Rollback) has ZERO industry adoption
+  - Industry: systemd, Docker, Kubernetes ALL use fail-fast + checkpoint patterns
+  - LOC: 85 impl + 215 test = 300 total, 80% reuse, $3,420 3-year TCO
+
+- Q14 DECIDED: Option A - Explicit config only (Claude-MPM pattern)
+  - 4/4 UNANIMOUS (Architect 8/10, Research 10/10, Coder 9/10, Tester 9/10)
+  - Key: User sets `launch_method: subprocess|exec` in config file, NO auto-detection
+  - STRONGLY CONSTRAINED by D6-Q1's "Configurable mode" decision (not strictly pre-selected but most aligned)
+  - 12-Factor App explicitly labels auto-detection an antipattern
+  - LOC: 30 impl + 65 test = 95 total, 95% reuse, $1,128 3-year TCO
+
+## 2025-12-11 Session 79
+- Q15 DECIDED: Option A - Basic monitoring (health, exit code, logs)
+  - 4/4 UNANIMOUS (Architect 9/10, Research High, Coder High, Tester 9/10)
+  - Key: Basic monitoring (process.poll(), exit code, stdout/stderr, WebSocket status) satisfies debugging use case
+  - Hook-based response logging delegated to Claude Code (line 195 comment) - subprocess intentionally BLIND to internal state
+  - Options C/D DISQUALIFIED: C violates D6-Q14 (requires runtime detection), D is overkill for debugging
+  - LOC: 0 new (100% reuse from claude-mpm), $0 TCO
+
+- Q16 DECIDED: Option A+C Hybrid - Exit with code + Graceful cleanup
+  - 4/4 UNANIMOUS (Architect 9/10, Research High, Coder High, Tester 9/10)
+  - Key: Exit code propagation (A) for transparency, graceful cleanup (C) prevents resource leaks
+  - Cleanup sequence: terminal restore → PTY close → SIGTERM → 2s grace → SIGKILL → WebSocket session end
+  - Option B DISQUALIFIED: Restart-on-failure MASKS BUGS during debugging - VIOLATES D6-Q1
+  - Option D DISQUALIFIED: Interactive prompts VIOLATE D6-Q14 (explicit config), CI/CD incompatible
+  - LOC: 0 new (100% reuse from claude-mpm), $0 TCO
+
+Progress: 16/18 (89%) - Subprocess vs Exec Mode Decision group COMPLETE!
+Next: Q17 (Observability Dashboard), Q18 (Slash vs Task Invocation)
+
+## 2025-12-11 Session 80
+- Q17 DECIDED: Option A - No dashboard (rely on D6-Q15 basic monitoring)
+  - SPLIT: 2/4 Option C (Architect 9/10, Coder 9/10), 1/4 Option D (Research 8/10), 1/4 Option B (Tester 8/10)
+  - BMad Master resolved: D6-Q15 already provides basic monitoring, Claude-Hybrid is REWRITE not merge
+  - Key: 8,317 LOC dashboard contradicts CORE-VISION.md "NOT a merge" philosophy
+  - Future path: Option D (OpenTelemetry) if users request
+  - LOC: 0 new, $0 TCO
+
+- Q18 DECIDED: Option C - Separate execution paths (Slash=EMBODIES/menus/state, Task=DELEGATES/stateless)
+  - 3/4 consensus (Architect 9/10, Coder 8/10, Tester 8/10), Research favored B (8/10)
+  - Key: Claude Code SDK does NOT expose invocation method - Option B impossible
+  - Constraint violations: A=5, B=2, C=0, D=3 → Option C cleanest
+  - Pattern already exists in BMAD, needs formalization only
+  - LOC: 50-100 new, $1,125-2,250 3-year TCO
+
+**D6 COMPLETE! 18/18 decisions (100%)**
+
+Summary:
+- os.execvpe Handoff Mechanism (Q1-Q4): COMPLETE
+- Pre/Post-Handoff File Contracts (Q5-Q6): COMPLETE
+- MCP Gateway Configuration (Q7-Q9): COMPLETE
+- 12-Phase Initialization Lifecycle (Q10-Q13): COMPLETE
+- Subprocess vs Exec Mode Decision (Q14-Q16): COMPLETE
+- Gap Analysis Additions (Q17-Q18): COMPLETE

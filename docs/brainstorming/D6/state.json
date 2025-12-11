@@ -1,10 +1,10 @@
 {
   "decision": "D6",
   "title": "Process Boundaries & Initialization",
-  "current_question": 3,
-  "questions_completed": 2,
+  "current_question": 18,
+  "questions_completed": 18,
   "total_questions": 18,
-  "status": "in_progress",
+  "status": "complete",
   "created": "2025-12-10",
   "last_updated": "2025-12-11",
   "decisions": [
@@ -29,38 +29,230 @@
       "loc_estimate": "0 additional LOC",
       "tco_estimate": "$0",
       "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q3",
+      "title": "CLI Construction for Claude Code Handoff",
+      "decision": "Option D: Mixed strategy (security via CLI, optional via env, bulky via files)",
+      "rationale": "Claude-MPM implements Option D with --dangerously-skip-permissions explicit on CLI, --system-prompt-file for 152KB prompt (exceeds Linux ARG_MAX 128KB), and ~/.claude/ filesystem discovery. Industry pattern: systemd, supervisord, Kubernetes all use mixed strategy.",
+      "specialist_consensus": "4/4 unanimous (Architect 9/10, Research 9/10, Coder 9/10, Tester 9/10)",
+      "binding_constraints": ["D4-Q9/Q11 (file-based state)", "D6-Q1 (configurable mode)", "D6-Q2 (state death)"],
+      "loc_estimate": "520 LOC, 85-90% reuse from claude-mpm",
+      "tco_estimate": "$4,035 3-year",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q4",
+      "title": "Dual Exec/Subprocess Mode Support",
+      "decision": "Option C: Configurable mode (Claude-MPM pattern) - PRE-SELECTED by D6-Q1",
+      "rationale": "D6-Q1 decided 'Configurable mode (exec default, subprocess for debugging)' which is SEMANTICALLY IDENTICAL to Q4 Option C. This is binding constraint satisfaction, not a new decision. Claude-MPM implements at interactive_session.py:188 with config.get('launch_method').",
+      "specialist_consensus": "4/4 unanimous (Architect 10/10, Research 8/10, Coder 8/10, Tester 10/10) - all confirm PRE-SELECTION",
+      "binding_constraints": ["D6-Q1 (Configurable mode) - PRE-SELECTS this answer"],
+      "loc_estimate": "415 LOC, 85-90% reuse from claude-mpm",
+      "tco_estimate": "$4,215 3-year",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q5",
+      "title": "Pre-Handoff File Contracts",
+      "decision": "Option A: Full deployment (Claude-MPM pattern) - All assets before handoff",
+      "rationale": "6 file targets (1.49 MB total): ~/.claude.json, ~/.claude/settings.json, .claude-mpm/PM_INSTRUCTIONS.md, ~/.claude/agents/*.md, ~/.claude/skills/, ~/.claude/output-styles/. Options B/C DISQUALIFIED: B violates D5-Q9 (manifest requires pre-deployed assets), C violates D6-Q2 (no orchestrator survives post-exec to deploy). Industry pattern: Docker/K8s/systemd all deploy before exec.",
+      "specialist_consensus": "4/4 unanimous (Architect 9/10, Research 9/10, Coder 9/10, Tester 8/10)",
+      "binding_constraints": ["D6-Q2 (complete state death)", "D6-Q3 (file-based for bulky)", "D5-Q9 (manifest-based loading)"],
+      "loc_estimate": "50-80 new LOC, 95% reuse from claude-mpm",
+      "tco_estimate": "$3,000-4,500 3-year",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q6",
+      "title": "System Prompt Assembly",
+      "decision": "Option A: Multi-section assembly (Claude-MPM pattern) - 10 sections via ContentFormatter",
+      "rationale": "10-section assembly: PM_INSTRUCTIONS, Custom, WORKFLOW, MEMORY, PM Memories, Agent Memories, Capabilities (dynamic), Temporal Context (dynamic), BASE_PM, Output Style. SHA-256 hash-based caching via InstructionCacheService. Option D DISQUALIFIED: violates D5-Q13 (hash-based invalidation requires cached content). Research favored C (manifest) but A's InstructionLoader provides implicit manifest.",
+      "specialist_consensus": "4/4 unanimous (Architect 9/10, Research 8/10, Coder 9/10, Tester 9/10)",
+      "binding_constraints": ["D6-Q2 (complete state death)", "D5-Q9 (manifest-based loading)", "D5-Q13 (hash-based SHA-256)"],
+      "loc_estimate": "30-50 new LOC, 98% reuse from claude-mpm",
+      "tco_estimate": "$1,350-2,250 3-year",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q7",
+      "title": "MCP Server Configuration Passing Across Handoff",
+      "decision": "Option A: Single config file (~/.claude.json) - Claude-MPM pattern",
+      "rationale": "Claude Code ONLY supports ~/.claude.json - per-server files NOT supported. Options B/C/D DISQUALIFIED: B not supported, C violates D6-Q3 (bulky via files), D lacks Claude Code support. Already implemented in MCPConfigManager (1,749 LOC). Filing Cabinet Analogy: One cabinet for all docs, new owner knows where to look.",
+      "specialist_consensus": "4/4 unanimous (Architect 10/10, Research 9/10, Coder 9/10, Tester 9/10)",
+      "binding_constraints": ["D6-Q3 (bulky via files)", "D6-Q5 (full deployment includes ~/.claude.json)", "D5-Q9 (manifest-based loading)"],
+      "loc_estimate": "0 additional LOC (100% reuse from claude-mpm)",
+      "tco_estimate": "$0",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q8",
+      "title": "MCP Gateway Internal vs External Server",
+      "decision": "Option A: External server (Claude-MPM pattern) - Gateway spawns AFTER handoff",
+      "rationale": "Gateway spawns AFTER os.execvpe() - CANNOT be internal to MPM. Options B/C/D DISQUALIFIED: B/C violate D6-Q2 (internal components die at handoff), D is architectural mismatch (MCP servers are processes, not plugins). Already implemented in MCP Gateway (11,145 LOC). Restaurant Kitchen Analogy: Kitchen operates after restaurant opens, construction crew is gone.",
+      "specialist_consensus": "4/4 effective consensus (Architect 10/10, Research 8/10, Coder 9/10, Tester 8/10 - C disqualified by constraint)",
+      "binding_constraints": ["D6-Q2 (complete state death)", "D6-Q5 (full deployment before handoff)"],
+      "loc_estimate": "0 additional LOC (100% reuse from claude-mpm)",
+      "tco_estimate": "$0",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q9",
+      "title": "MCP Gateway vs Native Tool Criteria",
+      "decision": "Option C: State requirement (Stateful tools in Gateway, stateless native)",
+      "rationale": "State-based criterion directly aligns with D6-Q2 binding constraint (state death at handoff). Binary decision rule: 'Does tool need persistent state?' provides unambiguous guidance. Stateful tools (kuzu_memory, mcp_vector_search) MUST be in Gateway because state survives there. Stateless tools (echo, calculator) co-located for convenience. Aquarium Analogy: Stateful fish need special water conditions maintained 24/7.",
+      "specialist_consensus": "3/4 consensus (Architect 9/10, Research 8/10, Tester 9/10), Coder favored A (6/10)",
+      "binding_constraints": ["D6-Q2 (complete state death)", "D6-Q8 (external server pattern)"],
+      "loc_estimate": "~225 new LOC",
+      "tco_estimate": "$1,665 3-year",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q10",
+      "title": "12-Phase Initialization Model",
+      "decision": "Option A: Full 12-phase model (Claude-MPM pattern)",
+      "rationale": "12 phases (8 unconditional, 4 conditional) validated by 1513+ tests. Industry standard: 10-12 phases for orchestrators (systemd, kubeadm). Best test isolation (each phase testable independently), explicit dependency management, 85% reuse from claude-mpm. Space Launch Analogy: NASA's detailed countdown T-12 to T-0 provides precise checkpoints and clear failure localization.",
+      "specialist_consensus": "4/4 UNANIMOUS (Architect 8/10, Research 8/10, Coder 9/10, Tester 9/10)",
+      "binding_constraints": ["D6-Q2 (state death - all phases complete before execvpe)", "D6-Q5 (full deployment)"],
+      "loc_estimate": "~2,600 LOC (85% reuse from claude-mpm)",
+      "tco_estimate": "$15,810 3-year",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q11",
+      "title": "9 Background Sub-Phases Handling",
+      "decision": "Option A: Synchronous non-blocking (Claude-MPM pattern)",
+      "rationale": "Run all 9 sub-phases sequentially with try-except per phase. Failures logged at DEBUG level, execution continues. Pattern proven in production (claude-mpm). Assembly Line Analogy: 9 workers each perform task in sequence - if one calls in sick, line notes it and continues. CRITICAL: Fix daemon thread leak at cli/startup.py:1034-1037 and 874-875 - add thread tracking + graceful shutdown before execvpe().",
+      "specialist_consensus": "4/4 favor A-based approach (Architect 9/10, Research 9/10, Coder 9/10, Tester 9/10)",
+      "binding_constraints": ["D6-Q2 (complete state death)", "D6-Q10 (12-phase model)", "D5-Q8 (session boundary)", "D2-Q5 (graceful degradation)"],
+      "disqualified_options": ["D - VIOLATES D6-Q2 (state death) and D5-Q8 (session boundary loading)"],
+      "loc_estimate": "18-22 new LOC (daemon thread fix)",
+      "tco_estimate": "$495 3-year",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q12",
+      "title": "Unconditional vs Conditional Phases",
+      "decision": "Option A: Match Claude-MPM pattern (PRE-SELECTED by D6-Q10)",
+      "rationale": "D6-Q10 explicitly decided 'Full 12-phase model (8 unconditional, 4 conditional)' which IS Option A. This is binding constraint satisfaction, not a new decision. Relay Race Analogy: We already decided the race format in Q10 - 12 runners, 8 must run no matter what, 4 only run if conditions met. Q12 confirms what we committed to.",
+      "specialist_consensus": "4/4 UNANIMOUS (Architect 9/10, Research 9/10, Coder 10/10, Tester 9/10)",
+      "binding_constraints": ["D6-Q10 (Full 12-phase model) - PRE-SELECTS this answer"],
+      "phase_classification": {
+        "unconditional": [1, 2, 3, 4, 6, 7, 8, 12],
+        "conditional": {
+          "5": "Config missing + not help/version",
+          "9": "Not help/version/skip commands",
+          "10": "Not help/version/skip commands",
+          "11": "No command specified"
+        }
+      },
+      "loc_estimate": "0 new LOC (100% reuse)",
+      "tco_estimate": "$45-90 (adaptation only)",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q13",
+      "title": "Initialization Failure Handling",
+      "decision": "HYBRID (Option A + D): Fail-fast for unconditional phases + Checkpoint model for diagnostics",
+      "rationale": "Three-tier failure handling: (1) Unconditional phases 1-4,6-8,12 use fail-fast (Option A), (2) Phase boundaries serve as implicit checkpoints for error attribution (Option D), (3) Background sub-phases (Phase 9) use non-blocking per Q11. Option C (Rollback) has ZERO industry adoption. Airport Security Analogy: Certain gates MUST pass (ID check, baggage scan) - fail-fast if they don't. But we track which gates you cleared so security knows where failure occurred.",
+      "specialist_consensus": "4/4 UNANIMOUS (Architect 9/10, Research 9/10, Coder 8/10, Tester 9/10)",
+      "binding_constraints": ["D6-Q10 (12-phase model)", "D6-Q11 (synchronous non-blocking for sub-phases)", "D6-Q12 (unconditional/conditional classification)", "D2-Q5 (graceful degradation for hooks - different domain)"],
+      "disqualified_options": ["C (Rollback) - ZERO industry adoption", "B alone (Graceful degradation) - 4096 combinatorial states, untestable"],
+      "loc_estimate": "85 impl + 215 test = 300 total, 80% reuse",
+      "tco_estimate": "$3,420 3-year",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q14",
+      "title": "Subprocess vs Exec Mode Selection Criteria",
+      "decision": "Option A: Explicit config only (Claude-MPM pattern)",
+      "rationale": "User sets `launch_method: subprocess|exec` in config file, NO auto-detection. STRONGLY CONSTRAINED by D6-Q1's 'Configurable mode' decision - Option A is the natural implementation. 12-Factor App explicitly labels environment-based auto-detection an antipattern: 'Your app should not have environment-switching logic'. Light Switch Analogy: You explicitly flip it on or off - no auto-detect 'it looks dark' behavior that leads to debugging confusion.",
+      "specialist_consensus": "4/4 UNANIMOUS (Architect 8/10, Research 10/10, Coder 9/10, Tester 9/10)",
+      "binding_constraints": ["D6-Q1 (Configurable mode) - STRONGLY CONSTRAINS this answer", "D6-Q4 (PRE-SELECTED by Q1)"],
+      "disqualified_options": ["B (Environment detection) - 12-Factor antipattern", "C (Feature requirements) - creates undefined conflict", "D (Hybrid auto-select) - complex 6+ priority decision tree"],
+      "loc_estimate": "30 impl + 65 test = 95 total, 95% reuse",
+      "tco_estimate": "$1,128 3-year",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q15",
+      "title": "Subprocess Monitoring Capabilities",
+      "decision": "Option A: Basic monitoring (health, exit code, logs)",
+      "rationale": "Basic monitoring (health checks via process.poll(), exit code capture, stdout/stderr streaming, WebSocket status events) satisfies debugging use case without complexity. Hook-based response logging is delegated to Claude Code per line 195 comment. Subprocess mode is intentionally BLIND to Claude's internal state - it monitors the process, not the conversation. Thermostat Analogy: You need to know if heating is working (alive, exit code), not predict tomorrow's weather (full observability).",
+      "specialist_consensus": "4/4 UNANIMOUS (Architect 9/10, Research High, Coder High, Tester 9/10)",
+      "binding_constraints": ["D6-Q1 (subprocess for debugging)", "D6-Q14 (explicit config only)", "D2-Q5 (graceful degradation)"],
+      "disqualified_options": ["B - Creates dashboard dependency (Q17 undecided)", "C - VIOLATES D6-Q14 (requires runtime detection), CI/CD incompatible", "D - Overkill for debugging, adds psutil overhead"],
+      "loc_estimate": "0 new LOC (100% reuse from claude-mpm)",
+      "tco_estimate": "$0",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q16",
+      "title": "Child Process Termination Handling",
+      "decision": "Option A+C Hybrid: Exit with code + Graceful cleanup",
+      "rationale": "Exit code propagation (Option A) provides transparency - callers see actual subprocess result. Graceful cleanup (Option C) prevents resource leaks: terminal restored, PTY closed, process termination guaranteed (SIGTERM → 2s grace → SIGKILL), WebSocket session ended. Hotel Checkout Analogy: Front desk records your checkout status (A), housekeeping cleans room for next guest (C). Option B (Restart) MASKS BUGS during debugging - explicitly rejected. Option D (Interactive) breaks CI/CD.",
+      "specialist_consensus": "4/4 UNANIMOUS (Architect 9/10, Research High, Coder High, Tester 9/10)",
+      "binding_constraints": ["D6-Q1 (subprocess for debugging - restart masks bugs)", "D6-Q14 (explicit config - no interactive prompts)", "D2-Q5 (graceful degradation - cleanup IS graceful)"],
+      "disqualified_options": ["B - VIOLATES D6-Q1: restart-on-failure MASKS BUGS during debugging", "D - VIOLATES D6-Q14: requires TTY, runtime prompts, CI/CD incompatible"],
+      "loc_estimate": "0 new LOC (100% reuse from claude-mpm)",
+      "tco_estimate": "$0",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q17",
+      "title": "Observability Dashboard",
+      "decision": "Option A: No dashboard (rely on D6-Q15 basic monitoring)",
+      "rationale": "D6-Q15 already provides basic monitoring (health, exit code, logs). Claude-Hybrid is a REWRITE not a merge - importing 8,317 LOC dashboard contradicts CORE-VISION.md philosophy. Dashboard is optional feature with marginal value beyond D6-Q15. Future enhancement path: Option D (external integration) via OpenTelemetry if users request.",
+      "specialist_consensus": "2/4 Option C (Architect 9/10, Coder 9/10), 1/4 Option D (Research 8/10), 1/4 Option B (Tester 8/10) - SPLIT resolved by BMad Master",
+      "binding_constraints": ["D6-Q15 (basic monitoring already decided)", "CORE-VISION.md (strategic rewrite, NOT merge)"],
+      "disqualified_options": ["C - Contradicts rewrite philosophy (8,317 LOC import)", "B - Marginal value over D6-Q15"],
+      "loc_estimate": "0 new LOC",
+      "tco_estimate": "$0",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q18",
+      "title": "Slash Command vs Task Tool Invocation Distinction",
+      "decision": "Option C: Separate execution paths (Slash=menus/state/EMBODIES, Task=stateless/DELEGATES)",
+      "rationale": "BMAD documents TWO parallel systems with distinct semantics. Claude Code SDK does NOT expose invocation method (Option B impossible). Zero constraint violations for Option C vs 5 for A, 2 for B, 3 for D. Pattern already exists in BMAD across 56 agents - just needs formalization.",
+      "specialist_consensus": "3/4 Option C (Architect 9/10, Coder 8/10, Tester 8/10), 1/4 Option B (Research 8/10)",
+      "binding_constraints": ["D5-Q20 (single response model for Task tool)", "D3-Q8 (complete message primary)", "SDK limitation (no invocation context exposure)"],
+      "disqualified_options": ["A - 5 constraint violations, loses BMAD semantic distinction", "B - SDK doesn't expose invocation method", "D - 3 violations, adds complexity without benefit"],
+      "loc_estimate": "50-100 new LOC to formalize existing patterns",
+      "tco_estimate": "$1,125-2,250 3-year",
+      "decided_at": "2025-12-11"
     }
   ],
   "question_groups": {
     "os_execvpe_handoff": {
       "questions": [1, 2, 3, 4],
       "topic": "os.execvpe Handoff Mechanism",
-      "completed": 2
+      "completed": 4
     },
     "file_contracts": {
       "questions": [5, 6],
       "topic": "Pre/Post-Handoff File Contracts",
-      "completed": 0
+      "completed": 2
     },
     "mcp_gateway_config": {
       "questions": [7, 8, 9],
       "topic": "MCP Gateway Configuration",
-      "completed": 0
+      "completed": 3
     },
     "initialization_lifecycle": {
       "questions": [10, 11, 12, 13],
       "topic": "12-Phase Initialization Lifecycle + 9 Background Sub-Phases",
-      "completed": 0
+      "completed": 4
     },
     "subprocess_exec_mode": {
       "questions": [14, 15, 16],
       "topic": "Subprocess vs Exec Mode Decision",
-      "completed": 0
+      "completed": 3
     },
     "gap_analysis_additions": {
       "questions": [17, 18],
       "topic": "Gap Analysis Additions (Observability, Invocation Methods)",
-      "completed": 0
+      "completed": 2
     }
   },
   "redundancies_removed": {

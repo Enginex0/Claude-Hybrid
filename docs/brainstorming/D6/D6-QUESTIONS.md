@@ -1,7 +1,7 @@
 # D6: Process Boundaries & Initialization - Question Set
 
 **Decision:** How does Claude-Hybrid handle process boundaries and initialization?
-**Status:** PENDING (0/18 DECIDED)
+**Status:** ✅ COMPLETE (18/18 DECIDED)
 **Generated:** 2025-12-10 (Updated 2025-12-11 - Removed 4 redundant questions)
 **Sources:** Claude-MPM analysis documents (01-EXECUTIVE-SUMMARY.md, 02-ARCHITECTURE-CORE.md, 07-MCP-TICKETING.md)
 
@@ -23,22 +23,22 @@ The following questions were REMOVED due to semantic overlap:
 |----------|--------|--------|
 | Q1 | **DECIDED** | Option C: Configurable mode (exec default, subprocess for debugging) |
 | Q2 | **DECIDED** | Option A: Complete state death (files only survive) |
-| Q3 | PENDING | - |
-| Q4 | PENDING | - |
-| Q5 | PENDING | - |
-| Q6 | PENDING | - |
-| Q7 | PENDING | - |
-| Q8 | PENDING | - |
-| Q9 | PENDING | - |
-| Q10 | PENDING | - |
-| Q11 | PENDING | - |
-| Q12 | PENDING | - |
-| Q13 | PENDING | - |
-| Q14 | PENDING | - |
-| Q15 | PENDING | - |
-| Q16 | PENDING | - |
-| Q17 | PENDING | - |
-| Q18 | PENDING | - |
+| Q3 | **DECIDED** | Option D: Mixed strategy (security via CLI, bulky via files) |
+| Q4 | **DECIDED** | Option C: Configurable mode (PRE-SELECTED by Q1) |
+| Q5 | **DECIDED** | Option A: Full deployment (all 6 targets before handoff) |
+| Q6 | **DECIDED** | Option A: Multi-section assembly (10 sections via ContentFormatter) |
+| Q7 | **DECIDED** | Option A: Single config file (~/.claude.json) |
+| Q8 | **DECIDED** | Option A: External server (Claude-MPM pattern) |
+| Q9 | **DECIDED** | Option C: State requirement (Stateful in Gateway, stateless native) |
+| Q10 | **DECIDED** | Option A: Full 12-phase model (Claude-MPM pattern) |
+| Q11 | **DECIDED** | Option A: Synchronous non-blocking (Claude-MPM pattern) |
+| Q12 | **DECIDED** | Option A: Match Claude-MPM pattern (PRE-SELECTED by Q10) |
+| Q13 | **DECIDED** | HYBRID (A+D): Fail-fast + Checkpoint model |
+| Q14 | **DECIDED** | Option A: Explicit config only (Claude-MPM pattern) |
+| Q15 | **DECIDED** | Option A: Basic monitoring (health, exit code, logs) |
+| Q16 | **DECIDED** | Option A+C: Exit with code + Graceful cleanup |
+| Q17 | **DECIDED** | Option A: No dashboard (rely on D6-Q15 basic monitoring) |
+| Q18 | **DECIDED** | Option C: Separate execution paths (Slash=EMBODIES, Task=DELEGATES) |
 
 ---
 
