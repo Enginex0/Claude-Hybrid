@@ -1,0 +1,6 @@
+# D7 Progress Log
+# MCP Integration
+# Started: 2025-12-10
+
+---
+(Decisions will be logged here with timestamps)

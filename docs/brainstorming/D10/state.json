@@ -1,0 +1,50 @@
+{
+  "decision": "D10",
+  "title": "Workflow Engine & Lifecycle",
+  "current_question": 1,
+  "questions_completed": 0,
+  "total_questions": 14,
+  "status": "not_started",
+  "created": "2025-12-10",
+  "last_updated": "2025-12-11",
+  "decisions": [],
+  "question_categories": {
+    "workflow_executor": {
+      "range": "Q1",
+      "topic": "workflow.xml Universal Executor"
+    },
+    "deep_merge": {
+      "range": "Q2-Q5",
+      "topic": "Deep Merge Customization System"
+    },
+    "content_injection": {
+      "range": "Q6-Q9",
+      "topic": "Content Injection System"
+    },
+    "path_files": {
+      "range": "Q10-Q11",
+      "topic": "Path Files & Status Tracking"
+    }
+  },
+  "redundancies_removed": {
+    "original_count": 20,
+    "removed": 9,
+    "removed_questions": [
+      "Q2 (execution mandates HOW) → D2 domain",
+      "Q4 (Normal vs YOLO modes) → D2-Q17",
+      "Q13 (4-phase lifecycle enforcement) → D2-Q15",
+      "Q14 (phase skip handling) → D2-Q16/Q17",
+      "Q15 (prerequisite enforcement) → D2-Q18/Q19",
+      "Q16 (phase completion tracking) → D4",
+      "Q17 (project level detection) → D3-Q12",
+      "Q18 (track selection) → D5-Q5",
+      "Q2-current (save-and-pause pattern) → D2-Q17"
+    ]
+  },
+  "source_documents": [
+    "02-ARCHITECTURE-CORE.md",
+    "05-WORKFLOWS-SYSTEM.md",
+    "14-WORKFLOW-PATHS.md",
+    "15-CUSTOMIZATION-EXTENSION.md"
+  ]
+}

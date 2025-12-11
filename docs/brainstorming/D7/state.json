@@ -1,0 +1,33 @@
+{
+  "decision": "D7",
+  "title": "MCP Integration",
+  "current_question": 1,
+  "questions_completed": 0,
+  "total_questions": 16,
+  "status": "not_started",
+  "created": "2025-12-10",
+  "last_updated": "2025-12-11",
+  "decisions": [],
+  "source_documents": [
+    "/home/president/bmad-systems/claude-code-architecture/04-MCP-INTEGRATION.md",
+    "/home/president/bmad-systems/claude-mpm-complete-analysis/07-MCP-TICKETING.md"
+  ],
+  "topics": {
+    "Q1-Q4": "MCP Aggregator architecture (26 servers, 332 tools)",
+    "Q5-Q8": "Tool namespacing patterns (mcp__server__tool)",
+    "Q9-Q12": "Server timeout configuration and lifecycle",
+    "Q13-Q14": "MCP metadata and hooks"
+  },
+  "redundancies_removed": {
+    "original_count": 20,
+    "removed": 6,
+    "removed_questions": [
+      "Q10 (crash handling) → D2-Q5",
+      "Q13 (schema caching) → D5-Q12/Q13/Q14",
+      "Q14 (cache invalidation timing) → D5-Q13",
+      "Q17 (hook interception) → D2-Q1/Q11",
+      "Q19 (error integration) → D2-Q9/Q10",
+      "Q20 (category enforcement) → D2-Q8/Q17/Q19"
+    ]
+  }
+}

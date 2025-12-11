@@ -1,0 +1,183 @@
+# D8: Plugin & Agent Format - Question Set
+
+**Decision:** How does Claude-Hybrid structure plugins and agents?
+**Status:** PENDING (0/14 DECIDED)
+**Generated:** 2025-12-10 (Session X)
+**Updated:** 2025-12-11 - Removed 8 redundant questions (see Redundancy Audit Notes)
+**Sources:** Claude Code architecture (03-EXTENSION-SYSTEM.md, 05-CONFIGURATION.md), Personal BMAD architecture
+
+---
+
+## Redundancy Audit Notes
+
+The following 8 questions were removed as they overlap with decisions made in D2-D5:
+
+| Removed | Original Topic | Overlap Reason |
+|---------|---------------|----------------|
+| Q5 | Agent frontmatter required fields | Constrained by D3 decisions |
+| Q6 | Description for Task matching | D3-Q16 filename stem makes this moot |
+| Q7 | Skills auto-loading format | D5-Q17 progressive loading decided |
+| Q12 | Subagent permission inheritance | D2+D3 enforcement covers this |
+| Q13 | Plugin discovery paths | D5-Q6 Project>User>Bundled priority |
+| Q14 | Plugin enablement control | D3-Q15 + D5-Q9 patterns cover this |
+| Q16 | Plugin internal discovery | D5-Q16 3-tier structure applies |
+| Q19 | Agent file naming for Task | DUPLICATE of D3-Q16 |
+
+---
+
+## Checkpoint Status
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1 | PENDING | - |
+| Q2 | PENDING | - |
+| Q3 | PENDING | - |
+| Q4 | PENDING | - |
+| Q5 | PENDING | - |
+| Q6 | PENDING | - |
+| Q7 | PENDING | - |
+| Q8 | PENDING | - |
+| Q9 | PENDING | - |
+| Q10 | PENDING | - |
+| Q11 | PENDING | - |
+| Q12 | PENDING | - |
+| Q13 | PENDING | - |
+| Q14 | PENDING | - |
+
+---
+
+## Questions: Plugin Manifest Format (Q1-Q4)
+
+### Q1: What should be the required fields in plugin.json manifest?
+Options:
+- A: Minimal (name only) - Claude Code pattern allows single `{"name": "plugin-name"}` manifest, lowest barrier to entry
+- B: Standard (name + version + description) - Adds versioning and discoverability without complexity
+- C: Extended (name + version + description + author + keywords) - Full metadata for marketplace/discovery scenarios
+- D: Comprehensive (all above + dependencies + compatibility + permissions) - Enterprise-grade manifest with full metadata
+
+### Q2: How should plugin manifest versioning be structured?
+Options:
+- A: No versioning requirement - Plugins operate independently without version tracking
+- B: Semantic versioning (semver) - Standard `major.minor.patch` format enabling dependency management
+- C: Date-based versioning - Use `YYYY.MM.DD` format tied to modification date
+- D: Hybrid versioning - Optional semver in manifest with auto-generated date fallback
+
+### Q3: Should plugin.json support dependency declarations?
+Options:
+- A: No dependencies - Plugins are fully self-contained units with no inter-plugin dependencies
+- B: Plugin dependencies - Allow declaring required plugins (`{"dependencies": {"other-plugin": ">=1.0.0"}}`)
+- C: System dependencies - Declare required MCP servers, tools, or Claude Code version
+- D: Full dependency graph - Both plugin and system dependencies with conflict resolution
+
+### Q4: How should plugin naming and directory structure be enforced?
+Options:
+- A: Name-directory match (Claude Code pattern) - `plugin.json.name` must match containing directory name
+- B: Flexible naming - Directory and manifest name can differ, use manifest name as identifier
+- C: Namespace prefixes - Require `{org}:{plugin-name}` format to prevent collisions
+- D: UUID-based identification - Use UUIDs internally with human-readable display names
+
+---
+
+## Questions: Agent Model Selection (Q5)
+
+### Q5: Should agents support model selection and what options should be available?
+*Note: Focus on model options only; frontmatter schema constrained by D3 decisions.*
+
+Options:
+- A: Inherit only - All agents use parent session model (simplest, no resource optimization)
+- B: Fixed set (inherit/sonnet/opus/haiku) - Claude Code's current model options
+- C: Extended set - Add future models (claude-4, etc.) with validation against available models
+- D: Dynamic discovery - Query available models at runtime, validate against Claude API
+
+---
+
+## Questions: Permission Modes (Q6-Q8)
+
+### Q6: What permission modes should Claude-Hybrid support?
+Options:
+- A: Binary (default/bypassPermissions) - Claude Code's current two-mode system
+- B: Tiered (default/elevated/bypass) - Add intermediate level for semi-trusted operations
+- C: Granular (per-tool permissions) - Define permissions per tool type (Read/Write/Bash/etc.)
+- D: Role-based - Permission profiles tied to agent roles (analyst=read-only, dev=full-access)
+
+### Q7: How should agent permissionMode interact with global settings?
+*Note: Scope limited to global vs agent precedence; subagent inheritance covered by D2+D3.*
+
+Options:
+- A: Agent overrides global - Agent frontmatter `permissionMode` supersedes `settings.json` setting
+- B: Global overrides agent - `settings.json` always takes precedence for security
+- C: Least-privilege wins - Use more restrictive of global vs agent setting
+- D: Most-permissive wins - Use less restrictive setting (for trusted environments)
+
+### Q8: Should permission bypass require explicit user acknowledgment?
+Options:
+- A: Silent bypass - `bypassPermissions` operates without any user notification
+- B: Session-start warning - Notify user once at session start when bypass mode is active
+- C: Per-operation audit - Log all bypassed operations for later review
+- D: Confirmation prompt - Require one-time user confirmation when bypass mode first activates
+
+---
+
+## Questions: Plugin Identification (Q9)
+
+### Q9: What plugin identifier format should be used in enabledPlugins?
+Options:
+- A: Simple name - `"plugin-name": true`
+- B: Marketplace-qualified (Claude Code pattern) - `"plugin-name@marketplace": true`
+- C: Path-based - `"~/.claude/plugins/marketplaces/local/plugins/plugin-name": true`
+- D: Content-addressed - Use hash of plugin contents for verification
+
+---
+
+## Questions: Agent Format Specification (Q10-Q12)
+
+### Q10: Should agents support embedded configuration beyond YAML frontmatter?
+Options:
+- A: Frontmatter only - All config in YAML frontmatter, body is pure persona content
+- B: XML sections (BMAD pattern) - Support `<session_config>`, `<response_gate>` sections in body
+- C: Markdown sections - Use special markdown headers (## CONFIG:, ## GATE:) for structured data
+- D: Hybrid format - YAML frontmatter for standard fields, XML sections for extended config
+
+### Q11: Should agent format include response gate enforcement?
+Options:
+- A: No gates - Agent personas are purely instructional, no embedded verification
+- B: Optional gates - Allow but don't require `<response_gate>` sections
+- C: Mandatory gates (BMAD pattern) - All agents must include 5-step response gate protocol
+- D: Configurable gates - Gate template defined globally, agents opt-in/out per agent
+
+### Q12: Should agents support plugin namespacing in subagent_type?
+Options:
+- A: No namespacing - Agent names are globally unique across all plugins
+- B: Optional namespacing (Claude Code pattern) - Support `plugin:agent` format when ambiguous
+- C: Required namespacing - Always use `plugin:agent` format for clarity
+- D: Hierarchical namespacing - Support `marketplace:plugin:agent` for full qualification
+
+---
+
+## Questions: Gap Analysis Additions (Q13)
+
+### Q13: Should agents support sidecar knowledge directories?
+**Context:** BMAD supports expert agents having a `{agent}-sidecar/` directory containing `instructions.md`, `memories.md`, and `knowledge/` subdirectories with domain-specific files. Critical actions can load these via `Load COMPLETE file {agent-folder}/toolsmith-sidecar/knowledge/deploy.md`.
+
+Options:
+- A: No sidecar support - All agent knowledge must be in the main agent file or referenced via skills.
+- B: Optional sidecar directories - Agents MAY have `{agent}-sidecar/` with predefined structure; loaded on-demand.
+- C: Mandatory sidecar for experts - Expert/specialist agents MUST have sidecar directories; orchestrators do not.
+- D: Flexible knowledge references - Agent frontmatter specifies arbitrary knowledge file paths; no fixed sidecar structure.
+
+### Q14: Should agents support multiple trigger patterns via triggers array?
+**Context:** Recent BMAD Method changes updated the agent schema from single `trigger` field to `triggers` array, allowing agents to activate on multiple patterns. This affects backward compatibility and matching logic.
+
+Options:
+- A: Single trigger only - Maintain current schema with one trigger string per agent for simplicity.
+- B: Triggers array (BMAD pattern) - Support array of trigger patterns; agent activates on any match.
+- C: Trigger object - Support `{patterns: [], priority: number, context: string}` for rich triggering rules.
+- D: Hybrid backward-compatible - Single `trigger` for simple agents, `triggers` array for complex activation; both supported.
+
+---
+
+## Resume Instructions
+
+**Next session:** Read this file, continue from first PENDING question.
+**Methodology:** BMad Master facilitates, President decides each question.
+**After completion:** Update ARCHITECTURAL-DECISIONS.md with D8 decision.

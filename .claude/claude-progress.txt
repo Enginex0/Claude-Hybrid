@@ -66,9 +66,9 @@
    - ARCHITECTURE-COMPLETE.md
 
 **Source Code Locations:**
-- User's fixed Claude-MPM fork: `/home/president/claude-mpm/`
-- BMAD raw source: `/home/president/bmad-method-source/`
-- BMAD npm installation: `/home/president/investigations/`
+- User's fixed Claude-MPM fork: `/home/president/bmad-systems/claude-mpm/`
+- BMAD raw source: `/home/president/bmad-systems/bmad-method-source/`
+- BMAD npm installation: `/home/president/bmad-systems/investigations/`
 
 **Total: 44 documentation files to process**
 
@@ -1042,3 +1042,46 @@ Display Result
 5. **Context Management:** Step-files + Progressive Disclosure vs Template Externalization?
 
 ---
+
+---
+
+## Session 72 - 2025-12-10
+
+### D6-D10 Supplementary Decision Documents Created
+
+**Context:** Gap analysis revealed D2-D5 covered only ~60-65% of architectural concepts from source frameworks. Created 5 supplementary decision documents to address critical gaps.
+
+**Workspaces Created (5 parallel):**
+
+| Decision | Topic | Questions | Status |
+|----------|-------|-----------|--------|
+| D6 | Process Boundaries & Initialization | 20 | Ready |
+| D7 | MCP Integration | 20 | Ready |
+| D8 | Plugin & Agent Format | 20 | Ready |
+| D9 | Path Variables & File Structure | 20 | Ready |
+| D10 | Workflow Engine & Lifecycle | 20 | Ready |
+
+**Total New Questions:** 100 (bringing total to 181)
+
+**Source Coverage Addressed:**
+- D6: Claude-MPM (os.execvpe, handoff contracts, 12-phase init)
+- D7: Claude Code (MCP Aggregator, namespacing, server timeouts)
+- D8: Claude Code + Personal BMAD (plugin manifest, agent format)
+- D9: Personal BMAD (4-level variable cascade, file structure)
+- D10: BMAD Method (workflow.xml executor, deep merge, 3 tracks)
+
+**Files per workspace:**
+- D{N}-QUESTIONS.md (20 questions with 3-4 options each)
+- session-roundup.md (initial session state)
+- progress.txt (empty log)
+- state.json (tracking state)
+
+**Parallel Processing Enabled:**
+User can now run 5 simultaneous Claude sessions, one per decision area.
+
+**Next Steps:**
+1. Work through D6-D10 questions (can be done in parallel)
+2. After all 100 decisions: merge into master decision-workflow.json
+3. Update ARCHITECTURAL-DECISIONS.md with D6-D10 summaries
+4. Begin implementation phase
+

@@ -1,24 +1,99 @@
 # Session Roundup - Claude-Hybrid
 
-## Current Phase: D5 - Context Management
+## Current Phase: D6-D10 - Supplementary Decisions (PARALLEL WORKSPACES)
 
-**Status:** 🎉 COMPLETE!
-**Questions:** 20/20 DECIDED
-**Previous:** D4 (State Tracking) COMPLETE - See `session-D4.md`
+**Status:** 🔄 D6 IN PROGRESS
+**Questions:** 2/78 DECIDED (D6-Q1, D6-Q2)
+**Previous:** D1-D5 COMPLETE (81 decisions)
+**Total Decisions Made:** 83/159
 
 ---
 
 ## Decision Progress Summary
 
-| # | Decision | Status | Progress |
-|---|----------|--------|----------|
-| D1 | Execution Model | **COMPLETE** | Hybrid Model |
-| D2 | Enforcement | **COMPLETE** | 20/20 |
-| D3 | Multi-Agent | **COMPLETE** | 20/20 |
-| D4 | State Tracking | **COMPLETE** | 20/20 |
-| D5 | Context Management | **COMPLETE** | 20/20 |
+| # | Decision | Status | Progress | Workspace |
+|---|----------|--------|----------|-----------|
+| D1 | Execution Model | **COMPLETE** | Hybrid Model | - |
+| D2 | Enforcement | **COMPLETE** | 20/20 | - |
+| D3 | Multi-Agent | **COMPLETE** | 20/20 | - |
+| D4 | State Tracking | **COMPLETE** | 20/20 | - |
+| D5 | Context Management | **COMPLETE** | 20/20 | - |
+| D6 | Process Boundaries & Initialization | **IN PROGRESS** | 2/18 | `D6/` |
+| D7 | MCP Integration | **PENDING** | 0/16 | `D7/` |
+| D8 | Plugin & Agent Format | **PENDING** | 0/14 | `D8/` |
+| D9 | Path Variables & File Structure | **PENDING** | 0/16 | `D9/` |
+| D10 | Workflow Engine & Lifecycle | **PENDING** | 0/14 | `D10/` |
 
-**Total Decisions Made:** 81 (D1 + D2x20 + D3x20 + D4x20 + D5x20)
+**Total Decisions Made:** 83/159 (D1-D5 complete, D6 in progress: 2/18)
+
+---
+
+## Parallel Workspace Instructions
+
+Each D6-D10 decision area has its own INDEPENDENT workspace at:
+`/home/president/bmad-systems/Claude-Hybrid/docs/brainstorming/D{N}/`
+
+**Files per workspace:**
+- `D{N}-QUESTIONS.md` - Questions with options (D6:18, D7:16, D8:14, D9:16, D10:14)
+- `session-roundup.md` - Session state for that workspace
+- `progress.txt` - Decision log with timestamps
+- `state.json` - JSON tracking state (includes redundancy audit notes)
+
+**To work on a decision area:**
+1. Open a new Claude session
+2. Read: `docs/brainstorming/D{N}/D{N}-QUESTIONS.md`
+3. Work through questions (varies by workspace - see state.json for count)
+4. Update `state.json` and `progress.txt` as you go
+
+**You can run 5 parallel sessions simultaneously!**
+
+---
+
+## Session 72: 2025-12-11 - D6 STARTED (Q1 & Q2 DECIDED)
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (20 thoughts) - Full context restoration from session files
+
+2. **D6-Q1 DECIDED: Option C - Configurable mode (exec default, subprocess for debugging)**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (DOCS_FIRST_THEN_CODE)
+     - Step 2: Report findings (claude-mpm interactive_session.py:188 shows config-based mode selection)
+     - Step 3: Ultrathink synthesis (4 specialists: 4/4 unanimous)
+     - Step 4: BMad Master recommendation with Relay Race analogy
+     - Step 5: President approved
+
+   - **Key Finding:** claude-mpm has both modes at interactive_session.py - exec default (line 585), subprocess opt-in (line 588-592)
+   - **Specialist Consensus:** 4/4 unanimous (Explore 9.5/10, Coder 9/10, Tester 9/10, Research 9/10, Architect 9/10)
+   - **Industry Validation:** Docker, systemd, Kubernetes use exec for single-handoff; Temporal, Prefect use subprocess for worker pools
+   - **Implementation:** 40-50 LOC, 65% reuse from claude-mpm, $7,200 3-year TCO
+
+3. **D6-Q2 DECIDED: Option A - Complete state death (files only survive)**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (DI container analysis)
+     - Step 2: Report findings (3 DI containers die, ~11.4MB files survive)
+     - Step 3: Ultrathink synthesis (4 specialists: 4/4 unified)
+     - Step 4: BMad Master recommendation with Moving Houses analogy
+     - Step 5: President approved
+
+   - **Key Finding:** os.execvpe replaces process memory - this is physics, not a design choice
+   - **Specialist Consensus:** 4/4 unified (different terminology, same outcome)
+   - **Binding Constraints:** D4-Q9/Q11 (file-based state) pre-selects this
+   - **Implementation:** 0 additional LOC (current implementation), $0 TCO
+
+4. **D6 Progress: 2/18** - First two questions of os.execvpe Handoff Mechanism group decided.
+   - NO DEVIATIONS THIS SESSION - Pattern compliance maintained
+   - Parallel Explore agents for Q1 and Q2 for efficiency
+   - Ultrathink via /ultrathink:ultrathink slash command (4 specialists)
+   - TWO QUESTIONS processed simultaneously as requested by President
+
+### D6 Progress - 11%
+
+| Question | Status | Answer |
+|----------|--------|--------|
+| Q1: os.execvpe handoff | **DECIDED** | Option C: Configurable mode (exec default, subprocess for debugging) |
+| Q2: Internal state at handoff | **DECIDED** | Option A: Complete state death (files only survive) |
+| Q3-Q18 | PENDING | 16 questions remaining |
 
 ---
 

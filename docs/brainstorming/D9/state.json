@@ -1,0 +1,33 @@
+{
+  "decision": "D9",
+  "title": "Path Variables & File Structure",
+  "current_question": 1,
+  "questions_completed": 0,
+  "total_questions": 16,
+  "status": "not_started",
+  "created": "2025-12-10",
+  "last_updated": "2025-12-11",
+  "decisions": [],
+  "source_documents": [
+    "/home/president/bmad-systems/personal bmad/BMAD-PERSONAL-ARCHITECTURE.md",
+    "/home/president/bmad-systems/bmad-method-complete-analysis/shards/09-CONFIGURATION.md"
+  ],
+  "topics": {
+    "Q1-Q3": "Variable resolution levels (System/Framework/Legacy)",
+    "Q4-Q7": "Complete file structure layout",
+    "Q8-Q11": "Variable resolution engine",
+    "Q12-Q14": "Auto-creation behavior",
+    "Q15": "Hybrid global/local model details"
+  },
+  "redundancies_removed": {
+    "original_count": 20,
+    "removed": 5,
+    "removed_questions": [
+      "Q1 (4-level cascade adoption) → D4-Q16",
+      "Q9 (path variable resolution mechanism) → D2-Q20",
+      "Q17 (global/local boundary enforcement) → D2",
+      "Q18 (project override capability) → D3-Q9/Q17",
+      "Q15 (framework update propagation) → D5-Q8"
+    ]
+  }
+}

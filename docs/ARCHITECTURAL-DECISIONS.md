@@ -26,11 +26,13 @@
 |---|----------|--------|--------|---------|
 | D1 | Execution Model | **DECIDED** | **Hybrid Model** | 5 |
 | D2 | Enforcement Mechanism | **DECIDED** | **Hybrid Tiered Enforcement** | 6-21 |
-| D3 | Multi-Agent Strategy | PENDING | - | - |
-| D4 | State Tracking | PENDING | - | - |
-| D5 | Context Management | PENDING | - | - |
+| D3 | Multi-Agent Strategy | **DECIDED** | **Tiered Hybrid Multi-Agent** | 22-44 |
+| D4 | State Tracking | **DECIDED** | **Frontmatter SSOT + Ticket Projection** | 45-60 |
+| D5 | Context Management | **DECIDED** | **3-Level Progressive Disclosure** | 61-71 |
 
 **Legend:** PENDING | IN_PROGRESS | DECIDED | REVISED
+
+**🎉 ALL 80+ ARCHITECTURAL DECISIONS COMPLETE (Sessions 1-71)**
 
 ---
 
@@ -217,118 +219,326 @@ TIER 3: INSTRUCTIONAL (Soft) - 70-90% reliability
 
 ## D3: Multi-Agent Strategy
 
-**Status:** PENDING
+**Status:** DECIDED (20/20 questions complete)
 **Depends On:** D1, D2
+**Sessions:** 22-44
 
 ### The Question
 
 How do multiple agents collaborate in Claude-Hybrid? Do they discuss in parallel (Party Mode), or delegate sequentially?
 
-### Options
+### Decision Summary
 
-| Option | Source | Description |
-|--------|--------|-------------|
-| **A. Party Mode** | BMAD | 2-3 agents selected per message based on domain/expertise. Cross-talk enabled. Collaborative discussion. |
-| **B. Sequential Delegation** | Claude-MPM | PM delegates to one agent at a time via Task tool. Agent completes, returns, PM decides next. |
-| **C. Hybrid** | Novel | Default sequential, but Party Mode available for specific scenarios (brainstorming, code review). |
+**Choice:** Tiered Hybrid Multi-Agent Strategy
 
-### Trade-offs
+Claude-Hybrid uses a **tiered hybrid approach** combining Party Mode for exploration with Sequential Delegation for execution:
 
-| Aspect | Party Mode (A) | Sequential (B) | Hybrid (C) |
-|--------|----------------|----------------|------------|
-| **Richness** | Multi-perspective | Single-focus | Contextual |
-| **Control** | Harder to direct | Easy to direct | Flexible |
-| **Context** | Higher usage | Lower usage | Optimized |
-| **Complexity** | Complex orchestration | Simple | Medium |
+```
+TIER 1: USER-DIRECTED
+├── User explicitly selects agents
+├── Full control, no inference
+└── Highest priority
 
-### Discussion Notes
+TIER 2: SCENARIO-BASED (~80%)
+├── Party Mode for exploration/brainstorming
+├── Sequential Delegation for implementation
+└── Orchestrator selects based on task type
 
-*(To be captured during brainstorming)*
+TIER 3: INTELLIGENT SCORING (~15%)
+├── Manifest-based agent selection
+├── 2-3 relevant agents for parallel work
+└── Domain expertise matching
 
-### Decision
+TIER 4: ROTATION MODIFIER (~5%)
+├── Prevents agent fixation
+├── Introduces variety when appropriate
+└── Secondary mechanism only
+```
 
-**Choice:** TBD
-**Rationale:** TBD
-**Date:** TBD
-**Session:** TBD
+### D3 Sub-Decisions (20 Questions)
+
+| # | Topic | Decision |
+|---|-------|----------|
+| Q1 | Agent Selection | Option E: Tiered Hybrid Selection (User-Directed > Scenario-Based > Intelligent Scoring > Rotation) |
+| Q2 | Cross-Talk | Option D: Contextual Hybrid (Party Mode for brainstorm, Sequential for implementation) |
+| Q3 | Termination | Option E: State-Managed with Mode-Tiered Mechanisms (~220 LOC) |
+| Q4 | Party vs Sequential | Option D: Exploration vs Execution (Party=divergent, Sequential=deliverables) |
+| Q5 | State Management | Option D: Hybrid 3-Tier (Working Memory, Session State/Frontmatter, Persistent/Tickets) |
+| Q6 | Sub-Agent Invocation | Option E: Tiered Hybrid (User-Directed > Orchestrator-Validated > Proactive Triggers > Injection Hints) |
+| Q7 | Specialization Granularity | Option D: Tiered Role-Based (Orchestrator, Phase Leads, Role Specialists, Sub-Agents, ~25-30 agents) |
+| Q8 | Output Format | Option E: Tiered Output (Complete message 90-95%, File artifacts 5-10%, JSON metadata supplementary) |
+| Q9 | Installation Location | Option C: Hybrid with Priority (Project > User > System, ~520 LOC, $18.5K 3-year TCO) |
+| Q10 | Delegation Pattern | Option A: Hierarchical Single-Parent (Task returns to same parent, cross-branch via Orchestrator) |
+| Q11 | IDE vs Web | Option B: Dual Orchestrator Pattern (BMad Master for IDE, BMad Web for Web, 185 LOC) |
+| Q12 | Agent Transformation | Option C: Hybrid with User Override (Orchestrator suggests, user accepts/overrides) |
+| Q13 | Party Mode Selection | Option C: Agent Manifest-Driven (dynamically select 2-3 agents via manifest, ~380-480 LOC) |
+| Q14 | Persona Conflict | Option D: Hierarchical Persona Authority (role-based tier hierarchy, ~200 LOC net new) |
+| Q15 | Agent Pool Scoping | Option E: Project Config with Sensible Defaults (all available by default, optional scoping) |
+| Q16 | Agent Matching | Option A: Filename Stem Matching (Claude Code native, O(1) lookup, 0 LOC) |
+| Q17 | Discovery Priority | Option B: Project Highest (Project > Remote > User > System, 50-80 LOC) |
+| Q18 | PM Delegation | Option E: Hierarchical Manifest + Direct Task Invocation (~220 LOC, 90% reuse) |
+| Q19 | Skill Loading | Option E: Tiered Registry with Agent Scoping (Registry-based + Project>User>System, ~55 LOC) |
+| Q20 | Hot-Reload | Option D: Session Boundary Only (Claude Code native, 0 LOC - already implemented) |
+
+### Key Architectural Patterns
+
+1. **Exploration vs Execution Split** (D3-Q4)
+   - Party Mode: Brainstorming, creative exploration, divergent thinking
+   - Sequential Delegation: Implementation, deliverables, focused execution
+
+2. **Hierarchical Single-Parent** (D3-Q10)
+   - Task tool returns to same parent
+   - Cross-branch communication via Orchestrator only
+   - Prevents 41-86.7% failure rates from unrestricted delegation
+
+3. **Dual Orchestrator** (D3-Q11)
+   - BMad Master for IDE (file I/O, manifests, 18 handlers)
+   - BMad Web Orchestrator for Web (embedded XML, no file I/O)
+
+4. **3-Tier State Management** (D3-Q5)
+   - Tier 1: Working Memory (conversation context)
+   - Tier 2: Session State (frontmatter)
+   - Tier 3: Persistent State (tickets)
+
+### Industry Validation
+
+- 100% of production systems use hybrid approaches
+- 0/8 use pure Party Mode or pure Sequential in production
+- LangGraph, CrewAI, AutoGen, Temporal, Prefect all validate tiered patterns
+
+### Implementation Impact
+
+| Component | LOC Estimate |
+|-----------|-------------|
+| Agent Selection Tiering | ~400 |
+| Cross-Talk Controller | ~1,420 |
+| State Management | ~240 |
+| Sub-Agent Invocation | ~500 |
+| Installation Priority | ~520 |
+| Delegation Chain | ~280 |
+| Manifest Selection | ~480 |
+| **Total D3 Multi-Agent Layer** | **~3,840 LOC** |
+
+**Date:** 2025-12-08 to 2025-12-09
+**Sessions:** 22-44 (23 sessions)
 
 ---
 
 ## D4: State Tracking
 
-**Status:** PENDING
+**Status:** DECIDED (20/20 questions complete)
 **Depends On:** D1, D2, D3
+**Sessions:** 45-60
 
 ### The Question
 
 How does Claude-Hybrid track workflow state, progress, and context across sessions?
 
-### Options
+### Decision Summary
 
-| Option | Source | Description |
-|--------|--------|-------------|
-| **A. Frontmatter Tracking** | BMAD | YAML frontmatter in workflow files tracks stepsCompleted, variables, phase. Files ARE state. |
-| **B. Tickets + PM_INSTRUCTIONS** | Claude-MPM | mcp-ticketer for task tracking, PM_INSTRUCTIONS.md assembled per session (~108KB). |
-| **C. Hybrid** | Novel | Frontmatter for workflow state, lightweight ticket system for tasks, structured decision files. |
+**Choice:** Frontmatter SSOT + Ticket Projection
 
-### Trade-offs
+Claude-Hybrid uses **frontmatter as Single Source of Truth (SSOT)** with tickets as a secondary projection layer:
 
-| Aspect | Frontmatter (A) | Tickets (B) | Hybrid (C) |
-|--------|-----------------|-------------|------------|
-| **Simplicity** | Files are state | Separate DB | Medium |
-| **Queryability** | Manual | Structured | Mixed |
-| **Context Load** | Distributed | Centralized | Optimized |
-| **Portability** | Git-native | DB dependent | Git-native |
+```
+FRONTMATTER (SSOT - PRIMARY)
+├── stepsCompleted array
+├── current_step
+├── status
+├── Stored IN workflow artifact files
+└── Files survive process boundaries (execvpe)
 
-### Discussion Notes
+TICKETS (SECONDARY - PROJECTION)
+├── One-way sync: frontmatter → tickets
+├── Async sync after MCP Gateway available
+├── Query interface for cross-workflow visibility
+└── Conflict resolution: frontmatter always wins
+```
 
-*(To be captured during brainstorming)*
+### D4 Sub-Decisions (20 Questions)
 
-### Decision
+| # | Topic | Decision |
+|---|-------|----------|
+| Q1 | Granularity | Option D: Hybrid (step-level in frontmatter + workflow-level in tickets, ~500 LOC) |
+| Q2 | Persistence Layer | Option D: Dual (frontmatter for in-workflow + external for cross-workflow, ~650 LOC) |
+| Q3 | Context Identification | Option D: Configuration-driven (reference main_config, ~80 LOC) |
+| Q4 | Enforcement | Option E: Tiered Hybrid (Gate files + Frontmatter validation + Orchestrator gating, ~450 LOC) |
+| Q5 | Session Resumption | Option E: A+D Hybrid 3-Tier (Frontmatter + Checkpoint files + Orchestrator awareness, ~480 LOC) |
+| Q6 | Ticket Sync | Option D: Hybrid with frontmatter PRIMARY, tickets SECONDARY, one-way sync (~280 LOC) |
+| Q7 | Scope Classification | Option A: Store AI-derived scope in frontmatter metadata with ticket sync (~140 LOC) |
+| Q8 | Authoritative Source | Option D: Frontmatter is SSOT; tickets consume state updates from files (~120 LOC) |
+| Q9 | Process Boundary | Option C: Both file-based and ticket-based - files AUTHORITATIVE, tickets SECONDARY (~380 LOC) |
+| Q10 | Circuit Breaker Tracking | Option B: Allow frontmatter changes directly, require ticketing agent for sync only (~330 LOC) |
+| Q11 | Process Boundary Persistence | Option A: File-based state persistence only with D4-Q6 compliant ticket sync (~150 LOC) |
+| Q12 | Progress Indicators | Option D: Frontmatter in source artifact files (BMAD-style, ~80 LOC) |
+| Q13 | State Validation | Option D: InstructionCacheService pattern - hash validated, regenerated on change (~80 LOC) |
+| Q14 | Delegation Chain | Option C: Delegation Chain State (parent→child tracking, ~225-700 LOC) |
+| Q15 | Temporal Context | Option E: B+C Hybrid - Version history + Session markers, timestamps excluded from hash (~250 LOC) |
+| Q16 | Variable Storage | Option C: Hybrid - Static in config.yaml, dynamic in frontmatter (~1300 LOC per D2-Q20) |
+| Q17 | Component Tracking | Option D: Hybrid CSV Manifests + Database (CSV generated from frontmatter, ~850 LOC) |
+| Q18 | Runtime State | Option A: Frontmatter in Workflow Files (BMAD Level 4, 0 LOC - pattern exists) |
+| Q19 | Change Detection | Option A: SHA256 hash comparison using files-manifest.csv (~150 LOC) |
+| Q20 | Config vs State | Option A: Static configuration only - NO workflow state in config.yaml (0 LOC - pattern exists) |
 
-**Choice:** TBD
-**Rationale:** TBD
-**Date:** TBD
-**Session:** TBD
+### Key Architectural Patterns
+
+1. **Single Source of Truth (SSOT)** (D4-Q6, Q8)
+   - Frontmatter = authoritative state
+   - Tickets = secondary projection layer
+   - One-way sync: frontmatter → tickets
+   - Conflict resolution: frontmatter always wins
+
+2. **3-Tier Resumption** (D4-Q5)
+   - Tier 1: Frontmatter (<5ms, 95% cases)
+   - Tier 2: Checkpoint files (<50ms fallback)
+   - Tier 3: Orchestrator awareness (<500ms complex cases)
+
+3. **Hash-Based Validation** (D4-Q13, Q19)
+   - SHA-256 content hashing
+   - State immutable DURING execution
+   - Regenerated AT cycle boundaries
+   - Timestamps EXCLUDED from hash
+
+4. **Delegation Chain Tracking** (D4-Q14)
+   - parent_id, root_id, depth, chain_path
+   - O(chain_depth) scalability
+   - Enables debugging, recovery, audit
+
+### Industry Validation
+
+- 11/11 frameworks use dual-layer state management
+- 100% use file-based state at process boundaries
+- Git, Docker, Kubernetes, Terraform all use content-hash patterns
+- POSIX fact: execvpe destroys memory, files survive
+
+### Implementation Impact
+
+| Component | LOC Estimate |
+|-----------|-------------|
+| Hybrid Granularity (D4-Q1) | ~500 |
+| Dual Persistence (D4-Q2) | ~650 |
+| Tiered Enforcement (D4-Q4) | ~450 |
+| 3-Tier Resumption (D4-Q5) | ~480 |
+| Ticket Sync (D4-Q6) | ~280 |
+| Hash Validation (D4-Q13) | ~80 |
+| Delegation Chain (D4-Q14) | ~700 |
+| Component Tracking (D4-Q17) | ~850 |
+| **Total D4 State Tracking Layer** | **~3,990 LOC** |
+
+**Date:** 2025-12-09 to 2025-12-10
+**Sessions:** 45-60 (16 sessions)
 
 ---
 
 ## D5: Context Management
 
-**Status:** PENDING
+**Status:** DECIDED (20/20 questions complete)
 **Depends On:** D1 (partially independent)
+**Sessions:** 61-71
 
 ### The Question
 
 How does Claude-Hybrid manage the 200k context limit? What loading/unloading strategies does it use?
 
-### Options
+### Decision Summary
 
-| Option | Source | Description |
-|--------|--------|-------------|
-| **A. Step-Files + Progressive Disclosure** | BMAD | Micro-files loaded just-in-time. 3-level skill loading (L1 metadata → L2 entry → L3 refs). |
-| **B. Template Externalization** | Claude-MPM | 48.1% token reduction via file references instead of inline content. Templates in separate files. |
-| **C. Hybrid** | Novel | Step-files for workflows, template externalization for prompts, 3-level progressive disclosure for skills. |
+**Choice:** 3-Level Progressive Disclosure
 
-### Trade-offs
+Claude-Hybrid uses **BMAD-style step-files with 3-level progressive disclosure** for optimal context management:
 
-| Aspect | Step-Files (A) | Externalization (B) | Hybrid (C) |
-|--------|----------------|---------------------|------------|
-| **Token Savings** | High (JIT loading) | High (48.1% reduction) | Highest |
-| **Complexity** | File management | Reference management | Both |
-| **Flexibility** | Very flexible | Structured | Balanced |
-| **Implementation** | YAML/MD parsing | File refs | Both |
+```
+L1: METADATA (Always Loaded)
+├── Skill name, description
+├── Available commands/capabilities
+├── ~50-200 tokens per skill
+└── Enables discovery without bloat
 
-### Discussion Notes
+L2: ENTRY POINT (On Activation)
+├── SKILL.md core instructions
+├── Primary workflow content
+├── ~1,000-2,500 tokens per step
+└── Loaded when skill/workflow invoked
 
-*(To be captured during brainstorming)*
+L3: REFERENCES (On Demand)
+├── Deep-dive documentation
+├── Examples, edge cases
+├── Loaded via explicit Read tool
+└── 50-98% token savings
+```
 
-### Decision
+### D5 Sub-Decisions (20 Questions)
 
-**Choice:** TBD
-**Rationale:** TBD
-**Date:** TBD
-**Session:** TBD
+| # | Topic | Decision |
+|---|-------|----------|
+| Q1 | Step Loading | Option A: Strict Sequential (only current step in memory, must complete in order, ~200 LOC) |
+| Q2 | Step Granularity | Option A: Fine Granularity (1,000-2,500 tokens per step, avg 1,400, ~150 LOC) |
+| Q3 | Workflow State Format | Option A: Frontmatter State in Output File (stepsCompleted, current_step, ~120 LOC) |
+| Q4 | Workflow File Format | Option A: Dual Format Support (Markdown for complex, YAML for simple, ~250 LOC) |
+| Q5 | Track Impact | Option E: Track as Workflow Selection + Loading Strategies (~330 LOC) |
+| Q6 | Skill Priority | Option A: Project > User > Bundled (PRE-SELECTED by D3-Q9, 0 LOC - already implemented) |
+| Q7 | Progressive Disclosure | Option A: Full 3-Level (L1 always, L2 on activation, L3 on demand, 1,378 LOC exists) |
+| Q8 | Skill Restart | Option A: Require Explicit Restart (PRE-SELECTED by D3-Q20, 0 LOC - Claude Code native) |
+| Q9 | Agent Discovery | Option C: Manifest-Based Selective Loading with progressive disclosure (~390 LOC) |
+| Q10 | Skill Invocation | Option A: Registry-Based Linking Only (PRE-SELECTED by D3-Q16, -13 LOC simplification) |
+| Q11 | Template Externalization | Option C: Hybrid Inline/External (critical-path inline, supplementary external, ~320 LOC) |
+| Q12 | Cache Layering | Option C: Hash-Based Primary (SHA-256 as PRIMARY, TTL as secondary cleanup, ~420 LOC) |
+| Q13 | Template Invalidation | Option A: Hash-Based Invalidation (SHA-256 content hashing, ~15 LOC) |
+| Q14 | ETag Versioning | Option A: Full ETag Implementation (HTTP conditional + SHA-256 + SQLite, ~20 LOC) |
+| Q15 | Template Organization | Option A: Categorical Templates (flat directory with semantic naming, 0 LOC) |
+| Q16 | Skill Directory Structure | Option A: Three-tier Structure (SKILL.md + references/ + examples/, ~200 LOC) |
+| Q17 | Skill Registry Loading | Option D: Progressive Loading (L1 always, L2 on activation, L3 on-demand, ~200 LOC) |
+| Q18 | Skill Namespacing | Option B: Shorthand when unambiguous with tier-based priority foundation (~80 LOC) |
+| Q19 | Reference Access | Option C: Reference files never auto-loaded; Claude uses Read tool based on hints (~210 LOC) |
+| Q20 | Agent Restrictions | Option B: Single response model (PRE-SELECTED by D3-Q8, ~175 LOC) |
+
+### Key Architectural Patterns
+
+1. **Step-File Discipline** (D5-Q1, Q2)
+   - Only current step in memory
+   - Strict sequential loading
+   - 1,000-2,500 tokens per step
+   - BMAD mandate: "NEVER load multiple step files simultaneously"
+
+2. **3-Level Progressive Disclosure** (D5-Q7, Q16, Q17)
+   - L1: Metadata always loaded (~50-200 tokens)
+   - L2: Entry point on activation (~1,000-2,500 tokens)
+   - L3: References on demand (50-98% savings)
+   - Validated by Anthropic MCP (98.7% reduction)
+
+3. **Hash-Based Caching** (D5-Q12, Q13)
+   - SHA-256 content hashing as PRIMARY
+   - TTL as secondary cleanup mechanism
+   - InstructionCacheService pattern
+   - Aligns with D4-Q13, Q19 decisions
+
+4. **Shorthand Namespacing** (D5-Q18)
+   - Use simple 'skill-name' when unique
+   - Require 'plugin:skill' only on conflicts
+   - Project > User > System priority
+
+### Industry Validation
+
+- Anthropic MCP: 98.7% token reduction with progressive disclosure
+- 70% of agent failures from context overflow (CMU research)
+- LangChain lazy_load() is production standard
+- 8/8 frameworks use sequential-by-default loading
+
+### Implementation Impact
+
+| Component | LOC Estimate |
+|-----------|-------------|
+| Sequential Loading (D5-Q1) | ~200 |
+| Fine Granularity Steps (D5-Q2) | ~150 |
+| Dual Format Support (D5-Q4) | ~250 |
+| Progressive Disclosure (D5-Q7) | 0 (exists) |
+| Manifest-Based Discovery (D5-Q9) | ~390 |
+| Hybrid Externalization (D5-Q11) | ~320 |
+| Hash-Based Caching (D5-Q12) | ~420 |
+| Three-tier Structure (D5-Q16) | ~200 |
+| **Total D5 Context Management Layer** | **~1,930 LOC** |
+
+**Date:** 2025-12-10
+**Sessions:** 61-71 (11 sessions)
 
 ---
 
@@ -354,6 +564,36 @@ How does Claude-Hybrid manage the 200k context limit? What loading/unloading str
 | 19 | 2025-12-08 | **D2-Q18** | Dual-Layer Menu Handler Routing |
 | 20 | 2025-12-08 | **D2-Q19** | Tiered Criticality |
 | 21 | 2025-12-08 | **D2-Q20 - D2 COMPLETE** | Variable Resolution Cascade - D2 100% complete! |
+| 22-23 | 2025-12-08 | **D3-Q1, Q2** | Agent Selection + Cross-Talk patterns |
+| 24-25 | 2025-12-08 | **D3-Q3, Q4** | Termination + Exploration vs Execution |
+| 26-27 | 2025-12-08 | **D3-Q5, Q6** | 3-Tier State + Sub-Agent Invocation |
+| 28-29 | 2025-12-09 | **D3-Q7, Q8** | Role Specialization + Output Format |
+| 30-31 | 2025-12-08 | **D3-Q9, Q10** | Installation Location + Delegation Pattern |
+| 32-33 | 2025-12-08 | **D3-Q11, Q12** | Dual Orchestrator + Agent Transformation |
+| 34-35 | 2025-12-09 | **D3-Q13, Q14** | Party Mode Selection + Persona Conflict |
+| 36-37 | 2025-12-09 | **D3-Q15, Q16** | Agent Pool Scoping + Agent Matching |
+| 38-39 | 2025-12-09 | **D3-Q17, Q18** | Discovery Priority + PM Delegation |
+| 40-41 | 2025-12-09 | **D3-Q19** | Skill Loading with Research timeout correction |
+| 42-44 | 2025-12-09 | **D3-Q20 - D3 COMPLETE** | Hot-Reload - Claude Code native behavior |
+| 45-46 | 2025-12-09 | **D4-Q1, Q2** | Hybrid Granularity + Dual Persistence |
+| 47-48 | 2025-12-09 | **D4-Q3, Q4** | Config-Driven Context + Tiered Enforcement |
+| 49-50 | 2025-12-09 | **D4-Q5, Q6** | 3-Tier Resumption + Frontmatter SSOT |
+| 51-52 | 2025-12-09 | **D4-Q7, Q8** | Scope Classification + Authoritative Source |
+| 53-54 | 2025-12-09 | **D4-Q9, Q10** | Process Boundary + Circuit Breaker |
+| 55-56 | 2025-12-09 | **D4-Q11, Q12, Q13** | File Persistence + Progress Indicators + Hash Validation |
+| 56 | 2025-12-09 | **D4-Q15** | DEVIATION: Manual ultrathink deployment - President corrected |
+| 57 | 2025-12-09 | **D4-Q16** | DEVIATION REPEATED - Same error despite reading log |
+| 58-59 | 2025-12-10 | **D4-Q14, Q17** | Delegation Chain + Component Tracking |
+| 60 | 2025-12-10 | **D4-Q18, Q19, Q20 - D4 COMPLETE** | Runtime State + Change Detection + Config vs State |
+| 61-62 | 2025-12-10 | **D5-Q1, Q2** | Sequential Loading + Fine Granularity |
+| 63-64 | 2025-12-10 | **D5-Q3, Q4, Q5, Q6** | Frontmatter State + Dual Format + Track Impact + Skill Priority |
+| 65 | 2025-12-10 | **D5-Q7, Q8** | Progressive Disclosure + Skill Restart |
+| 66 | 2025-12-10 | **D5-Q9, Q10** | Agent Discovery + Skill Invocation (parallel) |
+| 67 | 2025-12-10 | **D5-Q11, Q12** | Template Externalization + Cache Layering (parallel) |
+| 68 | 2025-12-10 | **D5-Q13, Q14** | Template Invalidation + ETag Versioning (parallel) |
+| 69 | 2025-12-10 | **D5-Q15, Q16** | Template Organization + Skill Directory (parallel) |
+| 70 | 2025-12-10 | **D5-Q17, Q18** | Skill Registry Loading + Namespacing (parallel) |
+| 71 | 2025-12-10 | **D5-Q19, Q20 - D5 COMPLETE** | Reference Access + Agent Restrictions - **ALL DECISIONS COMPLETE!** |
 
 ---
 
@@ -361,9 +601,9 @@ How does Claude-Hybrid manage the 200k context limit? What loading/unloading str
 
 | File | Purpose |
 |------|---------|
-| `/home/president/Claude-Hybrid/.claude/claude-progress.txt` | Chronological progress log |
-| `/home/president/Claude-Hybrid/.claude/session-roundup.md` | Session handoff context |
-| `/home/president/Claude-Hybrid/docs/CORE-VISION.md` | Original vision document |
+| `/home/president/bmad-systems/Claude-Hybrid/.claude/claude-progress.txt` | Chronological progress log |
+| `/home/president/bmad-systems/Claude-Hybrid/.claude/session-roundup.md` | Session handoff context |
+| `/home/president/bmad-systems/Claude-Hybrid/docs/CORE-VISION.md` | Original vision document |
 | `/home/president/bmad-systems/personal bmad/BMAD-PERSONAL-ARCHITECTURE.md` | President's desired setup |
 
 ---
@@ -374,6 +614,24 @@ How does Claude-Hybrid manage the 200k context limit? What loading/unloading str
 |------|--------|--------|
 | 2025-12-07 | Initial creation | Session 5 - brainstorming preparation |
 | 2025-12-08 | D2 COMPLETE | Session 21 - All 20 D2 questions decided |
+| 2025-12-09 | D3 COMPLETE | Session 44 - All 20 D3 questions decided |
+| 2025-12-10 | D4 COMPLETE | Session 60 - All 20 D4 questions decided |
+| 2025-12-10 | D5 COMPLETE | Session 71 - All 20 D5 questions decided |
+| 2025-12-11 | **MAJOR UPDATE** | Synced from decision-workflow.json - D3/D4/D5 fully documented |
+
+---
+
+## Total Implementation Estimate
+
+| Layer | LOC Estimate |
+|-------|-------------|
+| D2: Enforcement | ~3,310 |
+| D3: Multi-Agent | ~3,840 |
+| D4: State Tracking | ~3,990 |
+| D5: Context Management | ~1,930 |
+| **Total Claude-Hybrid Core** | **~13,070 LOC** |
+
+*Plus significant BMAD/claude-mpm reuse (50-90% depending on component)*
 
 ---
 

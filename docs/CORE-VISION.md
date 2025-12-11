@@ -2,7 +2,7 @@
 
 **Project:** Claude-Hybrid
 **Repository:** https://github.com/Enginex0/Claude-Hybrid
-**Location:** /home/president/Claude-Hybrid
+**Location:** /home/president/bmad-systems/Claude-Hybrid
 **Date:** 2025-12-07
 **Visionary:** President
 

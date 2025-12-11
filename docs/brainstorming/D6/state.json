@@ -1,0 +1,81 @@
+{
+  "decision": "D6",
+  "title": "Process Boundaries & Initialization",
+  "current_question": 3,
+  "questions_completed": 2,
+  "total_questions": 18,
+  "status": "in_progress",
+  "created": "2025-12-10",
+  "last_updated": "2025-12-11",
+  "decisions": [
+    {
+      "question": "Q1",
+      "title": "os.execvpe Handoff Mechanism",
+      "decision": "Option C: Configurable mode (exec default, subprocess for debugging)",
+      "rationale": "Claude-MPM pattern at interactive_session.py:188. Exec for production (clean handoff, no overhead), subprocess for debugging (observable). 4/4 specialist consensus.",
+      "specialist_consensus": "4/4 unanimous (Explore 9.5/10, Coder 9/10, Tester 9/10, Research 9/10, Architect 9/10)",
+      "binding_constraints": ["D4-Q9/Q11 (file-based state)", "D5-Q8 (session boundary)", "D2-Q5 (crash handling)"],
+      "loc_estimate": "40-50 new LOC",
+      "tco_estimate": "$7,200 3-year",
+      "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q2",
+      "title": "Orchestrator Internal State at Handoff",
+      "decision": "Option A: Complete state death (files only survive)",
+      "rationale": "os.execvpe replaces process memory - DI containers, Python objects, in-memory caches all die. Only files written before handoff survive. This is physics, not a design choice. Analogy: Moving houses - rental furniture stays, only packed boxes (files) move.",
+      "specialist_consensus": "4/4 unanimous (different terminology, same outcome)",
+      "binding_constraints": ["D4-Q9/Q11 (workflow state via files)", "D5-Q12/Q13 (hash-based file caching)"],
+      "loc_estimate": "0 additional LOC",
+      "tco_estimate": "$0",
+      "decided_at": "2025-12-11"
+    }
+  ],
+  "question_groups": {
+    "os_execvpe_handoff": {
+      "questions": [1, 2, 3, 4],
+      "topic": "os.execvpe Handoff Mechanism",
+      "completed": 2
+    },
+    "file_contracts": {
+      "questions": [5, 6],
+      "topic": "Pre/Post-Handoff File Contracts",
+      "completed": 0
+    },
+    "mcp_gateway_config": {
+      "questions": [7, 8, 9],
+      "topic": "MCP Gateway Configuration",
+      "completed": 0
+    },
+    "initialization_lifecycle": {
+      "questions": [10, 11, 12, 13],
+      "topic": "12-Phase Initialization Lifecycle + 9 Background Sub-Phases",
+      "completed": 0
+    },
+    "subprocess_exec_mode": {
+      "questions": [14, 15, 16],
+      "topic": "Subprocess vs Exec Mode Decision",
+      "completed": 0
+    },
+    "gap_analysis_additions": {
+      "questions": [17, 18],
+      "topic": "Gap Analysis Additions (Observability, Invocation Methods)",
+      "completed": 0
+    }
+  },
+  "redundancies_removed": {
+    "original_count": 20,
+    "removed": 4,
+    "removed_questions": [
+      "Q7 (cache invalidation) → D5-Q13",
+      "Q8 (handoff boundary state) → D4-Q9/Q11",
+      "Q11 (first-call MCP latency) → D5-Q8",
+      "Q7-current (MCP spawning timing) → D7-Q3"
+    ]
+  },
+  "sources": [
+    "claude-mpm-complete-analysis/02-ARCHITECTURE-CORE.md",
+    "claude-mpm-complete-analysis/01-EXECUTIVE-SUMMARY.md",
+    "claude-mpm-complete-analysis/07-MCP-TICKETING.md"
+  ]
+}
