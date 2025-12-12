@@ -1,7 +1,7 @@
 # D10: Workflow Engine & Lifecycle - Question Set
 
 **Decision:** How does Claude-Hybrid execute workflows and enforce lifecycle?
-**Status:** ✅ COMPLETE (14/14 DECIDED)
+**Status:** ✅ COMPLETE (17/17 DECIDED)
 **Generated:** 2025-12-10
 **Updated:** 2025-12-11 - All questions decided
 **Sources:** BMAD Method architecture and workflow documentation (02-ARCHITECTURE-CORE.md, 05-WORKFLOWS-SYSTEM.md, 14-WORKFLOW-PATHS.md, 15-CUSTOMIZATION-EXTENSION.md)
@@ -44,6 +44,9 @@ The following 8 questions were removed due to overlap with existing D2-D5 decisi
 | Q12 | **DECIDED** | Option B: Handler-Multi with Fuzzy Matching |
 | Q13 | **DECIDED** | Option D: Hybrid Validation |
 | Q14 | **DECIDED** | Option D: Template-driven |
+| Q15 | **DECIDED** | Option A: Unified Agent Template v3.0 (2,000-3,000 tokens, 10 agent_types) |
+| Q16 | **DECIDED** | Option A: L1 Frontmatter Aggregation (agent files = registry SSOT) |
+| Q17 | **DECIDED** | Option A: 6-Step Facilitated Workflow (collaborative discovery compulsory) |
 
 ---
 
@@ -198,6 +201,61 @@ Options:
 - B: Explicit markers - Workflow files include continuation markers defining valid resume points.
 - C: Builder metadata - Workflow builder generates continuation metadata in separate file alongside workflow.
 - D: Template-driven - Continuable workflows must use specific template with built-in continuation logic.
+
+---
+
+## Questions: Agent Unification (Q15-Q17)
+
+### Q15: What unified template structure should all 87 agents follow?
+**Context:** Two agent systems (46 BMAD + 41 claude-mpm) have incompatible structures. Need unified template for Claude-Hybrid.
+
+Options:
+- A: Unified Template v3.0 - 2,000-3,000 tokens per agent, 10 agent_types, Frontmatter (L1) + Body (L2) structure
+- B: BMAD-centric - Keep full BMAD structure with session_config, response_gate, behaviors
+- C: Minimal template - 400-600 tokens, metadata only
+- D: Two-tier files - Separate L1/L2 files per agent
+
+**DECIDED:** Option A - Unified Template v3.0
+- Frontmatter (L1): name, description (no examples), version, model, agent_type, tags + optional fields
+- Body (L2): Expertise, Identity, When to Use, Core Capabilities, [Domain Sections], Boundaries, Tool Awareness, Memory Integration
+- 10 agent_types: engineer, architect, qa, security, research, ops, creative, workflow, orchestrator, specialist
+- Migration paths for both BMAD → Unified and Claude-MPM → Unified
+- 13-point validation checklist
+
+### Q16: How should PM discover and route to agents?
+**Context:** PM needs to discover 87 agents and route tasks. Options: In-Process Registry vs MCP-Based Discovery.
+
+Options:
+- A: L1 Frontmatter Aggregation - Agent .md files ARE the registry (SSOT), extract_l1_metadata.py → agent-index.yaml
+- B: Separate YAML Registry - Maintain separate agent-registry.yaml synced with agent files
+- C: MCP-Based Discovery - MCP tool for agent discovery and routing suggestions
+- D: Pure Claude-Native - No registry, Claude discovers agents via file reads
+
+**DECIDED:** Option A - L1 Frontmatter Aggregation
+- Agent files contain all routing data (name, description, agent_type, tags, triggers)
+- Single source of truth = no sync problems
+- Aligns with D2 (Control In-Process) - no network dependency
+- Aligns with D7 (Graceful Degradation) - works 100% without MCP
+- Token budget: 87 agents × ~150 tokens = ~13K tokens (94% savings vs L2 loading)
+
+### Q17: What workflow should be used to build/rebuild agents?
+**Context:** Need to build/rebuild 87 agents to unified template. Options: Automated vs Facilitated.
+
+Options:
+- A: 6-Step Facilitated Workflow - Collaborative discovery compulsory, guides user through structured process
+- B: Minimal Task Agent - Simple Task agent that generates agents from brief descriptions
+- C: Pure Automation - Batch script transforms existing agents automatically
+- D: Optional Brainstorming - Facilitation available but not required
+
+**DECIDED:** Option A - 6-Step Facilitated Workflow
+- Step 1: Collaborative Discovery (COMPULSORY entry point)
+- Step 2: Agent Classification (agent_type, module, model)
+- Step 3: Build Frontmatter (L1) - collaborative
+- Step 4: Build Body Sections (L2) - collaborative
+- Step 5: Validation (13-point checklist)
+- Step 6: Output & Completion
+- Facilitation > Generation (BMAD insight)
+- Quality through thoroughness > speed through shortcuts
 
 ---
 
