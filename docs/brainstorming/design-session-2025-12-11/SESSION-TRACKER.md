@@ -29,11 +29,11 @@ A strategic rewrite unifying **BMAD Method** (orchestration) + **claude-mpm** (v
 
 | Field | Value |
 |-------|-------|
-| **Phase** | Architecture COMPLETE - Approaching Implementation |
-| **Last Activity** | **Session 8: Removed D11 (Audit), moved D12-D14 → D10-Q15/Q16/Q17** |
-| **Next Action** | Proceed with implementation (87-agent classification & rebuild) |
-| **Blocker** | None |
-| **Total Decisions** | 162 questions across D1-D10 (Q15-Q17 added to D10 in Session 8) |
+| **Phase** | Architecture Gap Filling - VERIFIED |
+| **Last Activity** | **Session 9: Gap verification complete - 6 gaps + 1 contradiction confirmed** |
+| **Next Action** | Decide approach for filling 6 confirmed gaps |
+| **Blocker** | Phase-to-Layer Mapping NOT DECIDED (BMAD workflow phases missing) |
+| **Total Decisions** | 162 questions across D1-D10 + 6 gaps to fill |
 
 ---
 
@@ -549,6 +549,104 @@ The tiering SYSTEMS are decided (D3), but APPLICATION to 87 agents is not. This 
 2. Decide: Are tiering/prioritization architecture decisions or implementation work?
 3. Proceed accordingly (either add to D* or begin implementation)
 
+### 2025-12-12 - Session 8 (D11 Removal & Gap Analysis)
+
+**Major Topic:** Remove D11 conflicts, absorb D12-D14 into D10, run gap analysis
+
+**Session Activities:**
+1. User challenged D11 (reject 80% of claude-mpm code) - potential conflict with D1-D10
+2. Deployed 5 agents to check D1-D10 for conflicts with D11
+3. Found conflicts: D3-D4 (5 conflicts, 3 CRITICAL), D5-D6 (4 conflicts, 2 CRITICAL)
+4. User decision: REMOVE D11 entirely
+5. Absorbed D12-D14 into D10 as Q15-Q17 (no new folders needed)
+6. Updated decisions-log.md footer to "10 (D1-D10) | Total Questions: 162"
+7. Committed and pushed changes (commit 374454d)
+8. Ran 5-agent gap analysis on D1-D10 for blueprint completeness
+
+**D10 Additions (Q15-Q17):**
+- Q15: Unified Agent Template v3.0 (2,000-3,000 tokens, 10 agent_types)
+- Q16: L1 Frontmatter Aggregation (agent files = registry SSOT)
+- Q17: 6-Step Facilitated Workflow (collaborative discovery compulsory)
+
+**Gap Analysis Findings:**
+| Component | D* | Coverage | Status |
+|-----------|-----|----------|--------|
+| PM Agent/Orchestrator | D1-D2 | 70% | GAPS |
+| Hook System (7 events) | D2 | 60% | GAPS (4/7 specified) |
+| Circuit Breakers CB#1-CB#8 | D2 | 50% | GAPS |
+| Frontmatter SSOT | D3-D4 | 70% | GAPS |
+| Delegation Chain | D3-D4 | 40% | GAPS |
+| Agent Classification | D3-D4 | **10%** | **CRITICAL** |
+| Tiering Criteria | D3-D4 | 60% | GAPS |
+| Progressive Disclosure | D5-D6 | YES | COMPLETE |
+| Process Handoff | D5-D6 | YES | COMPLETE |
+| System Prompt Assembly | D5-D6 | PARTIAL | GAPS |
+| 12-Phase Initialization | D5-D6 | PARTIAL | GAPS |
+| MCP Aggregator | D7-D8 | YES | COMPLETE |
+| Advisory Pattern JSON | D7-D8 | NO | GAPS |
+| TokenCountingService | D7-D8 | NO | GAPS |
+| ContextThresholdManager | D7-D8 | PARTIAL | GAPS |
+| Agent Template | D7-D8 | YES | COMPLETE |
+| D9-D10 Components | D9-D10 | YES | ALL 6 COMPLETE |
+
+**User Philosophy Stated:**
+> "Like building a house, an engineer needs the architectural blueprint first. Everything needs to be in the decision files entirely, then proceed to the phase where everything is drawn as one whole architect file."
+
+**Status at session end:** Gap analysis complete. Need to add missing questions to D* files before creating blueprint.
+
+**Next Session Agenda:**
+1. Document gap analysis findings to persistent file
+2. Map gaps to appropriate D* files
+3. Add new questions to fill gaps
+4. Once all gaps resolved, create unified architectural blueprint
+
+### 2025-12-12 - Session 9 (Gap Verification & Validation)
+
+**Major Topic:** Verify the 5-agent gap analysis claims with actual file evidence
+
+**Session Activities:**
+1. User challenged previous gap analysis - demanded evidence for all claims
+2. Re-ran gap analysis with 5 agents requiring file:line citations
+3. Created verification plan documenting all claims to check
+4. Systematically verified each claim via grep searches and line reads
+5. Documented verified results in VERIFIED-GAP-ANALYSIS.md
+
+**Verification Results:**
+
+All 5 agents reported **100% accurately** (38/38 claims verified true).
+
+**Confirmed Gaps (with search evidence):**
+
+| Gap | Search | Result |
+|-----|--------|--------|
+| Token Counting Service | `grep -i "token" D7/D8` | 0 matches |
+| Context Management (200k) | `grep "200k" D9/D10` | 0 matches |
+| Proof-Based Validation | `grep -i "proof" D3/D4/D9/D10` | 0 matches |
+| KuzuDB Memory Grounding | `grep -i "kuzu" D3/D4` | 0 matches |
+| PM Delegation Enforcement | `grep -i "delegation" D2` | 0 matches |
+| Phase-to-Layer Mapping | Manual review | NOT in D1-D10 |
+
+**Critical Discovery:**
+- D2-Q15 "4-Phase Lifecycle" = **HOOK phases** (SessionStart/PreToolUse/PreCompact/Stop)
+- CORE-VISION "4-Phase Lifecycle" = **WORKFLOW phases** (Analysis/Planning/Solutioning/Implementation)
+- **These are DIFFERENT things** - BMAD workflow phases are NOT decided anywhere
+
+**Agent Count Contradiction:**
+- D3-Q7:20 = "25-30 agents" (hierarchy structure)
+- D3-Q18:209 = "92 Specialized Agents"
+- D10-Q15:209 = "87 agents" (46 BMAD + 41 claude-mpm)
+
+**Artifacts Created:**
+- `/home/president/.claude/plans/cozy-discovering-peacock.md` - Verification plan
+- `VERIFIED-GAP-ANALYSIS.md` - Complete verified gap analysis with evidence
+
+**Status at session end:** All gaps verified with evidence. Ready to decide approach for filling gaps.
+
+**Next Session Agenda:**
+1. Decide approach: Add questions to existing D* OR create new decision sets
+2. Address the 6 confirmed gaps + 1 contradiction
+3. After gaps filled, create unified architectural blueprint
+
 ---
 
 ## RESUME INSTRUCTIONS
@@ -561,4 +659,4 @@ Resume Claude-Hybrid design session. Read: /home/president/bmad-systems/Claude-H
 
 ---
 
-*Tracker maintained by Claude | Last sync: 2025-12-12 | Session 7 Complete | D1-D14 REVIEW COMPLETE | **Architecture Phase COMPLETE - 159 Questions Decided***
+*Tracker maintained by Claude | Last sync: 2025-12-12 | Session 9 Complete | D1-D10 (162 Questions) | **6 VERIFIED GAPS + 1 CONTRADICTION to address***
