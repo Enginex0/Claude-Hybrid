@@ -1,9 +1,9 @@
 # D8: Plugin & Agent Format - Question Set
 
 **Decision:** How does Claude-Hybrid structure plugins and agents?
-**Status:** COMPLETE (14/14 DECIDED) 🎉
+**Status:** ✅ COMPLETE (15/15 DECIDED)
 **Generated:** 2025-12-10 (Session X)
-**Updated:** 2025-12-11 - Q1-Q12 DECIDED, Removed 8 redundant questions (see Redundancy Audit Notes)
+**Updated:** 2025-12-12 - ALL 15 QUESTIONS DECIDED (Q15 gap resolved)
 **Sources:** Claude Code architecture (03-EXTENSION-SYSTEM.md, 05-CONFIGURATION.md), Personal BMAD architecture
 
 ---
@@ -43,6 +43,7 @@ The following 8 questions were removed as they overlap with decisions made in D2
 | Q12 | **DECIDED** | Option B: Optional namespacing (plugin:agent when ambiguous) |
 | Q13 | **DECIDED** | Option B: Optional sidecar (static only, D5-Q20 compliant) |
 | Q14 | **DECIDED** | Option D: Hybrid backward-compatible (ALREADY IMPLEMENTED) |
+| Q15 | **DECIDED** | Option C+E: Multi-Point Programmable Gates |
 
 ---
 
@@ -176,8 +177,56 @@ Options:
 
 ---
 
+## Questions: Gap Resolution - Gate Mechanism (Q15)
+
+### Q15: How should hook-based validation gates operate?
+**Context:** D8-Q11 decided gates are "configurable (template + opt-in/out)" but not HOW gates work.
+
+Options:
+- A: Pre-Response Gate - Validate response before sending to user
+- B: Pre-Tool Gate - Validate tool parameters before execution (extends PreToolUse)
+- C: Multi-Point Gates - Gates at multiple points (pre-tool, post-tool, pre-response)
+- D: Schema Gate - Gates validate against predefined schemas only
+- E: Programmable Gates - Gates execute custom validation logic
+
+**Related Decision:** D8-Q11
+
+---
+
+#### **DECIDED: Option C+E - Multi-Point Programmable Gates**
+
+**Specialist Consensus:** 3/3 unanimous on E (Programmable), 2/3 favor C+E hybrid (9/10 avg confidence)
+
+**Binding Constraints Satisfied:**
+- D2-Q15: PreToolUse phase for hard enforcement ✅
+- D2-Q16: Hybrid structural+runtime ✅
+- D2-Q8: Two-tier hard/soft enforcement ✅
+- D2-Q12: permissionDecisionReason schema ✅
+
+**Evidence:**
+- Claude Code: Only PreToolUse and UserPromptSubmit can BLOCK (PostToolUse cannot)
+- BMAD: 5-step programmable gate protocol (IDENTIFY→RUN→READ→VERIFY→CLAIM)
+- Industry: 7/7 frameworks use multi-point + programmable (LangGraph, CrewAI, AutoGen, OpenAI, Semantic Kernel, NeMo, Guardrails AI)
+
+**Eliminated Options:**
+- ❌ A: No PreResponse hook exists in Claude Code
+- ❌ B standalone: Ignores D2-Q8's soft tier requirement
+- ❌ D standalone: Cannot implement BMAD's 5-step decision protocol
+
+**Architecture:**
+- C (Multi-Point) = WHERE: PreToolUse (hard/blocking), PostToolUse (soft/audit), Instructional (soft/template)
+- E (Programmable) = HOW: BMAD 5-step protocol with decision trees and conditional logic
+
+**Implementation:** ~150-200 LOC net new, 90% reuse of gate-function.md (326 LOC), ~$4,500 3-year TCO
+
+**Analogy:** Airport security with multiple checkpoints - TSA (PreToolUse) can DENY boarding, Gate Agent (PostToolUse) can FLAG but not deny, Flight Attendant (Instructional) provides guidance. Each uses programmable screening logic.
+
+**Decided:** 2025-12-12
+
+---
+
 ## Resume Instructions
 
-**Next session:** Read this file, continue from first PENDING question.
-**Methodology:** BMad Master facilitates, President decides each question.
-**After completion:** Update ARCHITECTURAL-DECISIONS.md with D8 decision.
+**Status:** ✅ D8 COMPLETE! All 15/15 questions DECIDED.
+**Next:** Update ARCHITECTURAL-DECISIONS.md with D8 summary.
+**Methodology:** BMad Master facilitated, President decided each question.

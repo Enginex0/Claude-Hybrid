@@ -1,7 +1,7 @@
 # D9: Path Variables & File Structure - Question Set
 
 **Decision:** How does Claude-Hybrid manage path variables and file structure?
-**Status:** COMPLETE (16/16 DECIDED - 100%) 🎉
+**Status:** ✅ COMPLETE (19/19 DECIDED)
 **Generated:** 2025-12-10 (Session X)
 **Updated:** 2025-12-11 - Removed 5 redundant questions (previously 20, now 15)
 **Sources:** Personal BMAD architecture (BMAD-PERSONAL-ARCHITECTURE.md), BMAD Method configuration (09-CONFIGURATION.md)
@@ -42,6 +42,9 @@ The following questions were removed due to overlap with prior D2-D5 decisions:
 | Q14 | **DECIDED** | Option A: No Placeholders (lazy = never empty) |
 | Q15 | **DECIDED** | Option A: Reference-Only (Store paths, load on-demand via Read tool) |
 | Q16 | **DECIDED** | Option D: Layered Styles (System + User + Project cascade) |
+| Q17 | **DECIDED** | Option E: Hybrid (Strict for critical, Flexible for exploratory) |
+| Q18 | **DECIDED** | Option B: Extended Mapping (Base + Cross-Phase Validation) |
+| Q19 | **DECIDED** | Option E: Multi-Method (Docs + Checklists + Approval for Critical, Automated for All) |
 
 ---
 
@@ -211,8 +214,142 @@ Options:
 
 ---
 
+## Questions: Gap Resolution - BMAD 4-Phase Workflow (Q17-Q19)
+
+### Q17: How should Claude-Hybrid implement BMAD's 4-Phase Workflow Lifecycle?
+**Context:** CORE-VISION.md:25 requires "4-Phase Lifecycle (Analysis → Planning → Solutioning → Implementation)". D2-Q15's "4-Phase Lifecycle" is HOOK phases (SessionStart/PreToolUse/PreCompact/Stop), NOT this workflow lifecycle.
+
+Options:
+- A: Strict Sequential - Phases must complete in order, no skipping
+- B: Flexible Sequential - Default order, allow skipping with explicit override
+- C: Parallel Phases - Some phases can run in parallel (e.g., Planning + early Solutioning)
+- D: Iterative Phases - Allow returning to earlier phases based on findings
+- E: Hybrid - Strict for critical workflows, flexible for exploratory
+
+**CORE-VISION Reference:** Line 25
+
+**✅ DECIDED: Option E - Hybrid (Strict for Critical, Flexible for Exploratory)**
+
+**Decision Details:**
+- **Confidence:** 8.3/10
+- **Specialist Consensus:** 3/3 UNANIMOUS (Tech Lead 9/10, Research 8/10, Coder 8/10)
+- **Binding Constraints Satisfied:** D2-Q15 (4-phase hook lifecycle), D2-Q16 (hybrid enforcement), D5-Q1 (strict sequential), D5-Q3 (frontmatter SSOT)
+- **Industry Validation:** 63-78% success rate with hybrid models vs 24% for ad-hoc; 53-61% enterprise adoption
+- **Implementation:** ~435-650 LOC total, 55-81% reuse, ~80-290 net new LOC
+- **3-Year TCO:** ~$6,000-8,000
+
+**Key Decisions:**
+- Phase 1 (Analysis): OPTIONAL - can skip for brownfield projects
+- Phase 2 (Planning): REQUIRED - mandatory for all workflows
+- Phase 3 (Solutioning): TRACK-DEPENDENT - Quick Flow skips, BMad Method requires
+- Phase 4 (Implementation): REQUIRED - full validation
+- Iteration: Via correct-course workflow (structured return, not ad-hoc jumping)
+- Progressive Proof: L1 → L1-L2 → L1-L3 → L1-L4
+
+**Analogy (Highway System):** Phase 1 = scenic route (optional), Phase 2 = toll plaza (mandatory), Phase 3 = HOV lane (track-dependent), Phase 4 = destination (required). correct-course = U-turn ramp.
+
+**Decided:** 2025-12-12, Session 81
+
+---
+
+### Q18: How should BMAD phases map to MPM validation layers?
+**Context:** CORE-VISION.md:81-90 proposes explicit mapping:
+- Phase 1 (Analysis) → Layer 1 (Schema Validation)
+- Phase 2 (Planning) → Layer 2 (Business Rule Validation)
+- Phase 3 (Solutioning) → Layer 3 (Execution Gates)
+- Phase 4 (Implementation) → Layer 4 (Runtime Monitoring)
+
+Options:
+- A: Direct Mapping - Exactly as CORE-VISION proposes
+- B: Extended Mapping - Base mapping + additional cross-phase validation
+- C: Configurable Mapping - Project-level configuration of phase-layer relationships
+- D: Adaptive Mapping - Mapping adjusts based on project complexity (L0-L4)
+
+**CORE-VISION Reference:** Lines 81-90
+
+**✅ DECIDED: Option B - Extended Mapping (Base + Cross-Phase Validation)**
+
+**Decision Details:**
+- **Confidence:** 9/10
+- **Specialist Consensus:** 3/3 UNANIMOUS (Tech Lead 9/10, Research 9/10, Coder 9/10)
+- **Binding Constraints Satisfied:** D2-Q15, D2-Q16, D2-Q21/Q22 (progressive proof), D5-Q1, D5-Q3, D10-Q1 (universal executor), D10-Q13 (hybrid validation) - ALL 7 CONSTRAINTS
+- **Industry Validation:** GitLab CI, AWS Step Functions, Dagster all use progressive cumulative validation
+- **Implementation:** ~505-850 LOC total, 55-88% reuse, ~60-400 net new LOC
+- **3-Year TCO:** ~$6,000-9,000
+
+**Extended Mapping Pattern (Cumulative):**
+- Phase 1 (Analysis) → L1 only (schema validation)
+- Phase 2 (Planning) → L1 + L2 (schema + business rules)
+- Phase 3 (Solutioning) → L1 + L2 + L3 (+ execution gates)
+- Phase 4 (Implementation) → L1 + L2 + L3 + L4 (all layers)
+
+**Cross-Phase Validation:**
+- Before Phase 3: Validate Phase 2 outputs
+- Before Phase 4: Validate Phase 2 AND Phase 3 outputs
+- Regression checks: Later phases validate earlier phase artifacts
+
+**Analogy (Airport Security):** L1 = ticket check (structure exists), L2 = ID verification (policy compliance), L3 = security scan (gate clearance), L4 = in-flight monitoring (runtime). Extended adds cross-checkpoint verification.
+
+**Decided:** 2025-12-12, Session 81
+
+---
+
+### Q19: What artifacts constitute "proof" for each phase transition?
+**Context:** CORE-VISION.md:64,75 requires "Phased development with proof requirements" and "No phase proceeds without proof".
+
+Options:
+- A: Document-Based Proof:
+  - Analysis→Planning: Validated requirements.md
+  - Planning→Solutioning: Validated architecture.md
+  - Solutioning→Implementation: Validated tech-spec.md
+  - Implementation→Complete: Passing tests + code review
+- B: Checklist-Based Proof - Each phase has completion checklist
+- C: Approval-Based Proof - Human approval required at each gate
+- D: Automated Proof - Automated validation scripts at each gate
+- E: Multi-Method - Documents + checklists + approval for critical, automated for others
+
+**CORE-VISION Reference:** Lines 64, 75
+
+**✅ DECIDED: Option E - Multi-Method Proof**
+
+**Decision Details:**
+- **Confidence:** 8.5/10
+- **Specialist Consensus:** 3/3 UNANIMOUS (Tech Lead 9/10, Research 8/10, Engineer 8.5/10)
+- **Binding Constraints Satisfied:** D9-Q17 (Hybrid), D9-Q18 (Extended Mapping), D2-Q22 (Progressive Proof), D10-Q13 (Hybrid Validation), CORE-VISION:64,75
+- **Industry Validation:** GitLab CI, GitHub Actions, AWS Step Functions, Temporal, Dagster all use multi-method proofs
+- **Implementation:** ~440 LOC total, 65% reuse, ~154 net new LOC
+- **3-Year TCO:** ~$7,000-10,000
+
+**Proof Matrix by Phase Transition:**
+
+| Phase Transition | Document | Checklist | Approval | Automated |
+|------------------|----------|-----------|----------|-----------|
+| Analysis → Planning | product-brief.md | - | - | L1 |
+| Planning → Solutioning | PRD.md | prd/checklist.md | - | L1+L2 |
+| Solutioning → Implementation | architecture.md | architecture/checklist.md | CRITICAL only | L1+L2+L3 |
+| Implementation → Complete | tech-spec.md | code-review/checklist.md | CRITICAL only | L1+L2+L3+L4 |
+
+**Key Insight:**
+- CRITICAL workflows: Full multi-method (Documents + Checklists + Approval + Automated)
+- EXPLORATORY workflows: Automated validation primarily (lighter touch)
+- Aligns with D9-Q17's Hybrid decision and D9-Q18's Progressive L1→L4 mapping
+
+**Analogy (Commercial Flight Clearance):** Phase transitions are like aircraft clearance - routine flights (exploratory) have fewer manual checks, international flights (critical) require more human verification. Automated systems (radar, transponder) run at ALL levels.
+
+**Decided:** 2025-12-12, Session 82
+
+---
+
 ## Resume Instructions
 
-**Next session:** Read this file, continue from first PENDING question.
-**Methodology:** BMad Master facilitates, President decides each question.
-**After completion:** Update ARCHITECTURAL-DECISIONS.md with D9 decision.
+**Status:** ✅ D9 COMPLETE - All 19 questions decided.
+**Methodology:** BMad Master facilitated, President decided each question.
+**Next:** Update ARCHITECTURAL-DECISIONS.md with D9 decision.
+
+**Session 82 (2025-12-12) Summary:**
+- D9-Q19: Option E (Multi-Method Proof) - 3/3 UNANIMOUS
+- D9 100% COMPLETE - Final question of Claude-Hybrid architectural decisions
+
+**Session 81 (2025-12-12) Summary:**
+- D9-Q17: Option E (Hybrid) - 3/3 UNANIMOUS
+- D9-Q18: Option B (Extended Mapping) - 3/3 UNANIMOUS

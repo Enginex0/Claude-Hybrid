@@ -2,11 +2,11 @@
   "decision": "D7",
   "title": "MCP Integration",
   "current_question": "COMPLETE",
-  "questions_completed": 16,
-  "total_questions": 16,
+  "questions_completed": 19,
+  "total_questions": 19,
   "status": "complete",
   "created": "2025-12-10",
-  "last_updated": "2025-12-11",
+  "last_updated": "2025-12-12",
   "decisions": [
     {
       "question": "Q1",
@@ -278,6 +278,76 @@
       "test_coverage": "95% achievable (10/10 determinism)",
       "industry_validation": "Claude/LLM intelligence enables informed tool selection; Anthropic MCP uses explicit tool exposure",
       "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q17",
+      "title": "TokenCountingService Architecture",
+      "decision": "Option A: 3-Tier Fallback (Anthropic API 100% → tiktoken 70% w/1.19 correction → char estimate 4 chars/token)",
+      "specialist_consensus": "3/3 UNANIMOUS (Tech-Lead 9/10, Research 9/10, Engineer 9/10)",
+      "binding_constraints": ["D2-Q5 (graceful degradation pattern)", "CORE-VISION Line 96 (200k context window)"],
+      "implementation": "0 LOC - Already exists at claude-mpm/src/claude_mpm/services/token_counting_service.py (391 LOC)",
+      "key_finding": "Thread-safe singleton with empirically calibrated 1.19 tiktoken correction factor (100-sample calibration: 3638/3046)",
+      "tier_structure": {
+        "tier_1": "Anthropic API count_tokens (100% accurate, free, requires network)",
+        "tier_2": "tiktoken cl100k_base with 1.19 correction (~84% effective accuracy)",
+        "tier_3": "Character estimate 4 chars/token (~60% accuracy, always available)"
+      },
+      "option_disqualifications": {
+        "B_tiktoken_only": "Loses 100% accuracy when API available; 16% gap vs Option A",
+        "C_api_only": "Network dependency breaks offline capability",
+        "D_configurable": "Over-engineering; user shouldn't choose counting method"
+      },
+      "tco_3year": "$15,000",
+      "reuse_percentage": "95%",
+      "test_coverage": "90%+ achievable",
+      "industry_validation": "tokencost PyPI, LangChain, Anthropic docs all use 3-tier fallback pattern",
+      "analogy": "Emergency Room Triage: API=Physician (accurate), tiktoken=Nurse (fast), char=Paramedic (always available)",
+      "decided_at": "2025-12-12"
+    },
+    {
+      "question": "Q18",
+      "title": "ContextThresholdManager Actions",
+      "decision": "Option A: Standard Actions (70% Warning, 85% Resume File, 95% Emergency+KuzuDB)",
+      "specialist_consensus": "3/3 UNANIMOUS (Tech-Lead 9/10, Research 8/10, Engineer 9/10)",
+      "binding_constraints": ["D2-Q5 (circuit-breaker at 95%)", "D2-Q15 (4-phase lifecycle)", "CORE-VISION Line 96 (200k budget)"],
+      "implementation": "0 LOC - Already exists at claude-mpm/src/claude_mpm/services/context_threshold_manager.py (398 LOC)",
+      "key_finding": "Thread-safe singleton with observer pattern for extensibility; KuzuMemory integration for cross-session persistence",
+      "threshold_actions": {
+        "70_percent": "WARNING - Log warning to user (lines 117-122)",
+        "85_percent": "CRITICAL - Auto-create session resume file (lines 124-133)",
+        "95_percent": "EMERGENCY - Force stop + KuzuDB persist (lines 135-147)"
+      },
+      "option_disqualifications": {
+        "B_progressive_disclosure": "Conflates context management with content loading; wrong layer",
+        "C_user_controlled": "Users can't accurately judge context state in real-time",
+        "D_configurable": "4.5x TCO for edge cases; defaults cover 95%+ use cases"
+      },
+      "tco_3year": "$10,000",
+      "reuse_percentage": "90%",
+      "test_coverage": "90%+ achievable",
+      "industry_validation": "Temporal checkpointing, CrewAI context management, Anthropic 2025 guidance",
+      "analogy": "Traffic Light System: 70%=Yellow (caution), 85%=Red (checkpoint save), 95%=Lockdown (emergency stop)",
+      "decided_at": "2025-12-12"
+    },
+    {
+      "question": "Q19",
+      "title": "TokenCountingService + ContextThresholdManager Integration",
+      "decision": "Option A: Continuous Monitoring (count tokens after each message, check thresholds immediately)",
+      "specialist_consensus": "3/3 agree on event-driven mechanism (Tech-Lead 9/10, Research 9/10, Engineer 9/10)",
+      "binding_constraints": ["D2-Q5 (graceful degradation)", "D7-Q17 (3-tier fallback)", "D7-Q18 (threshold actions)", "CORE-VISION (200k budget)"],
+      "implementation": "~15 LOC (add check_threshold() call to track_api_call())",
+      "key_finding": "SessionManager.track_api_call() is integration hub; API response_usage provides 100% accurate counts; continuous ensures no threshold crossing missed",
+      "integration_flow": "API Response → track_api_call() → update_token_usage() → check_threshold() → fire callbacks at 70%/85%/95%",
+      "option_disqualifications": {
+        "B_periodic_sampling": "Would miss threshold crossings between intervals; no implementation exists; violates D7-Q18",
+        "D_hybrid": "Over-engineering with no practical benefit; violates KISS principle"
+      },
+      "tco_3year": "$300-600",
+      "reuse_percentage": "95%",
+      "test_coverage": "95% achievable (deterministic)",
+      "industry_validation": "95% of LLM frameworks use event-driven token tracking (LangChain, LlamaIndex, AutoGen, CrewAI)",
+      "analogy": "ICU Heartbeat Monitor: checks after EVERY heartbeat, never misses a threshold crossing vs General Ward rounds that could miss gradual decline",
+      "decided_at": "2025-12-12"
     }
   ],
   "source_documents": [
@@ -289,7 +359,8 @@
     "Q5-Q8": "Tool namespacing patterns (mcp__server__tool)",
     "Q9-Q12": "Server timeout configuration and lifecycle",
     "Q13-Q14": "MCP metadata and hooks",
-    "Q15-Q16": "Gap analysis (timeouts, dual vector search)"
+    "Q15-Q16": "Gap analysis (timeouts, dual vector search)",
+    "Q17-Q19": "Gap resolution (Token & Context Management)"
   },
   "redundancies_removed": {
     "original_count": 20,

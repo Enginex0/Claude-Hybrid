@@ -1,9 +1,46 @@
 # D8 Session Roundup
 
 **Decision Area:** Plugin & Agent Format
-**Status:** ✅ COMPLETE
-**Questions:** 14/14 complete (100%)
-**Last Updated:** 2025-12-11
+**Status:** ✅ COMPLETE (with Gap Question Q15 Resolved)
+**Questions:** 15/15 complete (100%)
+**Last Updated:** 2025-12-12
+
+---
+
+## Session 8: 2025-12-12 - Gap Question Q15 DECIDED! D8 TRULY COMPLETE! 🎉🎉🎉
+
+### What We Accomplished
+
+1. **Sequential Thinking Memory Refresh** (12 thoughts) - Full context restoration from session files
+
+2. **D8-Q15 DECIDED: Option C+E - Multi-Point Programmable Gates**
+   - **5-STEP PATTERN EXECUTED:**
+     - Step 1: Parallel Explore deep-dive (DOCS_FIRST_THEN_CODE) - Claude Code hooks (06-HOOK-SYSTEM.md), BMAD gate-function.md, D2 binding constraints
+     - Step 2: Report findings (Only PreToolUse/UserPromptSubmit can BLOCK, BMAD gates are programmable 5-step protocol)
+     - Step 3: Ultrathink synthesis (3 specialists: Tech Lead 9/10, Research 9/10, Engineer 9/10 - unanimous on E, 2/3 for C+E)
+     - Step 4: BMad Master recommendation with "Airport Security" analogy
+     - Step 5: President approved
+
+   - **CRITICAL FINDING:** Options C (WHERE) and E (HOW) are ORTHOGONAL dimensions
+     - C = Multi-Point timing (PreToolUse hard, PostToolUse soft, Instructional soft)
+     - E = Programmable mechanism (BMAD 5-step: IDENTIFY→RUN→READ→VERIFY→CLAIM)
+   - **Specialist Consensus:** 3/3 unanimous on E (Programmable), 2/3 favor C+E hybrid
+   - **Binding Constraints Satisfied:**
+     - D2-Q15: PreToolUse phase for hard enforcement ✅
+     - D2-Q16: Hybrid structural+runtime ✅
+     - D2-Q8: Two-tier hard/soft enforcement ✅
+     - D2-Q12: permissionDecisionReason schema ✅
+   - **Eliminated Options:**
+     - ❌ A: No PreResponse hook exists in Claude Code
+     - ❌ B standalone: Ignores D2-Q8's soft tier requirement
+     - ❌ D standalone: Cannot implement BMAD's 5-step decision protocol
+   - **Industry Validation:** 7/7 frameworks use multi-point + programmable (LangGraph, CrewAI, AutoGen, OpenAI, Semantic Kernel, NeMo, Guardrails AI)
+   - **Implementation:** ~150-200 LOC net new, 90% reuse of gate-function.md (326 LOC), ~$4,500 3-year TCO
+
+3. **D8 TRULY COMPLETE!** All 15 Plugin & Agent Format questions decided (original 14 + gap Q15)
+   - NO DEVIATIONS THIS SESSION - 5-step pattern compliance maintained
+   - Parallel Explore agents deployed for Claude Code hooks, BMAD gates, D2 constraints
+   - Ultrathink deployed via /ultrathink:ultrathink with 3 specialists (tech-lead, research, engineer)
 
 ---
 
@@ -311,6 +348,7 @@
 | Q12: Plugin namespacing in subagent_type | **DECIDED** | Option B: Optional namespacing (plugin:agent when ambiguous) |
 | Q13: Agent sidecar knowledge directories | **DECIDED** | Option B: Optional sidecar (static only, D5-Q20 compliant) |
 | Q14: Triggers array schema | **DECIDED** | Option D: Hybrid backward-compatible (ALREADY IMPLEMENTED) |
+| Q15: Hook-based gate mechanism | **DECIDED** | Option C+E: Multi-Point Programmable Gates |
 
 ---
 
@@ -326,6 +364,10 @@
 | D8-Q6 | Tiered permission modes | Q7 operates within default/elevated/bypass framework |
 | D2-Q12 | permissionDecisionReason required | Q8 per-op audit provides required metadata |
 | SessionStart Hook | Non-blocking constraint | Q8 Option D (confirmation) NOT IMPLEMENTABLE |
+| D2-Q15 | PreToolUse phase for hard enforcement | Q15 hard gates at PreToolUse |
+| D2-Q16 | Hybrid structural+runtime | Q15 multi-point + programmable |
+| D2-Q8 | Two-tier hard/soft | Q15 PreToolUse (hard) + instructional (soft) |
+| D2-Q12 | permissionDecisionReason schema | Q15 programmable gates generate reasons |
 
 ---
 
@@ -333,16 +375,16 @@
 
 | File | Purpose |
 |------|---------|
-| `D8-QUESTIONS.md` | D8 question set (14 questions) |
+| `D8-QUESTIONS.md` | D8 question set (15 questions) |
 | `state.json` | JSON tracking state |
 | `progress.txt` | Decision log with timestamps |
 | This file | Session continuity |
 
 ---
 
-## D8 COMPLETE - No Further Sessions Required
+## D8 TRULY COMPLETE - No Further Sessions Required
 
-**D8 Plugin & Agent Format is now COMPLETE with all 14 decisions made.**
+**D8 Plugin & Agent Format is now COMPLETE with all 15 decisions made (original 14 + gap Q15).**
 
 This workspace can be archived or referenced for future implementation work.
 
@@ -366,7 +408,8 @@ This workspace can be archived or referenced for future implementation work.
 | Subagent Namespacing | Optional (plugin:agent) | 0 LOC (native) |
 | Sidecar Directories | Optional (static only) | ~80 LOC |
 | Triggers Schema | Hybrid (IMPLEMENTED) | 0 LOC |
+| Gate Mechanism | Multi-Point Programmable | ~150-200 LOC |
 
-**Total New LOC:** ~1,275 LOC
+**Total New LOC:** ~1,425-1,475 LOC
 **Already Implemented:** ~0 LOC (triggers, namespacing, identifier)
-**Estimated 3-Year TCO:** ~$35K
+**Estimated 3-Year TCO:** ~$39.5K

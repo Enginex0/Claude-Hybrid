@@ -1,7 +1,7 @@
 # D4: State Tracking - Question Set
 
 **Decision:** How does Claude-Hybrid track workflow and agent state across sessions?
-**Status:** ✅ COMPLETE (20/20 DECIDED)
+**Status:** ✅ COMPLETE (22/22 DECIDED)
 **Generated:** 2025-12-09 (Updated 2025-12-10)
 **Sources:** Claude-MPM analysis documents, BMAD workflow patterns, production workflow systems
 
@@ -44,6 +44,8 @@ The following principles were established through D4 decision-making:
 | Q18 | **DECIDED** | Option A: Frontmatter in Workflow Files (BMAD Level 4) |
 | Q19 | **DECIDED** | Option A: SHA256 hash comparison using files-manifest.csv |
 | Q20 | **DECIDED** | Option A: Static configuration only (no workflow state) |
+| Q21 | **DECIDED** | Option E: Tiered Storage (Critical continuous, others at milestones) |
+| Q22 | **DECIDED** | Option E: Comprehensive (Learnings + Knowledge Graph + Summaries + Decisions) |
 
 ---
 
@@ -302,8 +304,67 @@ Options:
 
 ---
 
-## Resume Instructions
+## Questions: Gap Resolution - KuzuDB Memory Grounding (Q21-Q22)
 
-**Next session:** All questions DECIDED. Update ARCHITECTURAL-DECISIONS.md with D4 decision summary.
-**Methodology:** BMad Master facilitates, President decides each question.
-**After completion:** Proceed to next decision dimension (D5, D6, D7, etc.).
+### Q21: How should Claude-Hybrid integrate with KuzuDB for memory grounding?
+**Context:** CORE-VISION.md:38,55 requires "KuzuDB memory grounding". D4 decision "KuzuMemory stays independent" addresses autonomy but not integration strategy.
+
+Options:
+- A: Session Bookends - Store at session end, recall at session start
+- B: Continuous Sync - Real-time sync of key decisions/learnings to KuzuDB
+- C: Milestone-Based - Store at workflow phase completions (**DISQUALIFIED** - violates D4-Q6 one-way sync)
+- D: On-Demand - Store/recall only when explicitly requested
+- E: Tiered Storage - Critical items continuous, others at milestones (**DECIDED**)
+
+**CORE-VISION Reference:** Lines 38, 55
+
+**Decision:** Option E: Tiered Storage with A+B Hybrid Semantics. ~360-850 LOC, 70% reuse from claude-mpm, LOW risk.
+
+**Rationale:** 2/3 specialists favor E (Architect 9/10, Research 8.5/10), 1/3 favors B (Coder 8/10) - functionally equivalent patterns. 61% industry adoption (11/18 frameworks use tiered/hybrid). Claude-MPM implements A+B hybrid via 3 hooks: SubmitHook recalls at start, PostDelegationHook stores after each response. Journal & Filing Cabinet Analogy: Daily journal (continuous tier) for critical thoughts + Filing cabinet (milestone tier) for organized phase summaries. Option C DISQUALIFIED - violates D4-Q6 one-way sync (requires reading frontmatter for phase detection).
+
+**Specialist Consensus:** 2/3 for E (Architect, Research), 1/3 for B (Coder) - B is subset of E
+
+**Binding Constraints Satisfied:** D4-Q6 (frontmatter PRIMARY), D4-Q8 (frontmatter SSOT), D4-Q4 (tiered enforcement)
+
+**Implementation Tiers:**
+- Tier 1 (Continuous): Architectural decisions, errors, security learnings, user preferences - PostDelegationHook
+- Tier 2 (Milestone): General observations, code patterns, documentation - at phase completions
+- Tier 3 (Session): Recall at start (SubmitHook), consolidation at end
+
+---
+
+### Q22: What data should Claude-Hybrid store in KuzuDB for memory grounding?
+**Context:** Need to specify WHAT is stored in KuzuDB vs frontmatter. Frontmatter = workflow state (D4 SSOT). KuzuDB = ?
+
+Options:
+- A: Cross-Session Learnings - Patterns, preferences, past decisions
+- B: Project Knowledge Graph - Entities, relationships, dependencies
+- C: Conversation Summaries - Key points from past sessions
+- D: Decision History - All architectural decisions with rationale
+- E: Comprehensive - Learnings + knowledge graph + summaries + decisions (**DECIDED**)
+
+**Related Decision:** D4-Q21 (Tiered Storage defines HOW, Q22 defines WHAT)
+
+**Decision:** Option E: Comprehensive (Learnings + Knowledge Graph + Summaries + Decisions). ~1,200-1,450 LOC, 85% reuse from claude-mpm, LOW risk.
+
+**Rationale:** 3/3 specialist consensus (Tech Lead 9/10, Research 9.2/10, Engineer 8/10). 85% industry adoption for comprehensive - 0% success rate for single-category approaches. Personal Library Analogy: A scholar needs catalog (B) + margin notes (A) + chapter summaries (C) + decision journal (D) - without all four, constantly re-reads books, forgets insights, repeats mistakes. Claude-MPM already implements multi-category (6 memory types + 4 relationships). KuzuDB optimal fit: graph + vector + temporal capabilities.
+
+**Specialist Consensus:** 3/3 UNANIMOUS for E (Tech Lead 9/10, Research 9.2/10, Engineer 8/10)
+
+**Binding Constraints Satisfied:** D4-Q6 (frontmatter PRIMARY), D4-Q8 (frontmatter SSOT), D4-Q21 (tiered storage)
+
+**Tier Mapping (per Q21):**
+- Tier 1 (Critical/Continuous): Learnings (A) + Decisions (D) - PostDelegationHook
+- Tier 2 (Milestone): Knowledge Graph (B) - at phase completions
+- Tier 3 (Session): Summaries (C) - SubmitHook recall, session-end consolidation
+
+---
+
+## D4 COMPLETE! 🎉
+
+**All 22 questions decided.** D4 (State Tracking) establishes:
+- Frontmatter = SSOT for workflow state
+- KuzuDB = Comprehensive cross-session memory (learnings + knowledge graph + summaries + decisions)
+- Tiered storage aligns Q21 (HOW) with Q22 (WHAT)
+
+**Next:** Proceed to remaining D* questions (D3, D7, D8, D9, D10) or implementation phase.

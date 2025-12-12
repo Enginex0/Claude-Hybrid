@@ -1,12 +1,12 @@
 {
   "decision": "D3",
   "title": "Multi-Agent Strategy",
-  "current_question": 20,
-  "questions_completed": 20,
-  "total_questions": 20,
+  "current_question": 23,
+  "questions_completed": 23,
+  "total_questions": 23,
   "status": "complete",
   "created": "2025-12-08",
-  "last_updated": "2025-12-09",
+  "last_updated": "2025-12-12",
   "decisions": [
     {
       "question": "Q1",
@@ -243,6 +243,52 @@
       "tco_estimate": "$0",
       "docs_first_then_code_followed": true,
       "decided_at": "2025-12-09"
+    },
+    {
+      "question": "Q21",
+      "title": "Scale-Adaptive Project Complexity (L0-L4)",
+      "decision": "Option C+E (Synthesized): Hybrid Track Selection with Path Foundation (Analyze description → Present tracks educationally → Recommend → USER CHOOSES → Load path file)",
+      "rationale": "BMAD has evolved from L0-L4 (legacy) to 3-Track system (Quick Flow, BMad Method, Enterprise Method). System analyzes project description for complexity keywords, presents all tracks with educational context and trade-offs, recommends appropriate track, but USER MAKES FINAL DECISION. Selection loads corresponding path file (method-*.yaml or enterprise-*.yaml).",
+      "specialist_consensus": "3/3 favor Hybrid pattern (Tech-Lead 9/10 for Option F, Research 9/10 for Option C, Coder 9/10 for Option E+A) - all converge on same fundamental pattern: Analyze → Recommend → USER CHOOSES → Load path",
+      "industry_validation": "7/7 workflow systems (LangGraph, CrewAI, Temporal, Prefect, GitHub Actions, Airflow, Dagster) use explicit user choice, NOT auto-detection. GitHub Copilot Auto Mode validates hybrid at scale. Option B (Auto-Detection) rated 3/10 by all specialists - anti-pattern.",
+      "binding_constraints": ["D3-Q7 (4-tier hierarchy: track selection activates appropriate tiers)", "D3-Q15 (all agents available by default, track scopes primary agents)"],
+      "loc_estimate": "~180-250 LOC net new",
+      "bmad_reuse": "85-90%",
+      "tco_estimate": "$4K-6K 3-year",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-12"
+    },
+    {
+      "question": "Q22",
+      "title": "PM Enhanced Prompts for Subagents",
+      "decision": "Option F (A+C+E): Template-Validated Hook Enforcement (PreToolUse hook validates prompt structure + quality scoring, warning mode)",
+      "rationale": "PreToolUse Hook validates Task tool prompts before execution. Required sections: context, task, constraints, expected_output. Quality scoring (0-10) with warning mode. Template enforcement prevents vague prompts that lead to subagent confusion.",
+      "specialist_consensus": "3/3 favor hook-based validation (Tech-Lead 9/10, Research 9/10, Engineer 8/10)",
+      "industry_validation": "LangGraph Supervisor, CrewAI YAML config, AutoGen StructuredMessage, Claude strict mode. Instructional guidance alone fails 50-90% of attacks - anti-pattern rejected.",
+      "anti_pattern_rejected": "Option D alone (Instructional Guidance) - fails 50-90% of sophisticated attacks",
+      "binding_constraints": ["D3-Q6 (Tiered Invocation)", "D3-Q8 (message-first)", "D3-Q18 (Task tool delegation)"],
+      "loc_estimate": "~100-150 LOC net new",
+      "bmad_reuse": "70%",
+      "mpm_reuse": "60%",
+      "tco_estimate": "$15K-20K 3-year",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-12"
+    },
+    {
+      "question": "Q23",
+      "title": "Subagent Evidence-Based Reports",
+      "decision": "Option F (A+B+E): Citation-Required Schema with Evidence Section (PostToolUse validates citations + evidence markers, schema enforcement)",
+      "rationale": "PostToolUse Hook validates subagent responses against evidence requirements. Citation format: [Source: filepath#Section] or file:line mandatory. Evidence section marker required: ## Evidence or **Evidence:**. Schema enforcement rejects non-compliant responses (warning mode).",
+      "specialist_consensus": "3/3 favor citation + schema enforcement (Tech-Lead 9/10, Research 8/10, Engineer 8/10)",
+      "industry_validation": "NVIDIA 4-category verification (Supported/Partial/Unsupported/Uncertain), LLMware evidence tools, Zero-Assumption Protocol (90 min for 916 refs).",
+      "anti_pattern_rejected": "Option D alone (Confidence-only) - unreliable without grounding",
+      "binding_constraints": ["D3-Q8 (message-first output)", "D5-Layer 1 (CONTROL layer 99.9% reliable)", "CORE-VISION (Zero hallucination)"],
+      "loc_estimate": "~80-120 LOC net new",
+      "bmad_reuse": "60%",
+      "mpm_reuse": "75%",
+      "tco_estimate": "$12K-18K 3-year",
+      "docs_first_then_code_followed": true,
+      "decided_at": "2025-12-12"
     }
   ],
   "question_groups": {
@@ -265,6 +311,11 @@
       "questions": [16, 17, 18, 19, 20],
       "topic": "Agent Integration and Lifecycle",
       "completed": 5
+    },
+    "gap_resolution_questions": {
+      "questions": [21, 22, 23],
+      "topic": "Gap Resolution - Scale Adaptation & Quality Enforcement",
+      "completed": 3
     }
   },
   "sources": [

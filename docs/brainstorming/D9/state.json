@@ -2,11 +2,11 @@
   "decision": "D9",
   "title": "Path Variables & File Structure",
   "current_question": "COMPLETE",
-  "questions_completed": 16,
-  "total_questions": 16,
+  "questions_completed": 19,
+  "total_questions": 19,
   "status": "complete",
   "created": "2025-12-10",
-  "last_updated": "2025-12-11",
+  "last_updated": "2025-12-12",
   "decisions": [
     {
       "question": "Q1",
@@ -246,6 +246,57 @@
       "key_insight": "Paint Color Swatch analogy - manufacturer provides base colors (System), you add favorites at home (User), and create project-specific swatches (Project).",
       "decided_at": "2025-12-11T23:59:00Z",
       "session": 80
+    },
+    {
+      "question": "Q17",
+      "topic": "BMAD 4-Phase Workflow Lifecycle Implementation",
+      "decision": "Option E: Hybrid (Strict for Critical, Flexible for Exploratory)",
+      "description": "Phase 1 (Analysis) OPTIONAL, Phase 2 (Planning) REQUIRED, Phase 3 (Solutioning) TRACK-DEPENDENT, Phase 4 (Implementation) REQUIRED. Iteration via correct-course workflow. Progressive proof: L1→L1-L2→L1-L3→L1-L4.",
+      "confidence": "8.3/10",
+      "specialist_consensus": "3/3 UNANIMOUS (Tech Lead 9/10, Research 8/10, Coder 8/10)",
+      "binding_constraint": "D2-Q15 (4-phase hook lifecycle), D2-Q16 (hybrid enforcement), D5-Q1 (strict sequential), D5-Q3 (frontmatter SSOT)",
+      "loc_estimate": "435-650 LOC (~80-290 net new)",
+      "tco_3year": "$6,000-8,000",
+      "reuse_percentage": "55-81%",
+      "test_cases": "28",
+      "industry_validation": "63-78% success rate with hybrid models vs 24% for ad-hoc; 53-61% enterprise adoption",
+      "key_insight": "Highway System analogy - Phase 1=scenic route (optional), Phase 2=toll plaza (mandatory), Phase 3=HOV lane (track-dependent), Phase 4=destination (required). correct-course=U-turn ramp.",
+      "decided_at": "2025-12-12T10:00:00Z",
+      "session": 81
+    },
+    {
+      "question": "Q18",
+      "topic": "Phase-to-Layer Mapping Implementation",
+      "decision": "Option B: Extended Mapping (Base + Cross-Phase Validation)",
+      "description": "Progressive cumulative validation: Phase 1→L1, Phase 2→L1+L2, Phase 3→L1+L2+L3, Phase 4→L1+L2+L3+L4. Cross-phase validation checks earlier phase outputs before proceeding.",
+      "confidence": "9/10",
+      "specialist_consensus": "3/3 UNANIMOUS (Tech Lead 9/10, Research 9/10, Coder 9/10)",
+      "binding_constraint": "D2-Q15, D2-Q16, D2-Q21/Q22 (progressive proof), D5-Q1, D5-Q3, D10-Q1 (universal executor), D10-Q13 (hybrid validation) - ALL 7 CONSTRAINTS",
+      "loc_estimate": "505-850 LOC (~60-400 net new)",
+      "tco_3year": "$6,000-9,000",
+      "reuse_percentage": "55-88%",
+      "test_cases": "27",
+      "industry_validation": "GitLab CI, AWS Step Functions, Dagster all use progressive cumulative validation",
+      "key_insight": "Airport Security analogy - L1=ticket check (structure), L2=ID verification (policy), L3=security scan (gate), L4=in-flight monitoring (runtime). Extended adds cross-checkpoint verification.",
+      "decided_at": "2025-12-12T10:00:00Z",
+      "session": 81
+    },
+    {
+      "question": "Q19",
+      "topic": "Phase Transition Proof Requirements",
+      "decision": "Option E: Multi-Method Proof",
+      "description": "Documents + Checklists + Approval for CRITICAL workflows, Automated validation for ALL workflows. Proof varies by phase: Analysis→Planning (L1), Planning→Solutioning (L1+L2), Solutioning→Implementation (L1+L2+L3), Implementation→Complete (L1+L2+L3+L4).",
+      "confidence": "8.5/10",
+      "specialist_consensus": "3/3 UNANIMOUS (Tech Lead 9/10, Research 8/10, Engineer 8.5/10)",
+      "binding_constraint": "D9-Q17 (Hybrid), D9-Q18 (Extended Mapping), D2-Q22 (Progressive Proof), D10-Q13 (Hybrid Validation), CORE-VISION:64,75",
+      "loc_estimate": "~440 LOC total (~154 net new)",
+      "tco_3year": "$7,000-10,000",
+      "reuse_percentage": "65% from claude-mpm + BMAD",
+      "test_cases": "30-40",
+      "industry_validation": "GitLab CI, GitHub Actions, AWS Step Functions, Temporal, Dagster all use multi-method proofs",
+      "key_insight": "Commercial Flight Clearance analogy - routine flights (exploratory) have fewer manual checks, international flights (critical) require more human verification. Automated systems run at ALL levels.",
+      "decided_at": "2025-12-12T14:00:00Z",
+      "session": 82
     }
   ],
   "source_documents": [
@@ -257,7 +308,8 @@
     "Q4-Q7": "Complete file structure layout",
     "Q8-Q11": "Variable resolution engine",
     "Q12-Q14": "Auto-creation behavior",
-    "Q15-Q16": "Hybrid global/local model details"
+    "Q15-Q16": "Hybrid global/local model details",
+    "Q17-Q19": "Gap Resolution - BMAD 4-Phase Workflow Lifecycle"
   },
   "redundancies_removed": {
     "original_count": 20,

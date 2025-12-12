@@ -1,7 +1,7 @@
 # D3: Multi-Agent Strategy - Question Set
 
 **Decision:** How should Claude-Hybrid implement multi-agent collaboration and orchestration?
-**Status:** ✅ COMPLETE (20/20 DECIDED)
+**Status:** ✅ COMPLETE (23/23 DECIDED)
 **Generated:** 2025-12-08 (Updated 2025-12-09)
 **Sources:** bmad-analysis/10-PARTY-MODE.md, bmad-analysis/13-SUB-AGENTS-SYSTEM.md, bmad-analysis/04-AGENTS-SYSTEM.md, claude-mpm-complete-analysis/05-AGENTS-SKILLS.md
 
@@ -31,6 +31,9 @@
 | Q18 | **DECIDED** | Option E (Synthesized): Hierarchical Manifest + Direct Task Invocation (PM uses categorized manifest for discovery, Task tool for deterministic invocation, ~220 LOC net new, 90% reuse, $30K 3-year TCO) |
 | Q19 | **DECIDED** | Option E: Tiered Registry with Agent Scoping (B+D+A: Registry-based assignment + Project>User>System priority + agent_types filtering, ~55 LOC net new, 80% reuse, $11K 3-year TCO). FUTURE ENHANCEMENT: Option F (Progressive Disclosure per Anthropic pattern) planned for Phase 2. |
 | Q20 | **DECIDED** | Option D: Session Boundary Only (Claude Code native behavior - agents loaded at session start, new agents available next session. Workaround: /agents command for interactive creation. 0 LOC - already implemented by Claude Code) |
+| Q21 | **DECIDED** | Option C+E (Synthesized): Hybrid Track Selection with Path Foundation (Analyze → Present → Recommend → USER CHOOSES → Load path file) |
+| Q22 | **DECIDED** | Option F (A+C+E): Template-Validated Hook Enforcement (PreToolUse hook validates prompt structure + quality scoring, ~100-150 LOC) |
+| Q23 | **DECIDED** | Option F (A+B+E): Citation-Required Schema with Evidence Section (PostToolUse validates citations + evidence markers, ~80-120 LOC) |
 
 ---
 
@@ -237,8 +240,103 @@ Options:
 
 ---
 
+## Questions: Gap Resolution - Scale Adaptation (Q21)
+
+### Q21: How should Claude-Hybrid adapt behavior based on project complexity (L0-L4)?
+**Context:** CORE-VISION.md:27 specifies "Scale-adaptive intelligence (L0-L4)" from BMAD. This is PROJECT COMPLEXITY levels, NOT content loading (D5's L1/L2/L3).
+
+Scale Levels:
+- L0: Trivial (1 file, quick fix)
+- L1: Simple (few files, single feature)
+- L2: Moderate (module-level, multiple features)
+- L3: Complex (multi-module, architectural changes)
+- L4: Enterprise (monorepo, cross-team coordination)
+
+Options:
+- A: Manual Selection - User specifies project level at session start
+- B: Auto-Detection - System analyzes codebase to determine level
+- C: Hybrid Detection - Auto-detect with user override
+- D: Progressive Discovery - Start at L1, escalate as complexity revealed
+- E: Path-Based - Use existing path files (method-greenfield, enterprise-brownfield) to imply level
+
+**CORE-VISION Reference:** Line 27
+
+**✅ DECIDED (2025-12-12):** Option C+E (Synthesized): Hybrid Track Selection with Path Foundation
+
+**Decision Details:**
+- BMAD has EVOLVED from L0-L4 (legacy) to 3-Track system (Quick Flow, BMad Method, Enterprise Method)
+- Pattern: Analyze description → Present tracks educationally → Recommend → USER CHOOSES → Load path file
+- Track-to-Level Mapping: L0 = Quick Flow; L1-L2 = BMad Method; L3-L4 = Enterprise Method
+
+**Specialist Consensus:** 3/3 favor Hybrid pattern (Tech-Lead 9/10, Research 9/10, Coder 9/10)
+**Industry Validation:** 7/7 systems use explicit user choice (LangGraph, CrewAI, Temporal, Prefect, GitHub Actions, Airflow, Dagster); Option B (Auto-Detection) rated 3/10 - anti-pattern
+**Binding Constraints:** D3-Q7 (tier activation), D3-Q15 (defaults + scoping)
+**Implementation:** ~180-250 LOC, 85-90% BMAD reuse, $4K-6K 3-year TCO
+
+---
+
+## Questions: Subagent Quality Enforcement (Q22-Q23)
+
+### Q22: How should PM use enhanced prompts when deploying subagents?
+**Context:** When PM delegates to specialist agents via Task tool, prompts must be detailed and clear. Vague prompts lead to subagent confusion and poor results.
+
+Options:
+- A: Prompt Template Enforcement - PM must use structured prompt templates with required sections (context, task, constraints, expected output)
+- B: Minimum Token Threshold - Prompts must meet minimum token count (e.g., 100+ tokens) to ensure sufficient detail
+- C: Prompt Validation Hook - PreToolUse hook validates Task tool prompts against quality criteria
+- D: Instructional Guidance - PM_INSTRUCTIONS.md provides prompt guidelines, relies on LLM compliance
+- E: Prompt Scoring - System scores prompt quality, warns if below threshold but doesn't block
+
+**Source:** User PM Quality Rule #3 (Session 11)
+
+**✅ DECIDED (2025-12-12):** Option F (A+C+E): Template-Validated Hook Enforcement
+
+**Decision Details:**
+- PreToolUse Hook validates Task tool prompts before execution
+- Required sections: context, task, constraints, expected_output
+- Quality scoring (0-10) with warning mode (score < 5 warns but allows)
+- Template enforcement prevents vague prompts that lead to subagent confusion
+
+**Specialist Consensus:** 3/3 favor hook-based validation (Tech-Lead 9/10, Research 9/10, Engineer 8/10)
+**Industry Validation:** LangGraph Supervisor, CrewAI YAML config, AutoGen StructuredMessage, Claude strict mode
+**Anti-Pattern Rejected:** Option D alone (Instructional Guidance) - fails 50-90% of attacks
+**Binding Constraints:** D3-Q6 (Tiered Invocation), D3-Q8 (message-first), D3-Q18 (Task tool delegation)
+**Implementation:** ~100-150 LOC, 70% BMAD reuse, 60% MPM reuse, $15K-20K 3-year TCO
+
+---
+
+### Q23: How should subagents provide evidence-based reports?
+**Context:** All subagents must provide proof/evidence for claims. No unsupported assertions allowed. Reports must cite file:line references or tool output.
+
+Options:
+- A: Citation Required - All claims must include file:line citations or tool output references
+- B: Evidence Section Mandatory - Report template includes required "Evidence" section with supporting data
+- C: Dual Verification - Claims verified against actual files/outputs before report accepted
+- D: Confidence + Evidence - Claims rated by confidence level, high-confidence claims still need evidence
+- E: Schema Enforcement - Report schema requires evidence fields, rejects non-compliant responses
+
+**Source:** User PM Quality Rule #4 (Session 11)
+
+**✅ DECIDED (2025-12-12):** Option F (A+B+E): Citation-Required Schema with Evidence Section
+
+**Decision Details:**
+- PostToolUse Hook validates subagent responses against evidence requirements
+- Citation format: `[Source: filepath#Section]` or `file:line` mandatory
+- Evidence section marker required: `## Evidence` or `**Evidence:**`
+- Schema enforcement rejects non-compliant responses (warning mode)
+
+**Specialist Consensus:** 3/3 favor citation + schema enforcement (Tech-Lead 9/10, Research 8/10, Engineer 8/10)
+**Industry Validation:** NVIDIA 4-category verification, LLMware evidence tools, Zero-Assumption Protocol
+**Anti-Pattern Rejected:** Option D alone (Confidence-only) - unreliable without grounding
+**Binding Constraints:** D3-Q8 (message-first output), D5-Layer 1 (CONTROL layer 99.9% reliable)
+**Implementation:** ~80-120 LOC, 60% BMAD reuse, 75% MPM reuse, $12K-18K 3-year TCO
+
+---
+
 ## Resume Instructions
 
-**Next session:** Read this file, continue from first PENDING question.
-**Methodology:** BMad Master facilitates, President decides each question.
-**After completion:** Update ARCHITECTURAL-DECISIONS.md with D3 decision.
+**D3 COMPLETE!** All 23/23 questions DECIDED.
+**Next:** Update ARCHITECTURAL-DECISIONS.md with D3 summary decision.
+
+**Session 79 (2025-12-12):** Q21 DECIDED - Hybrid Track Selection with Path Foundation
+**Session 80 (2025-12-12):** Q22 & Q23 DECIDED - D3 COMPLETE! 🎉

@@ -1,7 +1,7 @@
 # D7: MCP Integration - Question Set
 
 **Decision:** How does Claude-Hybrid integrate MCP servers and tools?
-**Status:** COMPLETE (16/16 DECIDED) 🎉
+**Status:** ✅ COMPLETE (19/19 DECIDED)
 **Generated:** 2025-12-10 (Updated 2025-12-11 - Removed 6 redundant questions)
 **Sources:** Claude Code architecture (04-MCP-INTEGRATION.md), Claude-MPM analysis (07-MCP-TICKETING.md)
 
@@ -39,6 +39,9 @@ The following questions were REMOVED due to semantic overlap with D2-D5:
 | Q14 | **DECIDED** | Option B: Fallback redirection (on failure, redirect to configured fallback) |
 | Q15 | **DECIDED** | Option C: Tiered defaults with override (fast/medium/slow tiers + per-server override) |
 | Q16 | **DECIDED** | Option B: Explicit tool selection (both vector systems as separate MCP tools) |
+| Q17 | **DECIDED** | Option A: 3-Tier Fallback (Anthropic API → tiktoken → char estimate) |
+| Q18 | **DECIDED** | Option A: Standard Actions (70% Warning, 85% Resume File, 95% Emergency+KuzuDB) |
+| Q19 | **DECIDED** | Option A: Continuous Monitoring (count after each message, check thresholds) |
 
 ---
 
@@ -186,11 +189,61 @@ Options:
 
 ---
 
+## Questions: Gap Resolution - Token & Context Management (Q17-Q19)
+
+### Q17: What is the TokenCountingService architecture?
+**Context:** Claude-Hybrid needs accurate token counting for context management. Implementation exists in claude-mpm but no architectural decision.
+
+Options:
+- A: 3-Tier Fallback (RECOMMENDED):
+  - Tier 1: Anthropic API (100% accurate, free)
+  - Tier 2: tiktoken cl100k_base (~70% accuracy with 1.19 correction)
+  - Tier 3: Character estimate (4 chars/token, always available)
+- B: tiktoken Primary - Use tiktoken only, no API calls
+- C: API Only - Always use Anthropic API (requires network)
+- D: Configurable - User selects preferred tier
+
+**Implementation Reference:** claude-mpm/src/claude_mpm/services/token_counting_service.py
+
+---
+
+### Q18: What actions should ContextThresholdManager take at each threshold?
+**Context:** Need to specify behavior at 70%, 85%, 95% context utilization.
+
+Options:
+- A: Standard Actions (RECOMMENDED):
+  - 70%: Warning alert to user
+  - 85%: Auto-create session resume file
+  - 95%: Emergency stop + mandatory session switch + KuzuDB persistence
+- B: Progressive Disclosure Adjustment:
+  - 70%: Reduce L2 loading
+  - 85%: L1 only mode
+  - 95%: Critical-only mode
+- C: User-Controlled - Alert at all thresholds, user decides action
+- D: Configurable Actions - Project-level configuration of threshold behaviors
+
+**CORE-VISION Reference:** Line 96 (200k context window)
+
+---
+
+### Q19: How do TokenCountingService and ContextThresholdManager work together?
+**Context:** Need to specify the integration between token counting and threshold management.
+
+Options:
+- A: Continuous Monitoring - Count tokens after each message, check thresholds
+- B: Periodic Sampling - Count tokens every N messages or every M seconds
+- C: Event-Triggered - Count on specific events (tool use, large responses)
+- D: Hybrid - Continuous for critical operations, periodic for others
+
+**Related Decisions:** D7-Q17, D7-Q18
+
+---
+
 ## Resume Instructions
 
-**Next session:** Read this file, continue from first PENDING question.
-**Methodology:** BMad Master facilitates, President decides each question.
-**After completion:** Update ARCHITECTURAL-DECISIONS.md with D7 decision.
+**D7 COMPLETE:** All 19/19 questions DECIDED.
+**Next action:** Update ARCHITECTURAL-DECISIONS.md with D7 decision summary.
+**Methodology:** BMad Master facilitated, President decided each question.
 
 ---
 

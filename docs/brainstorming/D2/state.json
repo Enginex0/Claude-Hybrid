@@ -1,12 +1,12 @@
 {
   "decision": "D2",
   "title": "Enforcement Mechanism",
-  "current_question": 20,
-  "questions_completed": 20,
-  "total_questions": 20,
+  "current_question": 29,
+  "questions_completed": 29,
+  "total_questions": 29,
   "status": "complete",
   "created": "2025-12-07",
-  "last_updated": "2025-12-08",
+  "last_updated": "2025-12-12",
   "decisions": [
     {
       "question": "Q1",
@@ -190,6 +190,137 @@
       "industry_validation": "0/11 systems use instructional-only, LangChain InjectedToolArg is production pattern",
       "loc_estimate": "~1300 LOC",
       "decided_at": "2025-12-08"
+    },
+    {
+      "question": "Q21",
+      "title": "How should Claude-Hybrid implement proof-based validation?",
+      "decision": "Option D+B: Multi-Layer Proof with Schema Compliance Foundation",
+      "rationale": "Validation runs at PHASE TRANSITIONS (checkpoints), not every analysis. Python hooks (external to Claude) validate artifacts at 4 layers: (1) Artifact Existence, (2) Schema Compliance via ValidationResult pattern, (3) Execution Gate via circuit breaker, (4) Completion via frontmatter status. Integrates with D2-Q15 hook lifecycle.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "3/3 (Architect 8.5/10, Research 8/10, Coder 8/10)",
+      "industry_validation": "5/5 mature systems use layered validation (Temporal, Prefect, Dagster, CI/CD, LangGraph)",
+      "loc_estimate": "160-200 LOC (high reuse from claude-mpm)",
+      "decided_at": "2025-12-12"
+    },
+    {
+      "question": "Q22",
+      "title": "What proof is required at each BMAD workflow phase gate?",
+      "decision": "Option D: Progressive Proof - Increasing rigor at each phase gate",
+      "rationale": "Each phase transition applies progressively MORE validation layers from D2-Q21's 4-layer mechanism: Phase 1→2 (Layer 1: existence), Phase 2→3 (Layers 1+2: existence+schema), Phase 3→4 (Layers 1+2+3: existence+schema+gate), Story completion (All 4 layers). Natural alignment with D2-Q21, respects phase nature, matches CORE-VISION.md:81-90 phase-to-layer mapping.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "3/3 (Architect 9/10, Research 8-9/10, Coder 8/10)",
+      "industry_validation": "7/7 systems use progressive/phase-specific proof (Temporal, Dagster, Airflow, GitHub Actions, LangGraph, CrewAI, Enterprise Phase-Gate)",
+      "loc_estimate": "180-220 LOC (75% reuse from ValidationResult pattern)",
+      "decided_at": "2025-12-12"
+    },
+    {
+      "question": "Q23",
+      "title": "How should Claude-Hybrid enforce that PM delegates rather than implements?",
+      "decision": "Option D: Dual-Layer Enforcement with Extension-First Path Awareness",
+      "rationale": "Three-layer defense combining CB#9 (PreToolUse hook), instructional (PM_INSTRUCTIONS.md), and audit logging. Extension-first approach enables project-agnostic enforcement: PM CAN write doc extensions (*.md, *.yaml, *.txt) anywhere, PM CANNOT write code extensions (*.py, *.ts, *.js, *.go, etc.) anywhere. Works for new projects without configuration. Integrates with D2-Q13, D2-Q14, D2-Q7.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "3/3 (Tech-Lead 9/10, Research 8/10, Engineer 8/10)",
+      "industry_validation": "7/7 systems use multi-layer enforcement (Temporal, Prefect, Dagster, GitHub Actions, LangGraph, CrewAI, Kubernetes RBAC)",
+      "loc_estimate": "280-350 LOC (80 core + tests, 90% reuse from circuit_breaker_hook.py)",
+      "key_enhancement": "Extension-first (block *.py anywhere) before directory-based (block src/) - enables zero-config new project support",
+      "decided_at": "2025-12-12"
+    },
+    {
+      "question": "Q24",
+      "title": "How should Claude-Hybrid implement the 4-Layer Defense architecture?",
+      "decision": "Option D: Layer Integration with Existing D2 Hook System",
+      "rationale": "Map 4-Layer Defense (CORE-VISION.md:36) to existing D2 hook infrastructure: Layer 1 (Schema) = SessionStart validation, Layer 2 (Business Rules) = PreToolUse logic, Layer 3 (Execution Gates) = Circuit breakers (already exists in circuit_breaker_hook.py), Layer 4 (Runtime) = Stop/completion monitoring. Directly implements CORE-VISION.md:81-90 phase-to-layer mapping. Leverages 23 prior D2 decisions. Layer 3 requires ZERO new code.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "3/3 unanimous (Tech-Lead 9/10, Research 9/10, Engineer 9/10)",
+      "industry_validation": "7/7 systems integrate defense layers into lifecycle hooks (Kubernetes, Express/Koa, AWS WAF, Resilience4j, Spring Security, Kong/Envoy, MCP Triple Gate)",
+      "loc_estimate": "200-300 LOC (90% reuse from claude-mpm/D2, Layer 3 = 0 LOC)",
+      "binding_constraints": ["D2-Q1/Q11 (hook events)", "D2-Q15 (4-Phase Lifecycle)", "D2-Q21 (Multi-Layer Proof)", "D2-Q22 (Progressive Proof)", "CORE-VISION.md:81-90"],
+      "decided_at": "2025-12-12"
+    },
+    {
+      "question": "Q25",
+      "title": "Which additional hook events should Claude-Hybrid support beyond the core 4?",
+      "decision": "Option E: Configurable Events (Tiered - Mandatory/Recommended/Optional)",
+      "rationale": "3-tier event structure: Tier 1 (Mandatory: SessionStart, PreToolUse, PreCompact, Stop, PostToolUse, SubagentStop), Tier 2 (Recommended: UserPromptSubmit, SubagentStart), Tier 3 (Optional: Notification, AssistantResponse). Industry-validated 'streaming service model' - pay only for features you use. Aligns with D2-Q17 configurable enforcement levels.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "3/3 unanimous (Tech-Lead 9/10, Research 9/10, Engineer 8.5/10)",
+      "industry_validation": "7/7 systems use configurable hook pattern (Temporal, Kubernetes, Webpack, Express, Git Hooks, AWS Lambda, React)",
+      "loc_estimate": "~670 LOC (Tier 1+2 default), 795 total, 80% reuse from claude-mpm",
+      "binding_constraints": ["D2-Q1/Q11 (core events)", "D2-Q17 (configurable levels)", "D2-Q24 (4-Layer Defense mapping)"],
+      "tier_structure": {
+        "tier1_mandatory": ["SessionStart", "PreToolUse", "PreCompact", "Stop", "PostToolUse", "SubagentStop"],
+        "tier2_recommended": ["UserPromptSubmit", "SubagentStart"],
+        "tier3_optional": ["Notification", "AssistantResponse"]
+      },
+      "decided_at": "2025-12-12"
+    },
+    {
+      "question": "Q26",
+      "title": "Should CB#8 be defined or should the system use only CB#1-CB#7?",
+      "decision": "Option A: Confirm CB#8 as QA Verification Gate",
+      "rationale": "CB#8 is ALREADY DEFINED as QA Verification Gate in claude-mpm (Dec 2025, ARCHITECTURE-COMPLETE.md:1430-1450). Purpose: Mandatory QA verification before ANY completion claim. Enforcement: Instructional via PM_INSTRUCTIONS.md (37 lines), consistent with D2-Q6 tiered enforcement. CB#8 detects OUTPUT (completion claims), not INPUT (tool calls), unsuitable for PreToolUse hooks. Implementation: Document CB#8 in circuit-breakers.md (~77 LOC docs).",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "3/3 unanimous (Tech-Lead 9/10, Research 8/10, Engineer 8/10)",
+      "industry_validation": "9/9 systems support QA gates (Kubernetes, OPA, Resilience4j, Temporal, CI/CD, Istio, AWS Lambda, PostgreSQL, Camunda)",
+      "loc_estimate": "~77 LOC (documentation only)",
+      "binding_constraints": ["D2-Q6 (instructional for behavioral rules)", "D2-Q8 (soft tier)"],
+      "analogy": "House Number - CB#8 exists in PM_INSTRUCTIONS.md (mailbox), ARCHITECTURE-COMPLETE.md (GPS), now document in circuit-breakers.md (front door)",
+      "decided_at": "2025-12-12"
+    },
+    {
+      "question": "Q27",
+      "title": "How should validation gates prevent LLM hallucination?",
+      "decision": "Option E (Tiered): Multi-Method with Configurable Layers (Swiss Cheese Defense Model)",
+      "rationale": "Defense-in-depth using 3 stacked layers: Tier 1 (Mandatory) Schema Enforcement via validation_strategy.py, Tier 2 (Recommended) Citation Validation requiring file:line, Tier 3 (Optional) KuzuDB Grounding. CDA attack bypasses schema-only with 96.2% success rate, proving single-layer insufficient. Industry consensus 7/7 systems use multi-layer. Integrates with D2-Q21 (4-layer), D2-Q22 (progressive proof), D2-Q24 (hooks), D2-Q26 (CB#8).",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "3/3 unanimous (Tech-Lead 9/10, Research 8.5/10, Engineer 8/10)",
+      "industry_validation": "7/7 systems use multi-layer (Stanford Legal RAG 96% reduction, Microsoft Bing, LangChain, Temporal, etc.)",
+      "loc_estimate": "~380 new LOC (Tier 1+2), 85%+ reuse from claude-mpm",
+      "binding_constraints": ["D2-Q6 (tiered enforcement)", "D2-Q17 (configurable levels)", "D2-Q21 (4-layer validation)", "D2-Q24 (hook integration)"],
+      "tier_structure": {
+        "tier1_mandatory": "Schema Enforcement via validation_strategy.py (15 validators) - ~180 LOC, 91% reuse",
+        "tier2_recommended": "Citation Validation requiring file:line - ~200 LOC",
+        "tier3_optional": "KuzuDB Grounding - 100% reuse from kuzu_memory_hook.py"
+      },
+      "analogy": "Swiss Cheese Security - Each layer has holes, but stacked layers ensure hallucinations cannot pass through all",
+      "decided_at": "2025-12-12"
+    },
+    {
+      "question": "Q28",
+      "title": "How should Claude-Hybrid enforce PM Sequential Thinking?",
+      "decision": "Option D: Dual-Layer Enforcement (CB#9 + Instructional + Logging)",
+      "rationale": "Traffic Light model: Layer 1 (PM_INSTRUCTIONS.md mandate) provides guidance, Layer 2 (CB#9 hook) blocks until thinking invoked via sequential-thinking MCP skill detection, Layer 3 (audit logging) tracks compliance. PreCompact hook resets state forcing re-thinking after /compact. Only hook-based enforcement survives context reset. CoT shows 2.3x accuracy improvement.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "3/3 unanimous (Tech-Lead 8/10, Research 8/10, Engineer 8/10)",
+      "industry_validation": "CoT 2.3x accuracy (Wei et al.), ReAct +34% (Yao et al.), Multi-layer recommended by McKinsey/AWS/GitLab",
+      "loc_estimate": "~195 new LOC + 33 lines markdown",
+      "binding_constraints": ["D2-Q6 (tiered enforcement)", "D2-Q17 (configurable levels)", "D2-Q24 (hook lifecycle)", "D2-Q27 (Swiss Cheese model)"],
+      "layer_structure": {
+        "layer1": "PM_INSTRUCTIONS.md mandate - behavioral guidance",
+        "layer2": "CB#9 in circuit_breaker_hook.py - programmatic enforcement",
+        "layer3": "Audit logging - compliance metrics",
+        "reset": "PreCompact hook - forces re-thinking after /compact"
+      },
+      "analogy": "Traffic Light - Signs alone are ignored, traffic lights (hooks) block until compliance, camera (logging) records violations",
+      "decided_at": "2025-12-12"
+    },
+    {
+      "question": "Q29",
+      "title": "How should Claude-Hybrid enforce PM Clarification Before Execution?",
+      "decision": "Option C + D Enhancement: Confidence Threshold via Sequential-Thinking Integration + Instructional Enhancement",
+      "rationale": "Clarification enforcement is ALREADY IMPLEMENTED via D2-Q28 chain: (1) CB#9 ensures PM invokes sequential-thinking before any action, (2) LAW 4 mandates 'IF CONFIDENCE < 8: DO NOT PROCEED. THINK MORE OR ASK USER', (3) LAW 5 mandates 'IF YOU CANNOT COMPREHEND AFTER FULL THINKING: ASK THE USER'. Zero new enforcement code required - defense-in-depth already complete through CB#9 → sequential-thinking → LAW 4/5 chain.",
+      "docs_first_then_code_followed": true,
+      "specialist_consensus": "3/3 unanimous (Tech-Lead 9/10, Research 9/10, Engineer 9/10)",
+      "industry_validation": "4/4 systems use confidence-based gating (Temporal, LangGraph, CrewAI, Enterprise)",
+      "loc_estimate": "~20-33 (documentation enhancement only)",
+      "binding_constraints": ["D2-Q6 (soft enforcement)", "D2-Q17 (configurable thresholds)", "D2-Q27 (Swiss Cheese)", "D2-Q28 (Traffic Light)"],
+      "layer_structure": {
+        "layer1": "PM_INSTRUCTIONS.md 'When to Ask' guidance (already exists)",
+        "layer2": "CB#9 ensures sequential-thinking invoked (D2-Q28)",
+        "layer3": "LAW 4/5 enforce confidence threshold with mandatory user clarification fallback"
+      },
+      "analogy": "Doctor's Examination - Doctor (PM) must diagnose (sequential-think) before prescribing (executing). Confidence <8/10 = order more tests (ask user).",
+      "decided_at": "2025-12-12"
     }
   ],
   "question_groups": {
@@ -212,6 +343,16 @@
       "questions": [16, 17, 18, 19, 20],
       "topic": "Step Ordering, Checkpoints, Routing, Actions, and Variable Resolution",
       "completed": 5
+    },
+    "gap_resolution_proof_delegation_defense": {
+      "questions": [21, 22, 23, 24, 25, 26, 27],
+      "topic": "Proof-Based Validation, Phase Gates, PM Delegation, 4-Layer Defense, Hook Events, Circuit Breakers, Hallucination Prevention",
+      "completed": 7
+    },
+    "pm_quality_enforcement": {
+      "questions": [28, 29],
+      "topic": "PM Sequential Thinking and Clarification Enforcement",
+      "completed": 2
     }
   },
   "enforcement_strategy": "Hybrid Tiered Enforcement (3-tier: Hook/Structural/Instructional)",

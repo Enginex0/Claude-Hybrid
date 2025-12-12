@@ -2,11 +2,11 @@
   "decision": "D10",
   "title": "Workflow Engine & Lifecycle",
   "current_question": "COMPLETE",
-  "questions_completed": 14,
-  "total_questions": 14,
+  "questions_completed": 19,
+  "total_questions": 19,
   "status": "COMPLETE",
   "created": "2025-12-10",
-  "last_updated": "2025-12-11",
+  "last_updated": "2025-12-12",
   "decisions": [
     {
       "question": "Q1",
@@ -345,6 +345,82 @@
       },
       "decided_at": "2025-12-11",
       "session": 78
+    },
+    {
+      "question": "Q15",
+      "topic": "Unified Agent Template Structure",
+      "decision": "Option A: Unified Template v3.0",
+      "consensus": "Previously decided - 2,000-3,000 tokens, 10 agent_types, L1/L2 structure",
+      "rationale": "Frontmatter (L1) + Body (L2) structure for all 87 agents. Migration paths for both BMAD → Unified and Claude-MPM → Unified.",
+      "decided_at": "2025-12-11",
+      "session": 78
+    },
+    {
+      "question": "Q16",
+      "topic": "PM Agent Discovery & Routing",
+      "decision": "Option A: L1 Frontmatter Aggregation",
+      "consensus": "Previously decided - agent files ARE the registry (SSOT)",
+      "rationale": "Agent .md files contain all routing data. Single source of truth = no sync problems. Aligns with D2 (Control In-Process), D7 (Graceful Degradation).",
+      "binding_constraints_satisfied": ["D2", "D7"],
+      "implementation": {
+        "token_budget": "87 agents × ~150 tokens = ~13K tokens (94% savings vs L2)"
+      },
+      "decided_at": "2025-12-11",
+      "session": 78
+    },
+    {
+      "question": "Q17",
+      "topic": "Agent Build/Rebuild Workflow",
+      "decision": "Option A: 6-Step Facilitated Workflow",
+      "consensus": "Previously decided - collaborative discovery compulsory",
+      "rationale": "Step 1: Collaborative Discovery (compulsory entry), Steps 2-4: Classification and Building, Step 5: Validation (13-point), Step 6: Output. Facilitation > Generation (BMAD insight).",
+      "decided_at": "2025-12-11",
+      "session": 78
+    },
+    {
+      "question": "Q18",
+      "topic": "Agent Count Clarification",
+      "decision": "Option C: Both Valid (Different Scope Definitions)",
+      "consensus": "2/3 majority (Research 8/10, Engineer 8/10 for C; Tech Lead 8/10 for D - complementary)",
+      "rationale": "All three numbers are CORRECT - they answer different questions: 87 = source inventory to unify, 25-30 = target hierarchy after consolidation, 92 = worst-case PM delegation constraint.",
+      "binding_constraints_satisfied": ["D10-Q16"],
+      "implementation": {
+        "loc_estimate": "~50",
+        "reuse": "100%",
+        "type": "documentation"
+      },
+      "scope_definitions": {
+        "source_inventory": "87 (all agent files to unify via D10-Q15)",
+        "target_hierarchy": "25-30 (post-consolidation goal D3-Q7)",
+        "pm_constraint": "92 (worst-case delegation D3-Q18)",
+        "verified_unique": "62-74 (varies by counting scope)"
+      },
+      "analogy": "Library catalog - books owned (inventory), recommended (curated), circulation capacity (constraint)",
+      "decided_at": "2025-12-12",
+      "session": 79
+    },
+    {
+      "question": "Q19",
+      "topic": "Workflow Discovery Registry",
+      "decision": "Option A: Workflow Registry File (workflow-index.yaml)",
+      "consensus": "Tech Lead 9/10, Research 9/10, Engineer 9/10 (binding constraint resolution)",
+      "rationale": "Direct mirror of D10-Q16 L1 Frontmatter Aggregation pattern. Workflow .md files ARE the registry (SSOT). 100% binding constraint compliance.",
+      "binding_constraints_satisfied": ["D10-Q16", "D2", "D7"],
+      "implementation": {
+        "loc_estimate": "~100-150",
+        "reuse": "85%",
+        "testability": "85%",
+        "existing_infrastructure": "workflow-manifest.csv (45 workflows) at /.bmad/_cfg/"
+      },
+      "eliminated_options": {
+        "B_slash_command": "Violates D7 (MCP dependency), D10-Q16 (different mechanism)",
+        "C_plugin_manifest": "Violates D10-Q16 (not SSOT from source files)",
+        "D_hardcoded": "Violates D10-Q16, doesn't scale (45+ workflows)",
+        "E_hybrid": "Over-engineered, partially violates multiple constraints"
+      },
+      "analogy": "Recipe index - basic info on front (L1), chef flips through to find available, pulls full recipe when needed",
+      "decided_at": "2025-12-12",
+      "session": 79
     }
   ],
   "question_categories": {
@@ -371,6 +447,16 @@
     "recent_changes": {
       "range": "Q12-Q14",
       "topic": "Multi-menu Handler, Compliance Checker, Continuable Workflows",
+      "status": "COMPLETE"
+    },
+    "agent_unification": {
+      "range": "Q15-Q17",
+      "topic": "Agent Unification (Template, Discovery, Build Workflow)",
+      "status": "COMPLETE"
+    },
+    "gap_resolution": {
+      "range": "Q18-Q19",
+      "topic": "Gap Resolution (Agent Count, Workflow Discovery)",
       "status": "COMPLETE"
     }
   },

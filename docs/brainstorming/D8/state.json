@@ -1,12 +1,12 @@
 {
   "decision": "D8",
   "title": "Plugin & Agent Format",
-  "current_question": 14,
-  "questions_completed": 14,
-  "total_questions": 14,
+  "current_question": 15,
+  "questions_completed": 15,
+  "total_questions": 15,
   "status": "complete",
   "created": "2025-12-10",
-  "last_updated": "2025-12-11",
+  "last_updated": "2025-12-12",
   "decisions": [
     {
       "question": "Q1",
@@ -32,7 +32,7 @@
       "question": "Q3",
       "topic": "Plugin dependency declarations",
       "answer": "Option A: No dependencies (with documented future path to C)",
-      "specialist_consensus": "SPLIT 2/4 C, 1/4 A, 1/4 D → Resolved to A (Architect 9/10 C, Research 9/10 D, Coder 8/10 C, Tester 9/10 A)",
+      "specialist_consensus": "SPLIT 2/4 C, 1/4 A, 1/4 D -> Resolved to A (Architect 9/10 C, Research 9/10 D, Coder 8/10 C, Tester 9/10 A)",
       "binding_constraints": ["D5-Q9, D8-Q1, D8-Q2 compatible with all options - no constraint forces"],
       "evidence": "0/30 plugins use dependencies (100% self-contained), VS Code extensionDependencies has fundamental bug (#82655), mcp-tools MCP reqs are informal but not blocking",
       "implementation": "0 LOC, $0 TCO, 15 test cases. Future path to Option C (~550 LOC) when ecosystem demands.",
@@ -147,11 +147,22 @@
       "evidence": "Coder found Option D ALREADY IMPLEMENTED in bmad-method-source/tools/schema/agent.js (z.union pattern lines 214-351). 0 agents currently use triggers (NEW field). Zero breaking changes.",
       "implementation": "0 LOC (ALREADY IMPLEMENTED), $600 3-year TCO (maintenance)",
       "decided_at": "2025-12-11"
+    },
+    {
+      "question": "Q15",
+      "topic": "Hook-based gate mechanism",
+      "answer": "Option C+E: Multi-Point Programmable Gates",
+      "specialist_consensus": "3/3 unanimous on E (Programmable), 2/3 favor C+E hybrid (Tech Lead 9/10, Research 9/10, Engineer 9/10)",
+      "binding_constraints": ["D2-Q15 PreToolUse phase for hard enforcement", "D2-Q16 Hybrid structural+runtime", "D2-Q8 Two-tier hard/soft enforcement", "D2-Q12 permissionDecisionReason schema"],
+      "evidence": "Claude Code: Only PreToolUse/UserPromptSubmit can BLOCK, PostToolUse cannot. BMAD: 5-step programmable gate protocol (IDENTIFY->RUN->READ->VERIFY->CLAIM). Industry: 7/7 frameworks use multi-point + programmable (LangGraph, CrewAI, AutoGen, OpenAI, Semantic Kernel, NeMo, Guardrails AI)",
+      "implementation": "~150-200 LOC net new, 90% reuse of gate-function.md (326 LOC), ~$4,500 3-year TCO",
+      "decided_at": "2025-12-12"
     }
   ],
   "source_documents": [
     "/home/president/bmad-systems/claude-code-architecture/03-EXTENSION-SYSTEM.md",
     "/home/president/bmad-systems/claude-code-architecture/05-CONFIGURATION.md",
+    "/home/president/bmad-systems/claude-code-architecture/06-HOOK-SYSTEM.md",
     "/home/president/bmad-systems/personal bmad/BMAD-PERSONAL-ARCHITECTURE.md"
   ],
   "topics": {
@@ -161,11 +172,12 @@
     "Q9": "Plugin identification",
     "Q10-Q12": "Agent format specification",
     "Q13": "Agent sidecar knowledge directories",
-    "Q14": "Triggers array schema"
+    "Q14": "Triggers array schema",
+    "Q15": "Hook-based gate mechanism"
   },
   "redundancies_removed": {
     "original_count": 22,
     "removed": 8,
-    "final_count": 14
+    "final_count": 15
   }
 }

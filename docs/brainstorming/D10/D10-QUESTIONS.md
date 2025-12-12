@@ -1,9 +1,9 @@
 # D10: Workflow Engine & Lifecycle - Question Set
 
 **Decision:** How does Claude-Hybrid execute workflows and enforce lifecycle?
-**Status:** ✅ COMPLETE (17/17 DECIDED)
+**Status:** ✅ COMPLETE (19/19 DECIDED)
 **Generated:** 2025-12-10
-**Updated:** 2025-12-11 - All questions decided
+**Updated:** 2025-12-12 - Q18 & Q19 gap questions decided
 **Sources:** BMAD Method architecture and workflow documentation (02-ARCHITECTURE-CORE.md, 05-WORKFLOWS-SYSTEM.md, 14-WORKFLOW-PATHS.md, 15-CUSTOMIZATION-EXTENSION.md)
 
 ---
@@ -47,6 +47,8 @@ The following 8 questions were removed due to overlap with existing D2-D5 decisi
 | Q15 | **DECIDED** | Option A: Unified Agent Template v3.0 (2,000-3,000 tokens, 10 agent_types) |
 | Q16 | **DECIDED** | Option A: L1 Frontmatter Aggregation (agent files = registry SSOT) |
 | Q17 | **DECIDED** | Option A: 6-Step Facilitated Workflow (collaborative discovery compulsory) |
+| Q18 | **DECIDED** | Option C: Both Valid (Different Scope Definitions) |
+| Q19 | **DECIDED** | Option A: Workflow Registry File (workflow-index.yaml) |
 
 ---
 
@@ -259,8 +261,66 @@ Options:
 
 ---
 
+## Questions: Gap Resolution - Agent Count (Q18)
+
+### Q18: What is the correct agent count and how do the numbers relate?
+**Context:** Three different numbers appear in decisions:
+- D3-Q7: "25-30 agents total" (hierarchy target)
+- D3-Q18/D4: "92 agents" (PM delegation)
+- D10-Q15-Q17: "87 agents" (46 BMAD + 41 claude-mpm)
+
+Options:
+- A: 87 is Correct - 46 BMAD + 41 claude-mpm = 87 source agents to unify into 25-30 hierarchy
+- B: 92 is Correct - Additional 5 agents were counted elsewhere (specify which)
+- C: Both Valid - 87 = unique agents, 92 = including aliases/variants
+- D: Needs Reconciliation - Audit all agent sources to determine true count
+
+**Related Decisions:** D3-Q7, D3-Q18, D10-Q15
+
+**DECIDED:** Option C - Both Valid (Different Scope Definitions)
+- **Consensus:** 2/3 majority (Research 8/10, Engineer 8/10 for C; Tech Lead 8/10 for D - complementary)
+- **Rationale:** All three numbers are CORRECT - they answer different questions about the same system:
+  - **87** = Source inventory (all agent files to unify via D10-Q15)
+  - **25-30** = Target hierarchy after consolidation (D3-Q7 design goal)
+  - **92** = Worst-case PM delegation constraint (D3-Q18 problem statement)
+- **Verified Counts:** 62-74 actual (varies by counting scope - production vs all files)
+- **Architecture Impact:** LOW - D10-Q16 L1 Frontmatter Aggregation handles any count dynamically
+- **Implementation:** ~50 LOC documentation update
+- **Analogy:** "Like a library - 87 books owned (inventory), 25-30 recommended (curated), 92 circulation capacity (constraint)"
+
+---
+
+## Questions: Workflow Discovery (Q19)
+
+### Q19: How should PM discover and trigger available workflows?
+**Context:** BMAD workflows are moved to plugins as slash commands. PM needs a registry to know what workflows exist and their purposes. Similar to agent-index.yaml for agents, but for workflows. PM triggers workflows via Task tool or SlashCommand tool.
+
+Options:
+- A: Workflow Registry File - workflow-index.yaml aggregated from workflow .md frontmatter (mirrors D10-Q16 agent pattern)
+- B: Slash Command Discovery - PM queries available slash commands via SlashCommand tool, filters for workflows
+- C: Plugin Manifest - Plugin.json includes workflow definitions, PM reads at session start
+- D: Hardcoded Knowledge - PM_INSTRUCTIONS.md lists all workflows and when to use them
+- E: Hybrid Registry - workflow-index.yaml + slash command validation to ensure registry matches available commands
+
+**Source:** BMAD Validation Finding - Workflow orchestration requires discovery mechanism (Session 11)
+
+**DECIDED:** Option A - Workflow Registry File (workflow-index.yaml)
+- **Consensus:** Tech Lead 9/10 (binding constraint), Research 9/10, Engineer 9/10 (YAGNI split resolved by D10-Q16)
+- **Rationale:** Direct mirror of D10-Q16 L1 Frontmatter Aggregation pattern. Workflow .md files ARE the registry (SSOT). 100% binding constraint compliance.
+- **Binding Constraints Satisfied:** D10-Q16 (L1 Frontmatter pattern), D2 (Control In-Process), D7 (Graceful Degradation)
+- **Existing Infrastructure:** workflow-manifest.csv (45 workflows) at `/.bmad/_cfg/` - convert to YAML
+- **Implementation:** ~100-150 LOC, 85% reuse from agent-index pattern
+- **Eliminated Options:**
+  - B: Violates D7 (MCP dependency), D10-Q16 (different mechanism)
+  - C: Violates D10-Q16 (not SSOT from source files)
+  - D: Violates D10-Q16, doesn't scale (45+ workflows)
+  - E: Over-engineered, partially violates multiple constraints
+- **Analogy:** "Like a recipe index - each recipe card has basic info on front (L1), chef flips through index to find available recipes, pulls full recipe when needed"
+
+---
+
 ## Resume Instructions
 
-**Next session:** Read this file, continue from first PENDING question.
-**Methodology:** BMad Master facilitates, President decides each question.
-**After completion:** Update ARCHITECTURAL-DECISIONS.md with D10 decision.
+**Status:** ✅ D10 COMPLETE - 19/19 questions DECIDED (2025-12-12)
+**Methodology:** BMad Master facilitated, President decided each question.
+**Next:** Update ARCHITECTURAL-DECISIONS.md with D10 decision summary.
